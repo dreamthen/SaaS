@@ -30,7 +30,7 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new webpack.DllPlugin({
             //依赖包manifest.json文件输出路径
-            path: path.join(DLL_DIR, "/[name]_manifest.dev.json"),
+            path: path.join(DLL_DIR, "[name]_manifest.dev.json"),
             //输出依赖对象名字,必须和library相对应
             name: "[name]_[chunkhash]",
             //上下文对象
