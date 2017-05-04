@@ -1,0 +1,25 @@
+{
+  "name": "first_issue",
+  "version": "0.0.1",
+  "description": "SaaS with project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamthen/SaaS.git"
+  },
+  "keywords": [
+    "SaaS",
+    "webpack",
+    "react",
+    "project"
+  ],
+  "author": "Gary",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dreamthen/SaaS/issues"
+  },
+  "homepage": "https://github.com/dreamthen/SaaS#readme"
+}
