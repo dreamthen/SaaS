@@ -10,7 +10,7 @@ var webpack = require("webpack");
 const DLL_DIR = path.resolve(__dirname, "../dll");
 //同上
 //第二步:cd ..
-const ROOT_DIR = path.resolve(__dirname, "..");
+const ROOT_DIR = path.resolve(__dirname, "../..");
 //抛出一个node模块
 //此文件用来打包dll,为了防止webpack重复打包某一些相同的或者相似内容的外部依赖文件,也为了提高开发速度和打包速度
 module.exports = {

@@ -96,7 +96,7 @@ var webpackDev = {
         new HtmlWebpackPlugin({
             publicPath: "/",
             filename: "login.html",
-            templage: ROOT_DIR + "/login.html",
+            template: ROOT_DIR + "/login.html",
             chunks: ["login"]
         }),
         new webpack.optimize.UglifyJsPlugin({
@@ -109,6 +109,7 @@ var webpackDev = {
         })
     ],
 
+    //webpack-dev-server 开发环境的动态热加载服务器
     devServer: {
         port: PORT,
         host: "0.0.0.0"
