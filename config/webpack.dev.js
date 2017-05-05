@@ -96,7 +96,7 @@ var webpackDev = {
         new HtmlWebpackPlugin({
             publicPath: "/",
             filename: "login.html",
-            templage: ROOT_DIR + "/login.html",
+            template: ROOT_DIR + "/login.html",
             chunks: ["login"]
         }),
         new webpack.optimize.UglifyJsPlugin({
