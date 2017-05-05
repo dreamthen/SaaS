@@ -109,6 +109,7 @@ var webpackDev = {
         })
     ],
 
+    //webpack-dev-server 开发环境的动态热加载服务器
     devServer: {
         port: PORT,
         host: "0.0.0.0"
