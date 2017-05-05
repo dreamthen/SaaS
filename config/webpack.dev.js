@@ -77,6 +77,10 @@ var webpackDev = {
         root: ROOT_DIR
     },
 
+    externalsL: {
+        jquery: "jQuery"
+    },
+
     //模块插件
     plugins: [
         //防止在打包过程中有错误,导致源文件损坏
@@ -112,7 +116,13 @@ var webpackDev = {
     //webpack-dev-server 开发环境的动态热加载服务器
     devServer: {
         port: PORT,
-        host: "0.0.0.0"
+        host: "192.168.199.173",
+        proxy: {
+            '/SaaS/': {
+                target: "35.185.186.126:8080",
+                secure: false
+            }
+        }
     }
 };
 

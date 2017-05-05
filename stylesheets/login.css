@@ -73,6 +73,11 @@ body {
     letter-spacing: 1px;
 }
 
+.login-container > .login-alert {
+    text-align: left;
+    margin: 0;
+}
+
 .login-container > .input-account-container,
 .login-container > .input-password-container {
     width: 260px;
