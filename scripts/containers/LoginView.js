@@ -11,10 +11,16 @@ class LoginView extends React.Component {
 
     render() {
         return (
-            <div>
-                hello,world
-                你好,世界
-            </div>
+            <main className="main-container">
+                <section className="login-section">
+                    <div className="container-shadow">
+                    </div>
+                </section>
+                <section className="register-section">
+                    <div className="container-shadow">
+                    </div>
+                </section>
+            </main>
         )
     }
 }

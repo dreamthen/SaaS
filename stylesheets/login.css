@@ -1,0 +1,46 @@
+html, body, h1, h2, h3, h4, h5, h6, ul, p, section, figure, figcaption {
+    margin: 0;
+    padding: 0;
+}
+
+section, figure, figcaption {
+    display: block;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
+}
+
+.main-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.main-container > .login-section,
+.main-container > .register-section {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1500;
+    background: url(../images/login_bg.png) no-repeat center center / 100% border-box content-box;
+}
+
+.main-container > .register-section {
+    background: url(../images/register_bg.png) no-repeat center center / 100% border-box content-box;
+}
+
+.login-section > .container-shadow,
+.register-section > .container-shadow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    background: linear-gradient(to top left, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.6));
+}
