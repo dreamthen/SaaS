@@ -3,7 +3,7 @@
  */
 import React from "react";
 import {Input, Button, Alert} from "antd";
-import loginAction from "../actions/login_action";
+import {loginAction, registerAction} from "../actions/login_action";
 import Error from "../prompt/error_prompt";
 
 class LoginView extends React.Component {
@@ -24,6 +24,14 @@ class LoginView extends React.Component {
             errorPrompt: "",
             //判断是否校验出现错误,进行提示框显示
             isError: false,
+            //警告提示语
+            warnPrompt: "",
+            //判断是否校验出现警告,进行提示框显示
+            isWarn: false,
+            //成功提示语
+            successPrompt: "",
+            //判断请求成功,进行提示框显示
+            isSuccess: false,
             //登录区域离顶部高度
             loginActionTop: 0,
             //登录区域离左边距离
@@ -86,10 +94,19 @@ class LoginView extends React.Component {
      * @returns {boolean|*|XML}
      */
     alert() {
-        const {errorPrompt, isError} = this.state;
-        return (
-            isError && <Alert className="action-alert" type="error" message={errorPrompt} showIcon/>
-        )
+        const {errorPrompt, isError, warnPrompt, isWarn, successPrompt, isSuccess} = this.state;
+        //如果输入不符合校验,显示错误提示框
+        if (isError) {
+            return (<Alert className="action-alert" type="error" message={errorPrompt} showIcon/>);
+        }
+        //如果请求出现问题,显示异常提示框
+        if (isWarn) {
+            return (<Alert className="action-alert" type="warning" message={warnPrompt} showIcon/>);
+        }
+        //如果请求成功,显示成功提示框
+        if (isSuccess) {
+            return (<Alert className="action-alert" type="success" message={successPrompt} showIcon/>)
+        }
     }
 
     /**
@@ -102,7 +119,9 @@ class LoginView extends React.Component {
             this.setState({
                 accountClassName: "input-account-container SaaS-leave SaaS-leave-active",
                 passwordClassName: "input-password-container SaaS-enter SaaS-enter-active",
-                isError: false
+                isError: false,
+                isWarn: false,
+                isSuccess: false
             }, () => {
                 // FIXME 这里需要等待transition过渡动画渲染完之后，再去执行display:none和block的操作
                 setTimeout(() => {
@@ -124,6 +143,8 @@ class LoginView extends React.Component {
             accountClassName: "input-account-container SaaS-leave",
             passwordClassName: "input-password-container SaaS-enter",
             isError: false,
+            isWarn: false,
+            isSuccess: false,
             account: "",
             password: ""
         }, () => {
@@ -145,13 +166,31 @@ class LoginView extends React.Component {
         const checked = this.onCheckPassword();
         const {account, password} = this.state;
         if (checked) {
-            //发出登录axios请求
-            console.log("请求.....");
+            //发出登录ajax请求
             let action_login = loginAction.bind(this);
             action_login(account, password);
         }
         evt.nativeEvent.stopPropagation();
     };
+
+    /**
+     * 注册页面注册
+     * @param evt
+     */
+    registerActionStatus = (evt) => {
+        const accountChecked = this.onCheckAccount();
+        const {account, password} = this.state;
+        if (accountChecked) {
+            const passwordChecked = this.onCheckPassword();
+            if (passwordChecked) {
+                //发出登录ajax请求
+                let action_register = registerAction.bind(this);
+                action_register(account, password);
+            }
+        }
+        evt.nativeEvent.stopPropagation();
+    };
+
 
     /**
      * account用户名输入区域
@@ -265,7 +304,7 @@ class LoginView extends React.Component {
                     type="primary"
                     size="large"
                     className="register-button-action"
-                    onClick={this.loginActionStatus.bind(this)}
+                    onClick={this.registerActionStatus.bind(this)}
                 >
                     注册
                 </Button>

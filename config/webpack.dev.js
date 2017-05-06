@@ -116,11 +116,12 @@ var webpackDev = {
     //webpack-dev-server 开发环境的动态热加载服务器
     devServer: {
         port: PORT,
-        host: "192.168.199.173",
+        host: "0.0.0.0",
         proxy: {
             '/SaaS/': {
-                target: "35.185.186.126:8080",
-                secure: false
+                target: "http://35.185.186.126:8080/",
+                secure: false,
+                pathRewrite: {'^/SaaS/': ""}
             }
         }
     }
