@@ -104,3 +104,20 @@ export function registerAction(account, password) {
         }
     }.bind(this));
 }
+
+/**
+ * 退出功能get ajax请求
+ */
+export function logOutAction() {
+    $.ajax({
+        type: "get",
+        dataType: "json",
+        url: api.LOGOUT_ACTION,
+        async: true
+    }).done(function (response, status) {
+        localStorage.removeItem("userInfo");
+        localStorage.removeItem("account");
+        localStorage.removeItem("password");
+        window.location = "./login.html";
+    }.bind(this));
+}

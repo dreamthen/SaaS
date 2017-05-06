@@ -4,6 +4,7 @@
 import React from "react";
 import {Link} from "react-router";
 import {Button, Modal} from "antd";
+import {logOutAction} from "../actions/login_action";
 
 class MainView extends React.Component {
     constructor(props) {
@@ -34,10 +35,8 @@ class MainView extends React.Component {
     };
 
     handleOk = (evt) => {
-        localStorage.removeItem("userInfo");
-        localStorage.removeItem("account");
-        localStorage.removeItem("password");
-        window.location = "./login.html";
+        let logout_action = logOutAction.bind(this);
+        logout_action();
         evt.nativeEvent.stopImmediatePropagation();
     };
 
