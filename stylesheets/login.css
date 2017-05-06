@@ -60,7 +60,8 @@ body {
     text-align: center;
 }
 
-.login-section > .login-nav {
+.login-section > .login-nav,
+.register-section > .register-nav {
     position: absolute;
     top: 0;
     left: 0;
@@ -70,7 +71,8 @@ body {
     min-width: 960px;
 }
 
-.login-nav > .nav-container {
+.login-nav > .nav-container,
+.register-nav > .nav-container {
     position: relative;
     width: 80%;
     margin: 0 auto;

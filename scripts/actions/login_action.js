@@ -68,6 +68,18 @@ export function registerAction(account, password) {
                 isSuccess: true,
                 successPrompt: Success.REGISTER_SUCCESS_MESSAGE
             });
+            //FIXME 这里需要设置一个时间控制器，需要使用setTimeout
+            let timer = setTimeout(function timerControl() {
+                this.setState({
+                    account: "",
+                    password: "",
+                    isSuccess: false,
+                    loginActionLeft: 0,
+                    registerActionLeft: "100%"
+                }, () => {
+                    clearTimeout(timer);
+                });
+            }.bind(this), 1500);
         } else {
             this.setState({
                 isError: false,

@@ -44,6 +44,19 @@ class LoginView extends React.Component {
     }
 
     /**
+     * 初始化提示语和输入框
+     */
+    initState() {
+        this.setState({
+            isError: false,
+            isWarn: false,
+            isSuccess: false,
+            account: "",
+            password: ""
+        })
+    }
+
+    /**
      * 校验用户名(空值和长度)
      * @returns {boolean}
      */
@@ -139,14 +152,10 @@ class LoginView extends React.Component {
      * @param evt
      */
     backStep = (evt) => {
+        this.initState();
         this.setState({
             accountClassName: "input-account-container SaaS-leave",
-            passwordClassName: "input-password-container SaaS-enter",
-            isError: false,
-            isWarn: false,
-            isSuccess: false,
-            account: "",
-            password: ""
+            passwordClassName: "input-password-container SaaS-enter"
         }, () => {
             // FIXME 这里需要等待transition过渡动画渲染完之后，再去执行display:none和block的操作
             setTimeout(() => {
@@ -327,14 +336,28 @@ class LoginView extends React.Component {
      * @param evt
      */
     toRegister = (evt) => {
+        this.initState();
         this.setState({
-            loginActionLeft: "-100%",
-            account: "",
-            password: "",
-            isError: false
+            loginActionLeft: "-100%"
         }, () => {
             this.setState({
                 registerActionLeft: 0
+            })
+        });
+        evt.nativeEvent.stopPropagation();
+    };
+
+    /**
+     * 过渡动画到注册页面
+     * @param evt
+     */
+    toLogin = (evt) => {
+        this.initState();
+        this.setState({
+            loginActionLeft: "0"
+        }, () => {
+            this.setState({
+                registerActionLeft: "100%"
             })
         });
         evt.nativeEvent.stopPropagation();
@@ -375,6 +398,16 @@ class LoginView extends React.Component {
                 </section>
                 <section className="register-section" style={{top: registerActionTop, left: registerActionLeft}}>
                     <div className="container-shadow">
+                    </div>
+                    <div className="register-nav">
+                        <nav className="nav-container">
+                            <Button type="default"
+                                    className="nav-button"
+                                    onClick={this.toLogin.bind(this)}
+                            >
+                                登录
+                            </Button>
+                        </nav>
                     </div>
                     <div className="register-container">
                         <h1 className="register-title">注册</h1>
