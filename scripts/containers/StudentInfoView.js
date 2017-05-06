@@ -3,7 +3,7 @@
  */
 import React from "react";
 import {getInformation, saveInformation, changePassword} from "../actions/studentInfo";
-import {Row, Col, Card, Select, Input, Button, Modal} from "antd";
+import {Row, Col, Card, Select, Input, Button, Modal, Alert} from "antd";
 const Option = Select.Option;
 
 //性别
@@ -25,7 +25,20 @@ class StudentView extends React.Component {
             postalAddress: "",
             visible: false,
             olderPassword: "",
-            newPassword: ""
+            newPassword: "",
+            checkedPassword: "",
+            isError: false,
+            isWarn: false,
+            isSuccess: false,
+            isPasswordError: false,
+            isPasswordWarn: false,
+            isPasswordSuccess: false,
+            errorPrompt: "",
+            warnPrompt: "",
+            successPrompt: "",
+            errorPasswordPrompt: "",
+            warnPasswordPrompt: "",
+            successPasswordPrompt: ""
         }
     }
 
@@ -100,15 +113,71 @@ class StudentView extends React.Component {
     onCheck() {
         const {phone, email, postalAddress} = this.state;
         if (phone === "") {
-            alert("请输入电话号码");
+            this.setState({
+                isError: true,
+                isWarn: false,
+                isSuccess: false,
+                errorPrompt: "请输入电话号码"
+            });
             return false;
         }
         if (email === "") {
-            alert("请输入邮箱地址");
+            this.setState({
+                isError: true,
+                isWarn: false,
+                isSuccess: false,
+                errorPrompt: "请输入邮箱"
+            });
             return false;
         }
         if (postalAddress === "") {
-            alert("请输入邮件地址");
+            this.setState({
+                isError: true,
+                isWarn: false,
+                isSuccess: false,
+                errorPrompt: "请输入邮件地址"
+            });
+            return false;
+        }
+        return true;
+    }
+
+    onPasswordCheck() {
+        const {olderPassword, newPassword, checkedPassword} = this.state;
+        if (olderPassword === "") {
+            this.setState({
+                isPasswordError: true,
+                isPasswordWarn: false,
+                isPasswordSuccess: false,
+                errorPasswordPrompt: "请输入原密码"
+            });
+            return false;
+        }
+        if (newPassword === "") {
+            this.setState({
+                isPasswordError: true,
+                isPasswordWarn: false,
+                isPasswordSuccess: false,
+                errorPasswordPrompt: "请输入新密码"
+            });
+            return false;
+        }
+        if (checkedPassword === "") {
+            this.setState({
+                isPasswordError: true,
+                isPasswordWarn: false,
+                isPasswordSuccess: false,
+                errorPasswordPrompt: "请输入确认的新密码"
+            });
+            return false;
+        }
+        if (newPassword !== checkedPassword) {
+            this.setState({
+                isPasswordError: true,
+                isPasswordWarn: false,
+                isPasswordSuccess: false,
+                errorPasswordPrompt: "两次密码输入不相同"
+            });
         }
         return true;
     }
@@ -124,20 +193,31 @@ class StudentView extends React.Component {
 
     changePassword = () => {
         this.setState({
-            visible: true
+            visible: true,
+            olderPassword: "",
+            newPassword: "",
+            checkedPassword: ""
         })
     };
 
     handleCancel = () => {
         this.setState({
-            visible: false
+            visible: false,
+            olderPassword: "",
+            newPassword: "",
+            checkedPassword: "",
+            isPasswordError: false,
+            isPasswordWarn: false
         });
     };
 
     handleOk = () => {
         const {olderPassword, newPassword} = this.state;
-        let password_action = changePassword.bind(this);
-        password_action(olderPassword, newPassword);
+        const checked = this.onPasswordCheck();
+        if (checked) {
+            let password_action = changePassword.bind(this);
+            password_action(olderPassword, newPassword);
+        }
     };
 
     changeOlderPassword = (evt) => {
@@ -152,6 +232,12 @@ class StudentView extends React.Component {
         })
     };
 
+    changeCheckedPassword = (evt) => {
+        this.setState({
+            checkedPassword: evt.target.value
+        })
+    };
+
     render() {
         const {
             account,
@@ -162,7 +248,20 @@ class StudentView extends React.Component {
             postalAddress,
             visible,
             olderPassword,
-            newPassword
+            newPassword,
+            checkedPassword,
+            isError,
+            isWarn,
+            isSuccess,
+            isPasswordError,
+            isPasswordWarn,
+            isPasswordSuccess,
+            errorPrompt,
+            warnPrompt,
+            successPrompt,
+            errorPasswordPrompt,
+            warnPasswordPrompt,
+            successPasswordPrompt
         } = this.state;
         return (
             <section className="information-container">
@@ -258,6 +357,9 @@ class StudentView extends React.Component {
                             />
                         </Col>
                     </Row>
+                    {isError && <Alert type="error" className="information-alert" message={errorPrompt} showIcon/>}
+                    {isWarn && <Alert type="warning" className="information-alert" message={warnPrompt} showIcon/>}
+                    {isSuccess && <Alert type="success" className="information-alert" message={successPrompt} showIcon/>}
                     <div className="information-save-button">
                         <Button type="default"
                                 className="information-button"
@@ -274,19 +376,20 @@ class StudentView extends React.Component {
                             修改密码
                         </Button>
                     </div>
-                    <Modal title="Basic Modal"
+                    <Modal title="修改密码"
                            visible={visible}
+                           className="information-modal"
                            onOk={this.handleOk}
                            onCancel={this.handleCancel}
                     >
-                        <Row className="information-row">
-                            <Col span="2" className="information-col">
+                        <Row className="information-row information-oldPassword-row">
+                            <Col span="7" className="information-col">
                                 原密码
                             </Col>
                             <Col span="1">
 
                             </Col>
-                            <Col span="21">
+                            <Col span="16">
                                 <Input
                                     size="large"
                                     type="password"
@@ -295,14 +398,14 @@ class StudentView extends React.Component {
                                 />
                             </Col>
                         </Row>
-                        <Row className="information-row">
-                            <Col span="2" className="information-col">
+                        <Row className="information-row information-newPassword-row">
+                            <Col span="7" className="information-col">
                                 新密码
                             </Col>
                             <Col span="1">
 
                             </Col>
-                            <Col span="21">
+                            <Col span="16">
                                 <Input
                                     size="large"
                                     type="password"
@@ -311,6 +414,25 @@ class StudentView extends React.Component {
                                 />
                             </Col>
                         </Row>
+                        <Row className="information-row information-newPassword-row">
+                            <Col span="7" className="information-col">
+                                确认密码
+                            </Col>
+                            <Col span="1">
+
+                            </Col>
+                            <Col span="16">
+                                <Input
+                                    size="large"
+                                    type="password"
+                                    value={checkedPassword}
+                                    onChange={this.changeCheckedPassword.bind(this)}
+                                />
+                            </Col>
+                        </Row>
+                        {isPasswordError && <Alert type="error" className="information-alert" message={errorPasswordPrompt} showIcon/>}
+                        {isPasswordWarn && <Alert type="warning" className="information-alert" message={warnPasswordPrompt} showIcon/>}
+                        {isPasswordSuccess && <Alert type="success" className="information-alert" message={successPasswordPrompt} showIcon/>}
                     </Modal>
                 </Card>
             </section>

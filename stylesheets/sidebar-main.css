@@ -79,23 +79,35 @@
     font-weight: normal;
 }
 
-.information-card .information-row {
+.information-card .information-row,
+.information-modal .information-row{
     height: 30px;
     line-height: 30px;
     font-size: 16px;
     margin-top: 10px;
 }
 
-.information-row .ant-input {
+.information-modal .information-row {
+    font-size: 14px;
+}
+
+.information-modal .information-oldPassword-row {
+    margin: 0;
+}
+
+.information-row .ant-input,
+.information-card .information-select {
     width: 160px;
 }
 
-.information-card .information-col {
+.information-card .information-col,
+.information-modal .information-col {
     text-align: right;
 }
 
-.information-card .information-select {
-    width: 160px;
+.information-oldPassword-row .ant-input,
+.information-newPassword-row .ant-input {
+    width: 200px;
 }
 
 .information-card .information-save-button,
@@ -104,11 +116,21 @@
     margin-top: 10px;
 }
 
-.information-card .information-button {
+.information-card .information-button,
+.information-card .information-alert {
     width: 260px;
     height: 40px;
     outline: none;
     font: 14px/1.4 Helvetica Neue, HelveticaNeue, Helvetica, Arial, sans-serif;
+}
+
+.information-card .information-alert {
+    margin: 10px auto 0 auto;
+}
+
+.information-modal .information-alert {
+    width: 200px;
+    margin: 10px auto 0 auto;
 }
 
 .information-save-button .information-button {

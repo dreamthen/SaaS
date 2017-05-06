@@ -25,7 +25,10 @@ export function getInformation(id) {
                     phone,
                     email,
                     visaStatus: visaStatus.toString(),
-                    postalAddress
+                    postalAddress,
+                    isError: false,
+                    isWarn: false,
+                    isSuccess: false
                 });
             }
         }
@@ -47,10 +50,27 @@ export function saveInformation(id, sex, email, phone, visaStatus, postalAddress
         }),
         async: true
     }).done(function (response, status) {
-        if (response.head.code === Success.STUDENT_SUCCESS_CODE) {
-            alert("保存成功");
-            let student_info = getInformation.bind(this);
-            student_info(id);
+        let message = response.head.message,
+            code = response.head.code;
+        if (code === Success.STUDENT_SUCCESS_CODE) {
+            this.setState({
+                isError: false,
+                isWarn: false,
+                isSuccess: true,
+                successPrompt: "保存成功"
+            }, () => {
+                setTimeout(function timer() {
+                    let student_info = getInformation.bind(this);
+                    student_info(id);
+                }.bind(this), 1000);
+            });
+        } else {
+            this.setState({
+                isError: false,
+                isWarn: true,
+                isSuccess: false,
+                warnPrompt: message
+            });
         }
     }.bind(this));
 }
@@ -67,12 +87,32 @@ export function changePassword(olderPassword, newPassword) {
         }),
         async: true
     }).done(function (response, status) {
-        if (response.head.code === Success.STUDENT_SUCCESS_CODE) {
-            alert("修改密码成功");
+        let message = response.head.message,
+            code = response.head.code;
+        if (code === Success.STUDENT_SUCCESS_CODE) {
+            this.setState({
+                isPasswordError: false,
+                isPasswordWarn: false,
+                isPasswordSuccess: true,
+                successPasswordPrompt: "修改密码成功"
+            }, () => {
+                setTimeout(function timer() {
+                    this.setState({
+                        visible: false,
+                        isPasswordError: false,
+                        isPasswordWarn: false,
+                        isPasswordSuccess: false
+                    });
+                }.bind(this), 1000);
+            });
+        } else {
+            this.setState({
+                isPasswordError: false,
+                isPasswordWarn: true,
+                isPasswordSuccess: false,
+                warnPasswordPrompt: message
+            });
         }
-        this.setState({
-            visible: false
-        });
     }.bind(this));
 }
 
