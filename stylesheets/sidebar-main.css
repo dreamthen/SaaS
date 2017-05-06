@@ -63,6 +63,28 @@
     overflow: hidden;
 }
 
+.main-information > .login-out {
+    position: relative;
+    height: 32px;
+}
+
+.login-out > .login-out-button {
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+    font-size: 14px;
+    font-weight: bolder;
+    color: #444;
+}
+
+.main-view > .main-information::after {
+    display: block;
+    clear: both;
+    height: 0;
+    content: ".";
+    visibility: hidden;
+}
+
 .main-information > .information-container {
     position: relative;
     padding: 15px 20px;

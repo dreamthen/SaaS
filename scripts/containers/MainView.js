@@ -3,11 +3,14 @@
  */
 import React from "react";
 import {Link} from "react-router";
+import {Button, Modal} from "antd";
 
 class MainView extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            visible: false
+        }
     }
 
     componentWillMount() {
@@ -23,8 +26,31 @@ class MainView extends React.Component {
         localStorage.removeItem("password");
     }
 
+    handleCancel = (evt) => {
+        this.setState({
+            visible: false
+        });
+        evt.nativeEvent.stopImmediatePropagation();
+    };
+
+    handleOk = (evt) => {
+        localStorage.removeItem("userInfo");
+        localStorage.removeItem("account");
+        localStorage.removeItem("password");
+        window.location = "./login.html";
+        evt.nativeEvent.stopImmediatePropagation();
+    };
+
+    loginOut = (evt) => {
+        this.setState({
+            visible: true
+        });
+        evt.nativeEvent.stopImmediatePropagation();
+    };
+
     render() {
         const {children} = this.props;
+        const {visible} = this.state;
         return (
             <main className="main-container">
                 {/*左边栏路由tab*/}
@@ -76,8 +102,24 @@ class MainView extends React.Component {
                         </section>
                     </div>
                     <div className="main-information">
+                        <div className="login-out">
+                            <Button
+                                size="large"
+                                type="default"
+                                onClick={this.loginOut.bind(this)}
+                                className="login-out-button"
+                            >
+                                退出
+                            </Button>
+                        </div>
                         {children}
                     </div>
+                    <Modal title="退出"
+                           visible={visible}
+                           onCancel={this.handleCancel.bind(this)}
+                           onOk={this.handleOk.bind(this)}>
+                        <p>是否退出?</p>
+                    </Modal>
                 </div>
             </main>
         )
