@@ -25,12 +25,21 @@ export function loginAction(account, password) {
         let message = response.head.message,
             code = response.head.code;
         if (code === Success.LOGIN_SUCCESS_CODE) {
+            let id = response.body.id,
+                email = response.body.email,
+                sex = response.body.sex,
+                phone = response.body.phone,
+                body = response.body;
             this.setState({
                 isError: false,
                 isWarn: false,
                 isSuccess: true,
                 successPrompt: Success.LOGIN_SUCCESS_MESSAGE
             });
+            if(id || email || sex || phone){
+                localStorage.setItem("userInfo", JSON.stringify(body));
+            }
+            window.location = "./app.html";
         } else {
             this.setState({
                 isError: false,

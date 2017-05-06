@@ -1,18 +1,3 @@
-html, body, h1, h2, h3, h4, h5, h6, ul, p, section, figure, figcaption {
-    margin: 0;
-    padding: 0;
-}
-
-section, figure, figcaption {
-    display: block;
-}
-
-body {
-    width: 100%;
-    height: 100%;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
-}
-
 .main-container {
     position: absolute;
     top: 0;
@@ -88,6 +73,14 @@ body {
     font-size: 14px;
     font-weight: bolder;
     margin-top: 10px;
+}
+
+.nav-container::after {
+    display: block;
+    height: 0;
+    clear: both;
+    content: ".";
+    visibility: hidden;
 }
 
 .login-container > .login-title,
