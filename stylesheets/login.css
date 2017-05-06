@@ -14,7 +14,7 @@
     width: 100%;
     height: 100%;
     z-index: 1500;
-    background: url(../images/login_bg.png) no-repeat center center / 100% border-box content-box;
+    background: url(/images/login_bg.png) no-repeat center center / 100% border-box content-box;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -23,7 +23,7 @@
 }
 
 .main-container > .register-section {
-    background: url(../images/register_bg.png) no-repeat center center / 100% border-box content-box;
+    background: url(/images/register_bg.png) no-repeat center center / 100% border-box content-box;
 }
 
 .login-section > .container-shadow,
