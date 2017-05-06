@@ -14,6 +14,15 @@ class MainView extends React.Component {
 
     }
 
+    /**
+     * 组件即将卸载的时候,将localStorage里面的信息去掉
+     */
+    componentWillUnmount() {
+        localStorage.removeItem("userInfo");
+        localStorage.removeItem("account");
+        localStorage.removeItem("password");
+    }
+
     render() {
         const {children} = this.props;
         return (

@@ -11,7 +11,9 @@ if(!isMook) {
     api = {
         LOGIN_ACTION: NGINX_DIR + "student/sessions/login",
         REGISTER_ACTION: NGINX_DIR + "student/sessions/signUp",
-        GET_STUDENT_INFORMATION: NGINX_DIR + "student/users/students"
+        GET_STUDENT_INFORMATION: NGINX_DIR + "student/users/students",
+        SAVE_STUDENT_INFORMATION: NGINX_DIR + "student/users/students",
+        CHANGE_PASSWORD: NGINX_DIR + "student/sessions/password"
     }
 }
 

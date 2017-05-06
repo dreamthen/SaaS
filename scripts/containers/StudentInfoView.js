@@ -2,19 +2,30 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {getInformation} from "../actions/studentInfo";
-import {Card} from "antd";
+import {getInformation, saveInformation, changePassword} from "../actions/studentInfo";
+import {Row, Col, Card, Select, Input, Button, Modal} from "antd";
+const Option = Select.Option;
 
-class StudentView extends React.Component{
+//性别
+const SEX = ["M", "F"];
+//签证状态
+const VISA_STATUS = ["0", "1", "2"];
+
+class StudentView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             id: 0,
-            sex: "",
+            account: "",
+            password: "",
+            sex: SEX[0],
             phone: "",
             email: "",
-            visaStatus: "",
-            postalAddress: ""
+            visaStatus: VISA_STATUS[0],
+            postalAddress: "",
+            visible: false,
+            olderPassword: "",
+            newPassword: ""
         }
     }
 
@@ -23,11 +34,8 @@ class StudentView extends React.Component{
         this.fetchData();
     }
 
-    /**
-     * 组件即将卸载的时候,将localStorage里面的信息去掉
-     */
     componentWillUnmount() {
-        localStorage.removeItem("userInfo");
+
     }
 
     /**
@@ -35,8 +43,12 @@ class StudentView extends React.Component{
      */
     fetchData() {
         let localStorageBody = JSON.parse(localStorage.getItem("userInfo"));
+        let account = JSON.parse(localStorage.getItem("account"));
+        let password = JSON.parse(localStorage.getItem("password"));
         this.setState({
-            id: localStorageBody.id
+            id: localStorageBody.id,
+            account: account["account"],
+            password: password["password"]
         }, () => {
             const {id} = this.state;
             //发出获取学生信息ajax请求
@@ -45,11 +57,261 @@ class StudentView extends React.Component{
         });
     }
 
+    /**
+     * 修改性别
+     * @param value
+     */
+    changeSex = (value) => {
+        this.setState({
+            sex: value
+        });
+    };
+
+    changeVisaStatus = (value) => {
+        this.setState({
+            visaStatus: value
+        });
+    };
+
+    /**
+     * 修改电话号码
+     */
+    changePhone = (evt) => {
+        this.setState({
+            phone: evt.target.value
+        });
+    };
+
+    /**
+     * 修改邮箱
+     */
+    changeEmail = (evt) => {
+        this.setState({
+            email: evt.target.value
+        });
+    };
+
+    changePostalAddress = (evt) => {
+        this.setState({
+            postalAddress: evt.target.value
+        })
+    };
+
+    onCheck() {
+        const {phone, email, postalAddress} = this.state;
+        if (phone === "") {
+            alert("请输入电话号码");
+            return false;
+        }
+        if (email === "") {
+            alert("请输入邮箱地址");
+            return false;
+        }
+        if (postalAddress === "") {
+            alert("请输入邮件地址");
+        }
+        return true;
+    }
+
+    toSave = () => {
+        const {id, sex, email, phone, visaStatus, postalAddress} = this.state;
+        const checked = this.onCheck();
+        if (checked) {
+            let save_action = saveInformation.bind(this);
+            save_action(id, sex, email, phone, visaStatus, postalAddress);
+        }
+    };
+
+    changePassword = () => {
+        this.setState({
+            visible: true
+        })
+    };
+
+    handleCancel = () => {
+        this.setState({
+            visible: false
+        });
+    };
+
+    handleOk = () => {
+        const {olderPassword, newPassword} = this.state;
+        let password_action = changePassword.bind(this);
+        password_action(olderPassword, newPassword);
+    };
+
+    changeOlderPassword = (evt) => {
+        this.setState({
+            olderPassword: evt.target.value
+        })
+    };
+
+    changeNewPassword = (evt) => {
+        this.setState({
+            newPassword: evt.target.value
+        })
+    };
+
     render() {
+        const {
+            account,
+            sex,
+            phone,
+            email,
+            visaStatus,
+            postalAddress,
+            visible,
+            olderPassword,
+            newPassword
+        } = this.state;
         return (
             <section className="information-container">
                 <Card title="个人信息" className="information-card">
-                    
+                    <Row className="information-row">
+                        <Col span="11" className="information-col">
+                            用户名
+                        </Col>
+                        <Col span="1">
+
+                        </Col>
+                        <Col span="12">
+                            {account}
+                        </Col>
+                    </Row>
+                    <Row className="information-row">
+                        <Col span="11" className="information-col">
+                            性别
+                        </Col>
+                        <Col span="1">
+
+                        </Col>
+                        <Col span="12">
+                            <Select
+                                size="large"
+                                value={sex ? sex : SEX[0]}
+                                onChange={this.changeSex.bind(this)} className="information-select">
+                                <Option value={SEX[0]}>男</Option>
+                                <Option value={SEX[1]}>女</Option>
+                            </Select>
+                        </Col>
+                    </Row>
+                    <Row className="information-row">
+                        <Col span="11" className="information-col">
+                            电话号码
+                        </Col>
+                        <Col span="1">
+
+                        </Col>
+                        <Col span="12">
+                            <Input
+                                size="large"
+                                value={phone}
+                                onChange={this.changePhone.bind(this)}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="information-row">
+                        <Col span="11" className="information-col">
+                            邮箱
+                        </Col>
+                        <Col span="1">
+
+                        </Col>
+                        <Col span="12">
+                            <Input
+                                size="large"
+                                value={email}
+                                onChange={this.changeEmail.bind(this)}
+                            />
+                        </Col>
+                    </Row>
+                    <Row className="information-row">
+                        <Col span="11" className="information-col">
+                            签证状态
+                        </Col>
+                        <Col span="1">
+
+                        </Col>
+                        <Col span="12">
+                            <Select
+                                size="large"
+                                value={visaStatus}
+                                onChange={this.changeVisaStatus.bind(this)} className="information-select">
+                                <Option value={VISA_STATUS[0]}>未申请</Option>
+                                <Option value={VISA_STATUS[1]}>申请中</Option>
+                                <Option value={VISA_STATUS[2]}>已办理</Option>
+                            </Select>
+                        </Col>
+                    </Row>
+                    <Row className="information-row">
+                        <Col span="11" className="information-col">
+                            邮件地址
+                        </Col>
+                        <Col span="1">
+
+                        </Col>
+                        <Col span="12">
+                            <Input
+                                size="large"
+                                value={postalAddress}
+                                onChange={this.changePostalAddress.bind(this)}
+                            />
+                        </Col>
+                    </Row>
+                    <div className="information-save-button">
+                        <Button type="default"
+                                className="information-button"
+                                onClick={this.toSave.bind(this)}
+                        >
+                            保存
+                        </Button>
+                    </div>
+                    <div className="information-change-password">
+                        <Button type="default"
+                                className="information-button"
+                                onClick={this.changePassword.bind(this)}
+                        >
+                            修改密码
+                        </Button>
+                    </div>
+                    <Modal title="Basic Modal"
+                           visible={visible}
+                           onOk={this.handleOk}
+                           onCancel={this.handleCancel}
+                    >
+                        <Row className="information-row">
+                            <Col span="2" className="information-col">
+                                原密码
+                            </Col>
+                            <Col span="1">
+
+                            </Col>
+                            <Col span="21">
+                                <Input
+                                    size="large"
+                                    type="password"
+                                    value={olderPassword}
+                                    onChange={this.changeOlderPassword.bind(this)}
+                                />
+                            </Col>
+                        </Row>
+                        <Row className="information-row">
+                            <Col span="2" className="information-col">
+                                新密码
+                            </Col>
+                            <Col span="1">
+
+                            </Col>
+                            <Col span="21">
+                                <Input
+                                    size="large"
+                                    type="password"
+                                    value={newPassword}
+                                    onChange={this.changeNewPassword.bind(this)}
+                                />
+                            </Col>
+                        </Row>
+                    </Modal>
                 </Card>
             </section>
         )

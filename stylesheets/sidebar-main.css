@@ -78,3 +78,40 @@
     font-size: 20px;
     font-weight: normal;
 }
+
+.information-card .information-row {
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.information-row .ant-input {
+    width: 160px;
+}
+
+.information-card .information-col {
+    text-align: right;
+}
+
+.information-card .information-select {
+    width: 160px;
+}
+
+.information-card .information-save-button,
+.information-card .information-change-password {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.information-card .information-button {
+    width: 260px;
+    height: 40px;
+    outline: none;
+    font: 14px/1.4 Helvetica Neue, HelveticaNeue, Helvetica, Arial, sans-serif;
+}
+
+.information-save-button .information-button {
+    background: #529ECC;
+    color: #fff;
+}

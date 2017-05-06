@@ -36,8 +36,10 @@ export function loginAction(account, password) {
                 isSuccess: true,
                 successPrompt: Success.LOGIN_SUCCESS_MESSAGE
             });
-            if(id || email || sex || phone){
+            if(id || email || sex || phone) {
                 localStorage.setItem("userInfo", JSON.stringify(body));
+                localStorage.setItem("account", JSON.stringify({account}));
+                localStorage.setItem("password", JSON.stringify({password}));
             }
             window.location = "./app.html";
         } else {
