@@ -77,7 +77,10 @@ export function registerAction(account, password) {
                 isError: false,
                 isWarn: false,
                 isSuccess: true,
-                successPrompt: Success.REGISTER_SUCCESS_MESSAGE
+                successPrompt: Success.REGISTER_SUCCESS_MESSAGE,
+                whetherNext: false,
+                accountClassName: "input-account-container SaaS-leave",
+                passwordClassName: "input-password-container SaaS-enter"
             });
             //FIXME 这里需要设置一个时间控制器，需要使用setTimeout
             let timer = setTimeout(function timerControl() {

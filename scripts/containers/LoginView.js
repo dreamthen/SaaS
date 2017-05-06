@@ -354,10 +354,13 @@ class LoginView extends React.Component {
     toLogin = (evt) => {
         this.initState();
         this.setState({
-            loginActionLeft: "0"
+            loginActionLeft: "0",
+            accountClassName: "input-account-container SaaS-leave",
+            passwordClassName: "input-password-container SaaS-enter"
         }, () => {
             this.setState({
-                registerActionLeft: "100%"
+                registerActionLeft: "100%",
+                whetherNext: false
             })
         });
         evt.nativeEvent.stopPropagation();

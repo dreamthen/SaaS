@@ -105,6 +105,10 @@
     text-align: right;
 }
 
+.information-col > .information-spin {
+    color: red;
+}
+
 .information-oldPassword-row .ant-input,
 .information-newPassword-row .ant-input {
     width: 200px;

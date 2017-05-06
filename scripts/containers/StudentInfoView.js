@@ -268,7 +268,7 @@ class StudentView extends React.Component {
                 <Card title="个人信息" className="information-card">
                     <Row className="information-row">
                         <Col span="11" className="information-col">
-                            用户名
+                            <span className="information-spin">*</span>用户名
                         </Col>
                         <Col span="1">
 
@@ -279,7 +279,7 @@ class StudentView extends React.Component {
                     </Row>
                     <Row className="information-row">
                         <Col span="11" className="information-col">
-                            性别
+                            <span className="information-spin">*</span>性别
                         </Col>
                         <Col span="1">
 
@@ -296,7 +296,7 @@ class StudentView extends React.Component {
                     </Row>
                     <Row className="information-row">
                         <Col span="11" className="information-col">
-                            电话号码
+                            <span className="information-spin">*</span>电话号码
                         </Col>
                         <Col span="1">
 
@@ -311,7 +311,7 @@ class StudentView extends React.Component {
                     </Row>
                     <Row className="information-row">
                         <Col span="11" className="information-col">
-                            邮箱
+                            <span className="information-spin">*</span>邮箱
                         </Col>
                         <Col span="1">
 
@@ -326,7 +326,7 @@ class StudentView extends React.Component {
                     </Row>
                     <Row className="information-row">
                         <Col span="11" className="information-col">
-                            签证状态
+                            <span className="information-spin">*</span>签证状态
                         </Col>
                         <Col span="1">
 
@@ -344,7 +344,7 @@ class StudentView extends React.Component {
                     </Row>
                     <Row className="information-row">
                         <Col span="11" className="information-col">
-                            邮件地址
+                            <span className="information-spin">*</span>邮件地址
                         </Col>
                         <Col span="1">
 
@@ -359,7 +359,8 @@ class StudentView extends React.Component {
                     </Row>
                     {isError && <Alert type="error" className="information-alert" message={errorPrompt} showIcon/>}
                     {isWarn && <Alert type="warning" className="information-alert" message={warnPrompt} showIcon/>}
-                    {isSuccess && <Alert type="success" className="information-alert" message={successPrompt} showIcon/>}
+                    {isSuccess &&
+                    <Alert type="success" className="information-alert" message={successPrompt} showIcon/>}
                     <div className="information-save-button">
                         <Button type="default"
                                 className="information-button"
@@ -430,9 +431,12 @@ class StudentView extends React.Component {
                                 />
                             </Col>
                         </Row>
-                        {isPasswordError && <Alert type="error" className="information-alert" message={errorPasswordPrompt} showIcon/>}
-                        {isPasswordWarn && <Alert type="warning" className="information-alert" message={warnPasswordPrompt} showIcon/>}
-                        {isPasswordSuccess && <Alert type="success" className="information-alert" message={successPasswordPrompt} showIcon/>}
+                        {isPasswordError &&
+                        <Alert type="error" className="information-alert" message={errorPasswordPrompt} showIcon/>}
+                        {isPasswordWarn &&
+                        <Alert type="warning" className="information-alert" message={warnPasswordPrompt} showIcon/>}
+                        {isPasswordSuccess &&
+                        <Alert type="success" className="information-alert" message={successPasswordPrompt} showIcon/>}
                     </Modal>
                 </Card>
             </section>
