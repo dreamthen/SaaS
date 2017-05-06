@@ -1,0 +1,80 @@
+.main_page > .main-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.main-container > .main-view {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.main-view > .main-sideBar {
+    position: absolute;
+    width: 220px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    overflow: hidden;
+    box-shadow: 2px 1px rgba(52, 73, 94, 0.3);
+    box-sizing: border-box;
+}
+
+.main-sideBar > .sideBar-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2500;
+    background-color: rgb(52, 73, 94);
+}
+
+.sideBar-container .main-link-active {
+    background-color: rgb(44, 62, 80);
+    color: #fff;
+}
+
+.sideBar-container > ul > li {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.sideBar-container > ul > li > a {
+    width: 100%;
+    color: #fff;
+    padding: 0 10px;
+}
+
+.main-view > .main-information {
+    position: absolute;
+    width: calc(100% - 220px);
+    height: 100%;
+    top: 0;
+    left: 220px;
+    z-index: 1500;
+    overflow: hidden;
+}
+
+.main-information > .information-container {
+    position: relative;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.information-container > .information-card {
+    height: 100%;
+}
+
+.information-card .ant-card-head-title {
+    font-size: 20px;
+    font-weight: normal;
+}
