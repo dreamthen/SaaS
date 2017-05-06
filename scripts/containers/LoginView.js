@@ -23,7 +23,15 @@ class LoginView extends React.Component {
             //错误提示语
             errorPrompt: "",
             //判断是否校验出现错误,进行提示框显示
-            isError: false
+            isError: false,
+            //登录区域离顶部高度
+            loginActionTop: 0,
+            //登录区域离左边距离
+            loginActionLeft: 0,
+            //注册区域离顶部高度
+            registerActionTop: "-100%",
+            //注册区域离左边距离
+            registerActionLeft: "100%"
         }
     }
 
@@ -80,7 +88,7 @@ class LoginView extends React.Component {
     alert() {
         const {errorPrompt, isError} = this.state;
         return (
-            isError && <Alert className="login-alert" type="error" message={errorPrompt} showIcon/>
+            isError && <Alert className="action-alert" type="error" message={errorPrompt} showIcon/>
         )
     }
 
@@ -228,6 +236,44 @@ class LoginView extends React.Component {
     }
 
     /**
+     * 注册页面输入区域
+     * @returns {XML}
+     */
+    register() {
+        const {account, password} = this.state;
+        return (
+            <div className="register-input-container">
+                <Input
+                    type="text"
+                    className="register-input-account"
+                    value={account}
+                    placeholder="用户名"
+                    size="large"
+                    maxLength="15"
+                    onChange={this.changeAccount.bind(this)}
+                />
+                <Input
+                    type="password"
+                    className="register-input-password"
+                    value={password}
+                    placeholder="密码"
+                    size="large"
+                    maxLength="15"
+                    onChange={this.changePassword.bind(this)}
+                />
+                <Button
+                    type="primary"
+                    size="large"
+                    className="register-button-action"
+                    onClick={this.loginActionStatus.bind(this)}
+                >
+                    注册
+                </Button>
+            </div>
+        )
+    }
+
+    /**
      * 密码输入框内容发生改变时，调用的方法
      * @param evt
      */
@@ -237,14 +283,46 @@ class LoginView extends React.Component {
         });
     };
 
+    /**
+     * 过渡动画到注册页面
+     * @param evt
+     */
+    toRegister = (evt) => {
+        this.setState({
+            loginActionLeft: "-100%",
+            account: "",
+            password: "",
+            isError: false
+        }, () => {
+            this.setState({
+                registerActionLeft: 0
+            })
+        });
+        evt.nativeEvent.stopPropagation();
+    };
+
     render() {
         const {
-            whetherNext
+            whetherNext,
+            loginActionTop,
+            loginActionLeft,
+            registerActionTop,
+            registerActionLeft
         } = this.state;
         return (
             <main className="main-container">
-                <section className="login-section">
+                <section className="login-section" style={{top: loginActionTop, left: loginActionLeft}}>
                     <div className="container-shadow">
+                    </div>
+                    <div className="login-nav">
+                        <nav className="nav-container">
+                            <Button type="default"
+                                    className="nav-button"
+                                    onClick={this.toRegister.bind(this)}
+                            >
+                                注册
+                            </Button>
+                        </nav>
                     </div>
                     <div className="login-container">
                         <h1 className="login-title">登录</h1>
@@ -256,8 +334,15 @@ class LoginView extends React.Component {
                         }
                     </div>
                 </section>
-                <section className="register-section">
+                <section className="register-section" style={{top: registerActionTop, left: registerActionLeft}}>
                     <div className="container-shadow">
+                    </div>
+                    <div className="register-container">
+                        <h1 className="register-title">注册</h1>
+                        <span className="register-spin">Register</span>
+                        <p></p>
+                        {this.alert()}
+                        {this.register()}
                     </div>
                 </section>
             </main>

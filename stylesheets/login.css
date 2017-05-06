@@ -34,6 +34,7 @@ body {
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    transition: all .6s ease 0s;
 }
 
 .main-container > .register-section {
@@ -51,21 +52,52 @@ body {
     background: linear-gradient(to top left, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.6));
 }
 
-.login-section > .login-container {
+.login-section > .login-container,
+.register-section > .register-container {
     position: relative;
     z-index: 2500;
     color: #fff;
     text-align: center;
 }
 
-.login-container > .login-title {
+.login-section > .login-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2500;
+    width: 100%;
+    height: auto;
+    min-width: 960px;
+}
+
+.login-nav > .nav-container {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    height: 54px;
+    min-width: 960px;
+}
+
+.nav-container > .nav-button {
+    float: right;
+    vertical-align: top;
+    color: #444;
+    height: 32px;
+    font-size: 14px;
+    font-weight: bolder;
+    margin-top: 10px;
+}
+
+.login-container > .login-title,
+.register-container > .register-title {
     font-size: 42px;
     font-weight: 500;
     line-height: 50px;
     letter-spacing: 1px;
 }
 
-.login-container > .login-spin {
+.login-container > .login-spin,
+.register-container > .register-spin {
     display: block;
     font-size: 20px;
     font-weight: lighter;
@@ -73,20 +105,24 @@ body {
     letter-spacing: 1px;
 }
 
-.login-container > .login-alert {
+.action-alert {
     text-align: left;
     margin: 0;
 }
 
 .login-container > .input-account-container,
-.login-container > .input-password-container {
+.login-container > .input-password-container,
+.register-container > .register-input-container {
     width: 260px;
 }
 
 .input-account-container > .login-input-account,
+.register-input-container > .register-input-account,
 .input-account-container > .login-button-next,
 .input-password-container > .login-input-password,
+.register-input-container > .register-input-password,
 .input-password-container > .login-button-action,
+.register-input-container > .register-button-action,
 .input-password-container > .login-button-back {
     margin-top: 6px;
     outline: none;
@@ -96,7 +132,8 @@ body {
 }
 
 .input-account-container > .login-button-next,
-.input-password-container > .login-button-action {
+.input-password-container > .login-button-action,
+.register-input-container > .register-button-action {
     margin-top: 8px;
     width: 100%;
     color: #fff;
@@ -110,7 +147,7 @@ body {
 
 .SaaS-enter {
     opacity: 0.01;
-    transition:all .5s ease-in-out 0s;
+    transition: all .5s ease-in-out 0s;
 }
 
 .SaaS-enter.SaaS-enter-active {
