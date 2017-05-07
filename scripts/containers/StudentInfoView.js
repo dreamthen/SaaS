@@ -4,6 +4,9 @@
 import React from "react";
 import {getInformation, saveInformation, changePassword} from "../actions/studentInfo";
 import {Row, Col, Card, Select, Input, Button, Modal, Alert} from "antd";
+import storageData from "../config/storageData";
+import localStorageObject from "../config/localStorage";
+
 const Option = Select.Option;
 
 //性别
@@ -55,19 +58,12 @@ class StudentView extends React.Component {
      * 获取学生信息
      */
     fetchData() {
-        let localStorageBody = JSON.parse(localStorage.getItem("userInfo"));
-        let account = JSON.parse(localStorage.getItem("account"));
-        let password = JSON.parse(localStorage.getItem("password"));
-        this.setState({
-            id: localStorageBody.id,
-            account: account["account"],
-            password: password["password"]
-        }, () => {
-            const {id} = this.state;
-            //发出获取学生信息ajax请求
-            let student_info = getInformation.bind(this);
-            student_info(id);
-        });
+        let storage_action = localStorageObject.getLocalStorage.bind(this);
+        storage_action(storageData);
+        const {id} = this.state;
+        //发出获取学生信息ajax请求
+        let student_info = getInformation.bind(this);
+        student_info(id);
     }
 
     /**

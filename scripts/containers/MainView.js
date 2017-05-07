@@ -5,6 +5,8 @@ import React from "react";
 import {Link} from "react-router";
 import {Button, Modal} from "antd";
 import {logOutAction} from "../actions/login_action";
+import localStorageObject from "../config/localStorage";
+import storageData from "../config/storageData";
 
 class MainView extends React.Component {
     constructor(props) {
@@ -14,17 +16,11 @@ class MainView extends React.Component {
         }
     }
 
-    componentWillMount() {
-
-    }
-
     /**
      * 组件即将卸载的时候,将localStorage里面的信息去掉
      */
     componentWillUnmount() {
-        localStorage.removeItem("userInfo");
-        localStorage.removeItem("account");
-        localStorage.removeItem("password");
+        localStorageObject.removeLocalStorage(storageData);
     }
 
     handleCancel = (evt) => {

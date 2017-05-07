@@ -5,6 +5,9 @@
 import $ from "jquery";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
+import localStorageObject from "../config/localStorage";
+import storageData from "../config/storageData";
+
 /**
  * 登录功能post ajax请求
  * @param account
@@ -23,23 +26,26 @@ export function loginAction(account, password) {
         contentType: "application/json"
     }).done(function (response, status) {
         let message = response.head.message,
-            code = response.head.code;
+            code = response.head.code,
+            localStorageArray = [];
         if (code === Success.LOGIN_SUCCESS_CODE) {
             let id = response.body.id,
                 email = response.body.email,
                 sex = response.body.sex,
                 phone = response.body.phone,
                 body = response.body;
+            pushIntoLocalStorage();
             this.setState({
                 isError: false,
                 isWarn: false,
                 isSuccess: true,
                 successPrompt: Success.LOGIN_SUCCESS_MESSAGE
             });
-            if(id || email || sex || phone) {
-                localStorage.setItem("userInfo", JSON.stringify(body));
-                localStorage.setItem("account", JSON.stringify({account}));
-                localStorage.setItem("password", JSON.stringify({password}));
+            localStorageArray.push(pushIntoLocalStorage("userInfo", body));
+            localStorageArray.push(pushIntoLocalStorage("account", {account}));
+            localStorageArray.push(pushIntoLocalStorage("password", {password}));
+            if (id || email || sex || phone) {
+                localStorageObject.setLocalStorage(localStorageArray);
             }
             window.location = "./app.html";
         } else {
@@ -51,6 +57,13 @@ export function loginAction(account, password) {
             })
         }
     }.bind(this));
+}
+
+function pushIntoLocalStorage(key, value) {
+    return {
+        key,
+        value: JSON.stringify(value)
+    }
 }
 
 /**
@@ -115,9 +128,7 @@ export function logOutAction() {
         url: api.LOGOUT_ACTION,
         async: true
     }).done(function (response, status) {
-        localStorage.removeItem("userInfo");
-        localStorage.removeItem("account");
-        localStorage.removeItem("password");
+        localStorageObject.removeLocalStorage(storageData);
         window.location = "./login.html";
     }.bind(this));
 }
