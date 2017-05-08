@@ -93,7 +93,6 @@ const contentArray = [
  */
 let contentResult = [];
 rowArray.map((rowItem, index) => {
-    console.log(contentArray[index]);
     if (Object.prototype.toString.call(contentArray[index]) === "[object Function]") {
         contentResult.push(contentArray[index]);
     }

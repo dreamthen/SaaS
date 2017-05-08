@@ -195,6 +195,15 @@ class StudentView extends React.Component {
             });
             return false;
         }
+        if(phone.length > 20) {
+            this.setState({
+                isError: true,
+                isWarn: false,
+                isSuccess: false,
+                errorPrompt: "超出电话号码长度限额"
+            });
+            return false;
+        }
         if (email === "") {
             this.setState({
                 isError: true,

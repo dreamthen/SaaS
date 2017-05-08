@@ -36,10 +36,13 @@ class MainView extends React.Component {
      * 集成路由节点组件
      */
     setLink() {
-        setLink.map((linkItem, linkIndex) => {
+        return setLink.map((linkItem, linkIndex) => {
             return (
-                <li>
-                    <Link to={"/" + linkItem.link}>
+                <li key={linkIndex}>
+                    <Link
+                        to={"/" + linkItem.link}
+                        activeClassName="main-link-active"
+                    >
                         {linkItem.value}
                     </Link>
                 </li>
