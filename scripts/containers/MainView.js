@@ -7,6 +7,7 @@ import {Button, Modal} from "antd";
 import {logOutAction} from "../actions/login_action";
 import localStorageObject from "../config/localStorage";
 import storageData from "../config/storageData";
+import setLink from "../config/link";
 
 class MainView extends React.Component {
     constructor(props) {
@@ -31,6 +32,21 @@ class MainView extends React.Component {
         evt.nativeEvent.stopImmediatePropagation();
     };
 
+    /**
+     * 集成路由节点组件
+     */
+    setLink() {
+        setLink.map((linkItem, linkIndex) => {
+            return (
+                <li>
+                    <Link to={"/" + linkItem.link}>
+                        {linkItem.value}
+                    </Link>
+                </li>
+            )
+        });
+    }
+
     handleOk = (evt) => {
         let logout_action = logOutAction.bind(this);
         logout_action();
@@ -54,46 +70,7 @@ class MainView extends React.Component {
                     <div className="main-sideBar">
                         <section className="sideBar-container">
                             <ul>
-                                <li>
-                                    <Link
-                                        to="/applicationStatus"
-                                        activeClassName="main-link-active"
-                                    >
-                                        申请状态
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/application"
-                                        activeClassName="main-link-active"
-                                    >
-                                        申请表
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/messageCenter"
-                                        activeClassName="main-link-active"
-                                    >
-                                        消息中心
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/pay"
-                                        activeClassName="main-link-active"
-                                    >
-                                        支付
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/studentInfo"
-                                        activeClassName="main-link-active"
-                                    >
-                                        个人信息
-                                    </Link>
-                                </li>
+                                {this.setLink()}
                             </ul>
                         </section>
                     </div>

@@ -162,7 +162,7 @@ class StudentView extends React.Component {
                 }
             }
         });
-        //个人信息表单内容构成
+        //集成个人信息表单内容构成
         return formRow.map((rowItem, index) => {
             return (
                 <Row key={index}
