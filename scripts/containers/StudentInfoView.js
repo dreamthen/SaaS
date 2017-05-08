@@ -6,13 +6,31 @@ import {getInformation, saveInformation, changePassword} from "../actions/studen
 import {Row, Col, Card, Select, Input, Button, Modal, Alert} from "antd";
 import storageData from "../config/storageData";
 import localStorageObject from "../config/localStorage";
+import formRow from "../config/formItem";
 
 const Option = Select.Option;
 
 //性别所有展现值
-const SEX = ["M", "F"];
+const SEX = "M";
 //签证状态所有展现值
-const VISA_STATUS = ["0", "1", "2"];
+const VISA_STATUS = "0";
+//表单所有Input框内容数据模板
+const FORM_ITEM = [
+    {
+        value: "phone",
+        maxLength: 20
+    },
+    {
+        value: "email",
+        maxLength: 45
+    },
+    {
+        value: "postalAddress",
+        maxLength: 50
+    }
+];
+//用来返回resultRow
+const rowArray = ["accountRow", "sexRow", "phoneRow", "emailRow", "postalAddressRow", "visaStatusRow"];
 
 class StudentView extends React.Component {
     constructor(props) {
@@ -21,10 +39,10 @@ class StudentView extends React.Component {
             id: 0,
             account: "",
             password: "",
-            sex: SEX[0],
+            sex: SEX,
             phone: "",
             email: "",
-            visaStatus: VISA_STATUS[0],
+            visaStatus: VISA_STATUS,
             postalAddress: "",
             visible: false,
             olderPassword: "",
@@ -50,6 +68,13 @@ class StudentView extends React.Component {
         this.fetchData();
     }
 
+    componentDidMount() {
+        const {id} = this.state;
+        //发出获取学生信息ajax请求
+        let student_info = getInformation.bind(this);
+        student_info(id);
+    }
+
     componentWillUnmount() {
 
     }
@@ -61,10 +86,6 @@ class StudentView extends React.Component {
         //从localStorage中获取到登录之后传入的学生数据信息
         let storage_action = localStorageObject.getLocalStorage.bind(this);
         storage_action(storageData);
-        const {id} = this.state;
-        //发出获取学生信息ajax请求
-        let student_info = getInformation.bind(this);
-        student_info(id);
     }
 
     /**
@@ -84,28 +105,84 @@ class StudentView extends React.Component {
     };
 
     /**
-     * 修改电话号码
+     * 修改表单里面的所有Input框内容
+     * @param key
+     * @param evt
      */
-    changePhone = (evt) => {
+    changeFormItem = (key, evt) => {
         this.setState({
-            phone: evt.target.value
+            [key]: evt.target.value
         });
+        evt.nativeEvent.stopImmediatePropagation();
     };
 
     /**
-     * 修改邮箱
+     * 集成表单中每一行的数据和方法
+     * @constructor
      */
-    changeEmail = (evt) => {
-        this.setState({
-            email: evt.target.value
-        });
-    };
+    RowData() {
+        const {account, sex, visaStatus} = this.state;
+        const {changeSex, changeFormItem, changeVisaStatus} = this;
+        return [
+            {
+                content: account
+            },
+            {
+                content: sex,
+                func: changeSex
+            },
+            FORM_ITEM.map((formItem, index) => {
+                return {
+                    content: this.state[formItem.value],
+                    func: changeFormItem,
+                    maxLength: formItem.maxLength
+                }
+            }),
+            {
+                content: visaStatus,
+                func: changeVisaStatus
+            }
+        ]
+    }
 
-    changePostalAddress = (evt) => {
-        this.setState({
-            postalAddress: evt.target.value
+    /**
+     * 返回表单中的所有内容(FormRow)
+     */
+    renderFormRow() {
+        const row = this.RowData();
+        //分散表单中每一行的数据和方法
+        let resultRow = [];
+        rowArray.map((colItem, colIndex) => {
+            if (Object.prototype.toString.call(row[colIndex]) === "[object Object]") {
+                resultRow.push(row[colIndex]);
+            }
+            if (Object.prototype.toString.call(row[colIndex]) === "[object Array]") {
+                for (let i = 0; i < row[colIndex].length; i++) {
+                    resultRow.push(row[colIndex][i])
+                }
+            }
+        });
+        //个人信息表单内容构成
+        return formRow.map((rowItem, index) => {
+            return (
+                <Row key={index}
+                     className="information-row">
+                    <Col span="11" className="information-col">
+                        <span className="information-spin">*</span>
+                        {rowItem.name}
+                    </Col>
+                    <Col span="1">
+
+                    </Col>
+                    <Col span="12">
+                        {
+                            rowItem.main.bind(this)(resultRow[index].content, resultRow[index].func, resultRow[index].maxLength)
+                        }
+                    </Col>
+                </Row>
+            )
         })
-    };
+    }
 
     onCheck() {
         const {phone, email, postalAddress} = this.state;
@@ -237,12 +314,6 @@ class StudentView extends React.Component {
 
     render() {
         const {
-            account,
-            sex,
-            phone,
-            email,
-            visaStatus,
-            postalAddress,
             visible,
             olderPassword,
             newPassword,
@@ -263,100 +334,7 @@ class StudentView extends React.Component {
         return (
             <section className="information-container">
                 <Card title="个人信息" className="information-card">
-                    <Row className="information-row">
-                        <Col span="11" className="information-col">
-                            <span className="information-spin">*</span>用户名
-                        </Col>
-                        <Col span="1">
-
-                        </Col>
-                        <Col span="12">
-                            {account}
-                        </Col>
-                    </Row>
-                    <Row className="information-row">
-                        <Col span="11" className="information-col">
-                            <span className="information-spin">*</span>性别
-                        </Col>
-                        <Col span="1">
-
-                        </Col>
-                        <Col span="12">
-                            <Select
-                                size="large"
-                                value={sex ? sex : SEX[0]}
-                                onChange={this.changeSex.bind(this)} className="information-select">
-                                <Option value={SEX[0]}>男</Option>
-                                <Option value={SEX[1]}>女</Option>
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row className="information-row">
-                        <Col span="11" className="information-col">
-                            <span className="information-spin">*</span>电话号码
-                        </Col>
-                        <Col span="1">
-
-                        </Col>
-                        <Col span="12">
-                            <Input
-                                size="large"
-                                value={phone}
-                                maxLength="20"
-                                onChange={this.changePhone.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row className="information-row">
-                        <Col span="11" className="information-col">
-                            <span className="information-spin">*</span>邮箱
-                        </Col>
-                        <Col span="1">
-
-                        </Col>
-                        <Col span="12">
-                            <Input
-                                size="large"
-                                value={email}
-                                maxLength="45"
-                                onChange={this.changeEmail.bind(this)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row className="information-row">
-                        <Col span="11" className="information-col">
-                            <span className="information-spin">*</span>签证状态
-                        </Col>
-                        <Col span="1">
-
-                        </Col>
-                        <Col span="12">
-                            <Select
-                                size="large"
-                                value={visaStatus}
-                                onChange={this.changeVisaStatus.bind(this)} className="information-select">
-                                <Option value={VISA_STATUS[0]}>未申请</Option>
-                                <Option value={VISA_STATUS[1]}>申请中</Option>
-                                <Option value={VISA_STATUS[2]}>已办理</Option>
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row className="information-row">
-                        <Col span="11" className="information-col">
-                            <span className="information-spin">*</span>邮件地址
-                        </Col>
-                        <Col span="1">
-
-                        </Col>
-                        <Col span="12">
-                            <Input
-                                size="large"
-                                value={postalAddress}
-                                maxLength="50"
-                                onChange={this.changePostalAddress.bind(this)}
-                            />
-                        </Col>
-                    </Row>
+                    {this.renderFormRow()}
                     {isError && <Alert type="error" className="information-alert" message={errorPrompt} showIcon/>}
                     {isWarn && <Alert type="warning" className="information-alert" message={warnPrompt} showIcon/>}
                     {isSuccess &&
