@@ -1,7 +1,6 @@
 /**
  * Created by yinwk on 2017/5/6.
  */
-// import axios from "axios";
 import $ from "jquery";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
@@ -34,7 +33,6 @@ export function loginAction(account, password) {
                 sex = response.body.sex,
                 phone = response.body.phone,
                 body = response.body;
-            pushIntoLocalStorage();
             this.setState({
                 isError: false,
                 isWarn: false,
@@ -45,6 +43,7 @@ export function loginAction(account, password) {
             localStorageArray.push(pushIntoLocalStorage("account", {account}));
             localStorageArray.push(pushIntoLocalStorage("password", {password}));
             if (id || email || sex || phone) {
+                //向localStorage中设置登录成功后的学生数据信息
                 localStorageObject.setLocalStorage(localStorageArray);
             }
             window.location = "./app.html";
@@ -59,6 +58,12 @@ export function loginAction(account, password) {
     }.bind(this));
 }
 
+/**
+ * 向localStorage数组中push key属性和值以及value属性和值
+ * @param key
+ * @param value
+ * @returns {{key: *, value}}
+ */
 function pushIntoLocalStorage(key, value) {
     return {
         key,
@@ -128,6 +133,7 @@ export function logOutAction() {
         url: api.LOGOUT_ACTION,
         async: true
     }).done(function (response, status) {
+        //删除localStorage中的学生数据信息
         localStorageObject.removeLocalStorage(storageData);
         window.location = "./login.html";
     }.bind(this));

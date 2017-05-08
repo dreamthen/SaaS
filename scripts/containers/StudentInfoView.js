@@ -9,9 +9,9 @@ import localStorageObject from "../config/localStorage";
 
 const Option = Select.Option;
 
-//性别
+//性别所有展现值
 const SEX = ["M", "F"];
-//签证状态
+//签证状态所有展现值
 const VISA_STATUS = ["0", "1", "2"];
 
 class StudentView extends React.Component {
@@ -58,6 +58,7 @@ class StudentView extends React.Component {
      * 获取学生信息
      */
     fetchData() {
+        //从localStorage中获取到登录之后传入的学生数据信息
         let storage_action = localStorageObject.getLocalStorage.bind(this);
         storage_action(storageData);
         const {id} = this.state;
@@ -301,6 +302,7 @@ class StudentView extends React.Component {
                             <Input
                                 size="large"
                                 value={phone}
+                                maxLength="20"
                                 onChange={this.changePhone.bind(this)}
                             />
                         </Col>
@@ -316,6 +318,7 @@ class StudentView extends React.Component {
                             <Input
                                 size="large"
                                 value={email}
+                                maxLength="45"
                                 onChange={this.changeEmail.bind(this)}
                             />
                         </Col>
@@ -349,6 +352,7 @@ class StudentView extends React.Component {
                             <Input
                                 size="large"
                                 value={postalAddress}
+                                maxLength="50"
                                 onChange={this.changePostalAddress.bind(this)}
                             />
                         </Col>

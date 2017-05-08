@@ -20,6 +20,7 @@ class MainView extends React.Component {
      * 组件即将卸载的时候,将localStorage里面的信息去掉
      */
     componentWillUnmount() {
+        //删除localStorage中的学生数据信息
         localStorageObject.removeLocalStorage(storageData);
     }
 
