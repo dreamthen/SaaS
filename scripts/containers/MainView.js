@@ -13,6 +13,7 @@ class MainView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            //退出弹窗,是否弹出state
             visible: false
         }
     }
@@ -25,10 +26,15 @@ class MainView extends React.Component {
         localStorageObject.removeLocalStorage(storageData);
     }
 
+    /**
+     * 退出弹窗,按取消将弹窗消失
+     * @param evt
+     */
     handleCancel = (evt) => {
         this.setState({
             visible: false
         });
+        //取消冒泡
         evt.nativeEvent.stopImmediatePropagation();
     };
 
@@ -50,22 +56,47 @@ class MainView extends React.Component {
         });
     }
 
+    /**
+     *  退出弹窗,按确定发出退出ajax请求
+     *  @param evt
+     */
     handleOk = (evt) => {
+        //发出ajax退出请求
         let logout_action = logOutAction.bind(this);
         logout_action();
+        //取消冒泡
         evt.nativeEvent.stopImmediatePropagation();
     };
 
+    /**
+     *  按退出按钮弹出退出弹窗
+     *  @param evt
+     */
     loginOut = (evt) => {
         this.setState({
             visible: true
         });
+        //取消冒泡
         evt.nativeEvent.stopImmediatePropagation();
     };
 
+    /**
+     *  弹窗组件
+     */
+    renderModal() {
+        const {visible} = this.state;
+        return (
+            <Modal title="退出"
+                   visible={visible}
+                   onCancel={this.handleCancel.bind(this)}
+                   onOk={this.handleOk.bind(this)}>
+                <p>是否退出?</p>
+            </Modal>
+        )
+    }
+
     render() {
         const {children} = this.props;
-        const {visible} = this.state;
         return (
             <main className="main-container">
                 {/*左边栏路由tab*/}
@@ -90,13 +121,9 @@ class MainView extends React.Component {
                         </div>
                         {children}
                     </div>
-                    <Modal title="退出"
-                           visible={visible}
-                           onCancel={this.handleCancel.bind(this)}
-                           onOk={this.handleOk.bind(this)}>
-                        <p>是否退出?</p>
-                    </Modal>
                 </div>
+                {/*退出弹窗组件*/}
+                {this.renderModal()}
             </main>
         )
     }
