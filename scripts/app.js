@@ -3,7 +3,7 @@
  */
 import React from "react";
 import ReactDOM from "react-dom";
-import {Router, hashHistory, Link} from 'react-router'
+import {Router, hashHistory} from 'react-router'
 import routeDOM from "./config/routes";
 import "../stylesheets/common.css";
 import "../stylesheets/sidebar-main.css";

@@ -195,7 +195,7 @@ class StudentView extends React.Component {
             });
             return false;
         }
-        if(phone.length > 20) {
+        if (phone.length > 20) {
             this.setState({
                 isError: true,
                 isWarn: false,
@@ -213,12 +213,30 @@ class StudentView extends React.Component {
             });
             return false;
         }
+        if (email.length > 45) {
+            this.setState({
+                isError: true,
+                isWarn: false,
+                isSuccess: false,
+                errorPrompt: "超出邮箱长度限额"
+            });
+            return false;
+        }
         if (postalAddress === "") {
             this.setState({
                 isError: true,
                 isWarn: false,
                 isSuccess: false,
                 errorPrompt: "请输入邮件地址"
+            });
+            return false;
+        }
+        if (postalAddress.length > 50) {
+            this.setState({
+                isError: true,
+                isWarn: false,
+                isSuccess: false,
+                errorPrompt: "超出邮箱长度限额"
             });
             return false;
         }
@@ -236,12 +254,30 @@ class StudentView extends React.Component {
             });
             return false;
         }
+        if(olderPassword.length !== 6){
+            this.setState({
+                isPasswordError: true,
+                isPasswordWarn: false,
+                isPasswordSuccess: false,
+                errorPasswordPrompt: "原密码只允许输入6位"
+            });
+            return false;
+        }
         if (newPassword === "") {
             this.setState({
                 isPasswordError: true,
                 isPasswordWarn: false,
                 isPasswordSuccess: false,
                 errorPasswordPrompt: "请输入新密码"
+            });
+            return false;
+        }
+        if(newPassword.length !== 6){
+            this.setState({
+                isPasswordError: true,
+                isPasswordWarn: false,
+                isPasswordSuccess: false,
+                errorPasswordPrompt: "新密码只允许输入6位"
             });
             return false;
         }
@@ -254,6 +290,15 @@ class StudentView extends React.Component {
             });
             return false;
         }
+        if (checkedPassword.length !== 6) {
+            this.setState({
+                isPasswordError: true,
+                isPasswordWarn: false,
+                isPasswordSuccess: false,
+                errorPasswordPrompt: "确认密码只允许输入6位"
+            });
+            return false;
+        }
         if (newPassword !== checkedPassword) {
             this.setState({
                 isPasswordError: true,
@@ -261,6 +306,7 @@ class StudentView extends React.Component {
                 isPasswordSuccess: false,
                 errorPasswordPrompt: "两次密码输入不相同"
             });
+            return false;
         }
         return true;
     }
@@ -382,6 +428,8 @@ class StudentView extends React.Component {
                                     size="large"
                                     type="password"
                                     value={olderPassword}
+                                    placeholder="原密码"
+                                    maxLength="6"
                                     onChange={this.changeOlderPassword.bind(this)}
                                 />
                             </Col>
@@ -398,6 +446,8 @@ class StudentView extends React.Component {
                                     size="large"
                                     type="password"
                                     value={newPassword}
+                                    placeholder="新密码"
+                                    maxLength="6"
                                     onChange={this.changeNewPassword.bind(this)}
                                 />
                             </Col>
@@ -414,6 +464,8 @@ class StudentView extends React.Component {
                                     size="large"
                                     type="password"
                                     value={checkedPassword}
+                                    placeholder="确认密码"
+                                    maxLength="6"
                                     onChange={this.changeCheckedPassword.bind(this)}
                                 />
                             </Col>

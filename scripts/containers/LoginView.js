@@ -92,7 +92,7 @@ class LoginView extends React.Component {
             });
             return false;
         }
-        if (password.length > 15) {
+        if (password.length !== 6) {
             this.setState({
                 isError: true,
                 errorPrompt: Error.EXCESS_PASSWORD_LENGTH
@@ -258,9 +258,9 @@ class LoginView extends React.Component {
                     type="password"
                     className="login-input-password"
                     value={password}
-                    placeholder="密码"
+                    placeholder="密码(只允许输入6位)"
                     size="large"
-                    maxLength="15"
+                    maxLength="6"
                     onChange={this.changePassword.bind(this)}
                 />
                 <Button
@@ -304,9 +304,9 @@ class LoginView extends React.Component {
                     type="password"
                     className="register-input-password"
                     value={password}
-                    placeholder="密码"
+                    placeholder="密码(只允许输入6位)"
                     size="large"
-                    maxLength="15"
+                    maxLength="6"
                     onChange={this.changePassword.bind(this)}
                 />
                 <Button
