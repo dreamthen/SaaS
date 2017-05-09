@@ -3,12 +3,10 @@
  */
 import React from "react";
 import {getInformation, saveInformation, changePassword} from "../actions/studentInfo";
-import {Row, Col, Card, Select, Input, Button, Modal, Alert} from "antd";
+import {Row, Col, Card, Input, Button, Modal, Alert} from "antd";
 import storageData from "../config/storageData";
 import localStorageObject from "../config/localStorage";
 import formRow from "../config/formItem";
-
-const Option = Select.Option;
 
 //性别所有展现值
 const SEX = "M";
@@ -89,27 +87,22 @@ class StudentView extends React.Component {
     }
 
     /**
-     * 修改性别
+     * 修改表单里面的所有Select框内容(性别和签证状态)
+     * @param key
      * @param value
      */
-    changeSex = (value) => {
+    changeFormSelectItem = (key, value) => {
         this.setState({
-            sex: value
-        });
-    };
-
-    changeVisaStatus = (value) => {
-        this.setState({
-            visaStatus: value
+            [key]: value
         });
     };
 
     /**
-     * 修改表单里面的所有Input框内容
+     * 修改表单里面的所有Input框内容(电话号码、邮箱和邮件地址)
      * @param key
      * @param evt
      */
-    changeFormItem = (key, evt) => {
+    changeFormInputItem = (key, evt) => {
         this.setState({
             [key]: evt.target.value
         });
@@ -122,25 +115,25 @@ class StudentView extends React.Component {
      */
     RowData() {
         const {account, sex, visaStatus} = this.state;
-        const {changeSex, changeFormItem, changeVisaStatus} = this;
+        const {changeFormInputItem, changeFormSelectItem} = this;
         return [
             {
                 content: account
             },
             {
                 content: sex,
-                func: changeSex
+                func: changeFormSelectItem
             },
             FORM_ITEM.map((formItem, index) => {
                 return {
                     content: this.state[formItem.value],
-                    func: changeFormItem,
+                    func: changeFormInputItem,
                     maxLength: formItem.maxLength
                 }
             }),
             {
                 content: visaStatus,
-                func: changeVisaStatus
+                func: changeFormSelectItem
             }
         ]
     }
@@ -254,7 +247,7 @@ class StudentView extends React.Component {
             });
             return false;
         }
-        if(olderPassword.length !== 6){
+        if (olderPassword.length !== 6) {
             this.setState({
                 isPasswordError: true,
                 isPasswordWarn: false,
@@ -272,7 +265,7 @@ class StudentView extends React.Component {
             });
             return false;
         }
-        if(newPassword.length !== 6){
+        if (newPassword.length !== 6) {
             this.setState({
                 isPasswordError: true,
                 isPasswordWarn: false,

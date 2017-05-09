@@ -15,6 +15,8 @@ const rowArray = ["accountRow", "sexRow", "phoneRow", "emailRow", "postalAddress
 const FORM_ITEM = ["phone", "email", "postalAddress"];
 //签证状态所有展现值
 const VISA_STATUS = [{key: "0", value: "未申请"}, {key: "1", value: "申请中"}, {key: "2", value: "已办理"}];
+//表单所有Select框内容
+const FORM_SELECT_ITEM = ["sex", "visaStatus"];
 
 /**
  * 集成的个人信息表单所有元素
@@ -31,7 +33,7 @@ const contentArray = [
             <Select
                 size="large"
                 value={content ? content : SEX[0]}
-                onChange={func.bind(this)}
+                onChange={func.bind(this, FORM_SELECT_ITEM[0])}
                 className="information-select"
             >
                 {
@@ -67,7 +69,7 @@ const contentArray = [
             <Select
                 size="large"
                 value={content}
-                onChange={func.bind(this)}
+                onChange={func.bind(this, FORM_SELECT_ITEM[1])}
                 className="information-select"
             >
                 {
