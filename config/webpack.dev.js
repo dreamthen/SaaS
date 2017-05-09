@@ -121,7 +121,7 @@ var webpackDev = {
             '/SaaS/': {
                 target: "http://35.185.186.126:8080/",
                 secure: false,
-                pathRewrite: {'^/SaaS/': ""}
+                pathRewrite: {'/SaaS/': ""}
             }
         }
     }

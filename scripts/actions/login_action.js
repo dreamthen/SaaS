@@ -33,10 +33,9 @@ export function loginAction(account, password) {
                 sex = response.body.sex,
                 phone = response.body.phone,
                 body = response.body;
+            //设置成功状态和成功提示语
+            this.setPromptTrueOrFalse(false, false, true);
             this.setState({
-                isError: false,
-                isWarn: false,
-                isSuccess: true,
                 successPrompt: Success.LOGIN_SUCCESS_MESSAGE
             });
             localStorageArray.push(pushIntoLocalStorage("userInfo", body));
@@ -46,14 +45,14 @@ export function loginAction(account, password) {
                 //向localStorage中设置登录成功后的学生数据信息
                 localStorageObject.setLocalStorage(localStorageArray);
             }
+            //跳转到主页面--app.html
             window.location = "./app.html";
         } else {
+            //设置警告状态和警告提示语
+            this.setPromptTrueOrFalse(false, true, false);
             this.setState({
-                isError: false,
-                isSuccess: false,
-                isWarn: true,
                 warnPrompt: message
-            })
+            });
         }
     }.bind(this));
 }
@@ -91,10 +90,9 @@ export function registerAction(account, password) {
         let message = response.head.message,
             code = response.head.code;
         if (code === Success.REGISTER_SUCCESS_CODE) {
+            //设置成功状态和成功提示语
+            this.setPromptTrueOrFalse(false, false, true);
             this.setState({
-                isError: false,
-                isWarn: false,
-                isSuccess: true,
                 successPrompt: Success.REGISTER_SUCCESS_MESSAGE,
                 whetherNext: false,
                 accountClassName: "input-account-container SaaS-leave",
@@ -113,12 +111,11 @@ export function registerAction(account, password) {
                 });
             }.bind(this), 1500);
         } else {
+            //设置警告状态和警告提示语
+            this.setPromptTrueOrFalse(false, true, false);
             this.setState({
-                isError: false,
-                isSuccess: false,
-                isWarn: true,
                 warnPrompt: message
-            })
+            });
         }
     }.bind(this));
 }

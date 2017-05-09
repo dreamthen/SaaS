@@ -49,13 +49,29 @@ class LoginView extends React.Component {
     }
 
     /**
+     * 集成错误提示状态
+     */
+    showErrorPrompt(prompt) {
+        this.setState({
+            isError: true,
+            errorPrompt: prompt
+        });
+    }
+
+    setPromptTrueOrFalse(isError, isWarn, isSuccess) {
+        this.setState({
+            isError,
+            isWarn,
+            isSuccess
+        });
+    }
+
+    /**
      * 初始化提示语和输入框
      */
     initState() {
+        this.setPromptTrueOrFalse(false, false, false);
         this.setState({
-            isError: false,
-            isWarn: false,
-            isSuccess: false,
             account: "",
             password: ""
         })
@@ -68,17 +84,11 @@ class LoginView extends React.Component {
     onCheckAccount() {
         const {account} = this.state;
         if (account === "") {
-            this.setState({
-                isError: true,
-                errorPrompt: Error.NULL_ACCOUNT_VALUE
-            });
+            this.showErrorPrompt(Error.NULL_ACCOUNT_VALUE);
             return false;
         }
         if (account.length > 15) {
-            this.setState({
-                isError: true,
-                errorPrompt: Error.EXCESS_ACCOUNT_LENGTH
-            });
+            this.showErrorPrompt(Error.EXCESS_ACCOUNT_LENGTH);
             return false;
         }
         return true;
@@ -91,17 +101,11 @@ class LoginView extends React.Component {
     onCheckPassword() {
         const {password} = this.state;
         if (password === "") {
-            this.setState({
-                isError: true,
-                errorPrompt: Error.NULL_PASSWORD_VALUE
-            });
+            this.showErrorPrompt(Error.NULL_PASSWORD_VALUE);
             return false;
         }
         if (password.length !== 6) {
-            this.setState({
-                isError: true,
-                errorPrompt: Error.EXCESS_PASSWORD_LENGTH
-            });
+            this.showErrorPrompt(Error.EXCESS_PASSWORD_LENGTH);
             return false;
         }
         return true;
@@ -134,12 +138,10 @@ class LoginView extends React.Component {
     nextStep = (evt) => {
         let checked = this.onCheckAccount();
         if (checked) {
+            this.setPromptTrueOrFalse(false, false, false);
             this.setState({
                 accountClassName: "input-account-container SaaS-leave SaaS-leave-active",
-                passwordClassName: "input-password-container SaaS-enter SaaS-enter-active",
-                isError: false,
-                isWarn: false,
-                isSuccess: false
+                passwordClassName: "input-password-container SaaS-enter SaaS-enter-active"
             }, () => {
                 // FIXME 这里需要等待transition过渡动画渲染完之后，再去执行display:none和block的操作
                 setTimeout(() => {
@@ -149,7 +151,8 @@ class LoginView extends React.Component {
                 }, 500);
             });
         }
-        evt.nativeEvent.stopPropagation();
+        //取消冒泡
+        evt.nativeEvent.stopImmediatePropagation();
     };
 
     /**
@@ -169,7 +172,8 @@ class LoginView extends React.Component {
                 });
             }, 500);
         });
-        evt.nativeEvent.stopPropagation();
+        //取消冒泡
+        evt.nativeEvent.stopImmediatePropagation();
     };
 
     /**
@@ -184,7 +188,8 @@ class LoginView extends React.Component {
             let action_login = loginAction.bind(this);
             action_login(account, password);
         }
-        evt.nativeEvent.stopPropagation();
+        //取消冒泡
+        evt.nativeEvent.stopImmediatePropagation();
     };
 
     /**
@@ -202,7 +207,8 @@ class LoginView extends React.Component {
                 action_register(account, password);
             }
         }
-        evt.nativeEvent.stopPropagation();
+        //取消冒泡
+        evt.nativeEvent.stopImmediatePropagation();
     };
 
 
@@ -353,7 +359,7 @@ class LoginView extends React.Component {
     };
 
     /**
-     * 过渡动画到注册页面
+     * 过渡动画到登录页面
      * @param evt
      */
     toLogin = (evt) => {
