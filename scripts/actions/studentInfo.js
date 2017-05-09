@@ -25,10 +25,7 @@ export function getInformation(id) {
                     phone,
                     email,
                     visaStatus: visaStatus.toString(),
-                    postalAddress,
-                    isError: false,
-                    isWarn: false,
-                    isSuccess: false
+                    postalAddress
                 });
             }
         }
@@ -60,8 +57,11 @@ export function saveInformation(id, sex, email, phone, visaStatus, postalAddress
                 successPrompt: "保存成功"
             }, () => {
                 setTimeout(function timer() {
-                    let student_info = getInformation.bind(this);
-                    student_info(id);
+                    this.setState({
+                        isError: false,
+                        isWarn: false,
+                        isSuccess: false
+                    })
                 }.bind(this), 1000);
             });
         } else {
