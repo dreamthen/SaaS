@@ -43,6 +43,11 @@ class LoginView extends React.Component {
         }
     }
 
+    componentWillMount() {
+        //组件开始装载时,初始化提示语和输入框
+        this.initState();
+    }
+
     /**
      * 初始化提示语和输入框
      */
