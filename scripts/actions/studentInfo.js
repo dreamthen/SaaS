@@ -4,6 +4,10 @@
 import $ from "jquery";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
+/**
+ * 获取学生信息
+ * @param id
+ */
 export function getInformation(id) {
     $.ajax({
         type: "get",
@@ -18,7 +22,8 @@ export function getInformation(id) {
                 phone = body.phone,
                 visaStatus = body.visaStatus,
                 postalAddress = body.postalAddress;
-            if (id && sex && (email !== null) && (visaStatus !== null) && (postalAddress !== null)) {
+            //判断在有id、sex(性别)不为null、phone(电话号码)不为null、email(邮箱)不为null、visaStatus(签证状态)不为null、postalAddress(邮件地址)不为null的情况下,进行setState改变状态
+            if (id && sex && (phone !== null) && (email !== null) && (visaStatus !== null) && (postalAddress !== null)) {
                 this.setState({
                     id,
                     sex,
@@ -32,6 +37,15 @@ export function getInformation(id) {
     }.bind(this));
 }
 
+/**
+ * 修改并保存学生个人信息
+ * @param id
+ * @param sex
+ * @param email
+ * @param phone
+ * @param visaStatus
+ * @param postalAddress
+ */
 export function saveInformation(id, sex, email, phone, visaStatus, postalAddress) {
     $.ajax({
         type: "put",
@@ -50,32 +64,30 @@ export function saveInformation(id, sex, email, phone, visaStatus, postalAddress
         let message = response.head.message,
             code = response.head.code;
         if (code === Success.STUDENT_SUCCESS_CODE) {
+            this.setPromptTrueOrFalse(false, false, true);
             this.setState({
-                isError: false,
-                isWarn: false,
-                isSuccess: true,
-                successPrompt: "保存成功"
+                successPrompt: Success.SAVE_STUDENT_INFORMATION_SUCCESS
             }, () => {
+                //FIXME 这里设置一个时间控制器,在1s中之后错误、警告或者成功提示框消失
                 setTimeout(function timer() {
-                    this.setState({
-                        isError: false,
-                        isWarn: false,
-                        isSuccess: false
-                    })
+                    this.setPromptTrueOrFalse(false, false, false);
                 }.bind(this), 1000);
             });
         } else {
+            this.setPromptTrueOrFalse(false, true, false);
             this.setState({
-                isError: false,
-                isWarn: true,
-                isSuccess: false,
                 warnPrompt: message
             });
         }
     }.bind(this));
 }
 
-export function changeNewPassword(olderPassword, newPassword) {
+/**
+ * 修改密码
+ * @param olderPassword
+ * @param newPassword
+ */
+export function changePasswordRecently(olderPassword, newPassword) {
     $.ajax({
         type: "put",
         dataType: "json",
@@ -90,26 +102,21 @@ export function changeNewPassword(olderPassword, newPassword) {
         let message = response.head.message,
             code = response.head.code;
         if (code === Success.STUDENT_SUCCESS_CODE) {
+            this.setPasswordPromptTrueOrFalse(false, false, true);
             this.setState({
-                isPasswordError: false,
-                isPasswordWarn: false,
-                isPasswordSuccess: true,
-                successPasswordPrompt: "修改密码成功"
+                successPasswordPrompt: Success.CHANGE_STUDENT_PASSWORD_SUCCESS
             }, () => {
+                //FIXME 设置一个时间控制器,在1s中之后错误、警告或者成功提示框消失,弹出框也消失
                 setTimeout(function timer() {
+                    this.setPasswordPromptTrueOrFalse(false, false, false);
                     this.setState({
-                        visible: false,
-                        isPasswordError: false,
-                        isPasswordWarn: false,
-                        isPasswordSuccess: false
+                        visible: false
                     });
                 }.bind(this), 1000);
             });
         } else {
+            this.setPasswordPromptTrueOrFalse(false, true, false);
             this.setState({
-                isPasswordError: false,
-                isPasswordWarn: true,
-                isPasswordSuccess: false,
                 warnPasswordPrompt: message
             });
         }

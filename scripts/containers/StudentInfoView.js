@@ -2,11 +2,12 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {getInformation, saveInformation, changeNewPassword} from "../actions/studentInfo";
+import {getInformation, saveInformation, changePasswordRecently} from "../actions/studentInfo";
 import {Row, Col, Card, Input, Button, Modal, Alert} from "antd";
 import storageData from "../config/storageData";
 import localStorageObject from "../config/localStorage";
 import formRow from "../config/formItem";
+import integrationPasswordItem from "../config/passwordItem";
 import Error from "../prompt/error_prompt";
 
 //性别所有展现值
@@ -30,6 +31,8 @@ const FORM_ITEM = [
 ];
 //用来返回resultRow
 const rowArray = ["accountRow", "sexRow", "phoneRow", "emailRow", "postalAddressRow", "visaStatusRow"];
+//password Input框数据模板
+const passwordItem = ["oldPassword", "newPassword", "checkedPassword"];
 
 class StudentView extends React.Component {
     constructor(props) {
@@ -205,6 +208,34 @@ class StudentView extends React.Component {
     }
 
     /**
+     * 设置错误、警告或者成功提示语状态
+     * @param isError
+     * @param isWarn
+     * @param isSuccess
+     */
+    setPromptTrueOrFalse(isError, isWarn, isSuccess) {
+        this.setState({
+            isError,
+            isWarn,
+            isSuccess
+        });
+    }
+
+    /**
+     * 设置密码错误、警告或者成功提示语状态
+     * @param isPasswordError
+     * @param isPasswordWarn
+     * @param isPasswordSuccess
+     */
+    setPasswordPromptTrueOrFalse(isPasswordError, isPasswordWarn, isPasswordSuccess) {
+        this.setState({
+            isPasswordError,
+            isPasswordWarn,
+            isPasswordSuccess
+        });
+    }
+
+    /**
      * 校验表单中的输入框(phone,email,postalAddress空值和长度限额)
      * @returns {boolean}
      */
@@ -299,6 +330,9 @@ class StudentView extends React.Component {
         })
     };
 
+    /**
+     * 点击修改密码弹出框的取消按钮或者右上角的小叉叉键,默认所有的密码框里面没有值且没有错误、警告和成功提示框
+     */
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -310,39 +344,86 @@ class StudentView extends React.Component {
         });
     };
 
+    /**
+     * 点击修改密码弹出框的确认键,发起ajax put修改密码请求
+     */
     handleOk = () => {
         const {oldPassword, newPassword} = this.state;
         const checked = this.onPasswordCheck();
         if (checked) {
-            let password_action = changeNewPassword.bind(this);
+            //校验之后,发起ajax put请求修改密码
+            let password_action = changePasswordRecently.bind(this);
             password_action(oldPassword, newPassword);
         }
     };
 
-    changeOldPassword = (evt) => {
-        this.setState({
-            oldPassword: evt.target.value
-        })
-    };
+    /**
+     * 集成密码弹出框中每一行的数据和方法
+     * @constructor
+     */
+    passwordData() {
+        const {changeAllPassword} = this;
+        return [
+            passwordItem.map((item, index) => {
+                return {
+                    content: this.state[item],
+                    func: changeAllPassword.bind(this)
+                }
+            })
+        ]
+    }
 
-    changeNewPassword = (evt) => {
-        this.setState({
-            newPassword: evt.target.value
-        })
-    };
+    /**
+     * 返回弹出框中的所有内容(PasswordRow)
+     */
+    renderPasswordRow() {
+        const password = this.passwordData();
+        const passwordResult = [];
+        //分散密码弹出框每一行的数据和方法
+        password.map((passwordItem, index) => {
+            for (let i = 0; i < passwordItem.length; i++) {
+                passwordResult.push(passwordItem[i]);
+            }
+        });
+        //集成密码弹出框内容构成
+        return integrationPasswordItem.map((integrationItem, index) => {
+            return (
+                <Row
+                    key={index}
+                    className={"information-row information-"+ passwordItem[index] +"-row"}
+                >
+                    <Col span="7" className="information-col">
+                        {integrationItem["name"]}
+                    </Col>
+                    <Col span="1">
 
-    changeCheckedPassword = (evt) => {
+                    </Col>
+                    <Col span="16">
+                        {
+                            integrationItem.main.bind(this)(passwordResult[index]["content"], passwordResult[index]["func"])
+                        }
+                    </Col>
+                </Row>
+            )
+        });
+    }
+
+    /**
+     * 修改密码弹出框里面的所有Input框内容(原密码、新密码和确认密码)
+     * @param key
+     * @param evt
+     */
+    changeAllPassword(key, evt){
+        console.log(key);
         this.setState({
-            checkedPassword: evt.target.value
-        })
+            [key]: evt.target.value
+        });
+        evt.nativeEvent.stopImmediatePropagation();
     };
 
     render() {
         const {
             visible,
-            oldPassword,
-            newPassword,
-            checkedPassword,
             isError,
             isWarn,
             isSuccess,
@@ -386,60 +467,7 @@ class StudentView extends React.Component {
                            onOk={this.handleOk}
                            onCancel={this.handleCancel}
                     >
-                        <Row className="information-row information-oldPassword-row">
-                            <Col span="7" className="information-col">
-                                原密码
-                            </Col>
-                            <Col span="1">
-
-                            </Col>
-                            <Col span="16">
-                                <Input
-                                    size="large"
-                                    type="password"
-                                    value={oldPassword}
-                                    placeholder="原密码"
-                                    maxLength="6"
-                                    onChange={this.changeOldPassword.bind(this)}
-                                />
-                            </Col>
-                        </Row>
-                        <Row className="information-row information-newPassword-row">
-                            <Col span="7" className="information-col">
-                                新密码
-                            </Col>
-                            <Col span="1">
-
-                            </Col>
-                            <Col span="16">
-                                <Input
-                                    size="large"
-                                    type="password"
-                                    value={newPassword}
-                                    placeholder="新密码"
-                                    maxLength="6"
-                                    onChange={this.changeNewPassword.bind(this)}
-                                />
-                            </Col>
-                        </Row>
-                        <Row className="information-row information-newPassword-row">
-                            <Col span="7" className="information-col">
-                                确认密码
-                            </Col>
-                            <Col span="1">
-
-                            </Col>
-                            <Col span="16">
-                                <Input
-                                    size="large"
-                                    type="password"
-                                    value={checkedPassword}
-                                    placeholder="确认密码"
-                                    maxLength="6"
-                                    onChange={this.changeCheckedPassword.bind(this)}
-                                />
-                            </Col>
-                        </Row>
+                        {this.renderPasswordRow()}
                         {isPasswordError &&
                         <Alert type="error" className="information-alert" message={errorPasswordPrompt} showIcon/>}
                         {isPasswordWarn &&

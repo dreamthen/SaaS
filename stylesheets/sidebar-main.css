@@ -132,7 +132,8 @@
 }
 
 .information-oldPassword-row .ant-input,
-.information-newPassword-row .ant-input {
+.information-newPassword-row .ant-input,
+.information-checkedPassword-row .ant-input{
     width: 200px;
 }
 
