@@ -34,12 +34,11 @@ export function getInformation(id) {
 
 export function saveInformation(id, sex, email, phone, visaStatus, postalAddress) {
     $.ajax({
-        type: "post",
+        type: "put",
         dataType: "json",
         contentType: "application/json",
-        url: api.SAVE_STUDENT_INFORMATION,
+        url: api.SAVE_STUDENT_INFORMATION + "/" + id,
         data: JSON.stringify({
-            id,
             sex,
             email,
             phone,
