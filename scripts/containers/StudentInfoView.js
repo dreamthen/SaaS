@@ -2,11 +2,12 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {getInformation, saveInformation, changePassword} from "../actions/studentInfo";
+import {getInformation, saveInformation, changeNewPassword} from "../actions/studentInfo";
 import {Row, Col, Card, Input, Button, Modal, Alert} from "antd";
 import storageData from "../config/storageData";
 import localStorageObject from "../config/localStorage";
 import formRow from "../config/formItem";
+import Error from "../prompt/error_prompt";
 
 //性别所有展现值
 const SEX = "M";
@@ -43,7 +44,7 @@ class StudentView extends React.Component {
             visaStatus: VISA_STATUS,
             postalAddress: "",
             visible: false,
-            olderPassword: "",
+            oldPassword: "",
             newPassword: "",
             checkedPassword: "",
             isError: false,
@@ -177,146 +178,122 @@ class StudentView extends React.Component {
         })
     }
 
+    /**
+     * 集成表单错误提示状态
+     * @param prompt
+     */
+    showErrorPrompt(prompt) {
+        this.setState({
+            isError: true,
+            isWarn: false,
+            isSuccess: false,
+            errorPrompt: prompt
+        });
+    }
+
+    /**
+     * 集成密码错误提示状态
+     * @param prompt
+     */
+    showPasswordErrorPrompt(prompt) {
+        this.setState({
+            isPasswordError: true,
+            isPasswordWarn: false,
+            isPasswordSuccess: false,
+            errorPasswordPrompt: prompt
+        });
+    }
+
+    /**
+     * 校验表单中的输入框(phone,email,postalAddress空值和长度限额)
+     * @returns {boolean}
+     */
     onCheck() {
         const {phone, email, postalAddress} = this.state;
         if (phone === "") {
-            this.setState({
-                isError: true,
-                isWarn: false,
-                isSuccess: false,
-                errorPrompt: "请输入电话号码"
-            });
+            this.showErrorPrompt(Error.NULL_PHONE_VALUE);
             return false;
         }
         if (phone.length > 20) {
-            this.setState({
-                isError: true,
-                isWarn: false,
-                isSuccess: false,
-                errorPrompt: "超出电话号码长度限额"
-            });
+            this.showErrorPrompt(Error.EXCESS_PHONE_LENGTH);
             return false;
         }
         if (email === "") {
-            this.setState({
-                isError: true,
-                isWarn: false,
-                isSuccess: false,
-                errorPrompt: "请输入邮箱"
-            });
+            this.showErrorPrompt(Error.NULL_EMAIL_VALUE);
             return false;
         }
         if (email.length > 45) {
-            this.setState({
-                isError: true,
-                isWarn: false,
-                isSuccess: false,
-                errorPrompt: "超出邮箱长度限额"
-            });
+            this.showErrorPrompt(Error.EXCESS_EMAIL_LENGTH);
             return false;
         }
         if (postalAddress === "") {
-            this.setState({
-                isError: true,
-                isWarn: false,
-                isSuccess: false,
-                errorPrompt: "请输入邮件地址"
-            });
+            this.showErrorPrompt(Error.NULL_POSTALADDRESS_VALUE);
             return false;
         }
         if (postalAddress.length > 50) {
-            this.setState({
-                isError: true,
-                isWarn: false,
-                isSuccess: false,
-                errorPrompt: "超出邮箱长度限额"
-            });
+            this.showErrorPrompt(Error.EXCESS_POSTALADDRESS_LENGTH);
             return false;
         }
         return true;
     }
 
+    /**
+     * 校验密码输入框(原密码，新密码，确认密码)
+     * @returns {boolean}
+     */
     onPasswordCheck() {
-        const {olderPassword, newPassword, checkedPassword} = this.state;
-        if (olderPassword === "") {
-            this.setState({
-                isPasswordError: true,
-                isPasswordWarn: false,
-                isPasswordSuccess: false,
-                errorPasswordPrompt: "请输入原密码"
-            });
+        const {oldPassword, newPassword, checkedPassword} = this.state;
+        if (oldPassword === "") {
+            this.showPasswordErrorPrompt(Error.INPUT_NULL_ONLY_OLD_PASSWORD);
             return false;
         }
-        if (olderPassword.length !== 6) {
-            this.setState({
-                isPasswordError: true,
-                isPasswordWarn: false,
-                isPasswordSuccess: false,
-                errorPasswordPrompt: "原密码只允许输入6位"
-            });
+        if (oldPassword.length !== 6) {
+            this.showPasswordErrorPrompt(Error.INPUT_EXCESS_ONLY_OLD_PASSWORD);
             return false;
         }
         if (newPassword === "") {
-            this.setState({
-                isPasswordError: true,
-                isPasswordWarn: false,
-                isPasswordSuccess: false,
-                errorPasswordPrompt: "请输入新密码"
-            });
+            this.showPasswordErrorPrompt(Error.INPUT_NULL_ONLY_NEW_PASSWORD);
             return false;
         }
         if (newPassword.length !== 6) {
-            this.setState({
-                isPasswordError: true,
-                isPasswordWarn: false,
-                isPasswordSuccess: false,
-                errorPasswordPrompt: "新密码只允许输入6位"
-            });
+            this.showPasswordErrorPrompt(Error.INPUT_EXCESS_ONLY_NEW_PASSWORD);
             return false;
         }
         if (checkedPassword === "") {
-            this.setState({
-                isPasswordError: true,
-                isPasswordWarn: false,
-                isPasswordSuccess: false,
-                errorPasswordPrompt: "请输入确认的新密码"
-            });
+            this.showPasswordErrorPrompt(Error.INPUT_NULL_ONLY_ENSURE_PASSWORD);
             return false;
         }
         if (checkedPassword.length !== 6) {
-            this.setState({
-                isPasswordError: true,
-                isPasswordWarn: false,
-                isPasswordSuccess: false,
-                errorPasswordPrompt: "确认密码只允许输入6位"
-            });
+            this.showPasswordErrorPrompt(Error.INPUT_EXCESS_ONLY_ENSURE_PASSWORD);
             return false;
         }
         if (newPassword !== checkedPassword) {
-            this.setState({
-                isPasswordError: true,
-                isPasswordWarn: false,
-                isPasswordSuccess: false,
-                errorPasswordPrompt: "两次密码输入不相同"
-            });
+            this.showPasswordErrorPrompt(Error.INCONSISTENT_PASSWORD);
             return false;
         }
         return true;
     }
 
+    /**
+     * 点击保存修改用户个人信息
+     */
     toSave = () => {
         const {id, sex, email, phone, visaStatus, postalAddress} = this.state;
         const checked = this.onCheck();
         if (checked) {
+            //修改用户个人信息ajax put请求
             let save_action = saveInformation.bind(this);
             save_action(id, sex, email, phone, visaStatus, postalAddress);
         }
     };
 
+    /**
+     * 点击修改密码按钮,弹出修改密码弹出框
+     */
     changePassword = () => {
         this.setState({
             visible: true,
-            olderPassword: "",
+            oldPassword: "",
             newPassword: "",
             checkedPassword: ""
         })
@@ -325,7 +302,7 @@ class StudentView extends React.Component {
     handleCancel = () => {
         this.setState({
             visible: false,
-            olderPassword: "",
+            oldPassword: "",
             newPassword: "",
             checkedPassword: "",
             isPasswordError: false,
@@ -334,17 +311,17 @@ class StudentView extends React.Component {
     };
 
     handleOk = () => {
-        const {olderPassword, newPassword} = this.state;
+        const {oldPassword, newPassword} = this.state;
         const checked = this.onPasswordCheck();
         if (checked) {
-            let password_action = changePassword.bind(this);
-            password_action(olderPassword, newPassword);
+            let password_action = changeNewPassword.bind(this);
+            password_action(oldPassword, newPassword);
         }
     };
 
-    changeOlderPassword = (evt) => {
+    changeOldPassword = (evt) => {
         this.setState({
-            olderPassword: evt.target.value
+            oldPassword: evt.target.value
         })
     };
 
@@ -363,7 +340,7 @@ class StudentView extends React.Component {
     render() {
         const {
             visible,
-            olderPassword,
+            oldPassword,
             newPassword,
             checkedPassword,
             isError,
@@ -420,10 +397,10 @@ class StudentView extends React.Component {
                                 <Input
                                     size="large"
                                     type="password"
-                                    value={olderPassword}
+                                    value={oldPassword}
                                     placeholder="原密码"
                                     maxLength="6"
-                                    onChange={this.changeOlderPassword.bind(this)}
+                                    onChange={this.changeOldPassword.bind(this)}
                                 />
                             </Col>
                         </Row>

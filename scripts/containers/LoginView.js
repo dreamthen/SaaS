@@ -50,6 +50,7 @@ class LoginView extends React.Component {
 
     /**
      * 集成错误提示状态
+     * @param prompt
      */
     showErrorPrompt(prompt) {
         this.setState({
@@ -58,6 +59,12 @@ class LoginView extends React.Component {
         });
     }
 
+    /**
+     * 设置提示语状态(错误、警告或者成功)
+     * @param isError
+     * @param isWarn
+     * @param isSuccess
+     */
     setPromptTrueOrFalse(isError, isWarn, isSuccess) {
         this.setState({
             isError,

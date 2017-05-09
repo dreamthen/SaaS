@@ -75,7 +75,7 @@ export function saveInformation(id, sex, email, phone, visaStatus, postalAddress
     }.bind(this));
 }
 
-export function changePassword(olderPassword, newPassword) {
+export function changeNewPassword(olderPassword, newPassword) {
     $.ajax({
         type: "put",
         dataType: "json",
