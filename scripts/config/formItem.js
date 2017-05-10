@@ -109,15 +109,13 @@ rowArray.map((rowItem, index) => {
  * 个人信息表单内容
  * @type {Array}
  */
-const formRow = [];
-
-rowArray.map((rowItem, index) => {
-    formRow.push({
+const formRow = contentResult.map((resultItem, index) => {
+    return {
         name: nameArray[index],
         main: function (content, func, maxLength) {
-            return contentResult[index].bind(this)(content, func, maxLength);
+            return resultItem.bind(this)(content, func, maxLength);
         }
-    })
+    }
 });
 
 export default formRow;
