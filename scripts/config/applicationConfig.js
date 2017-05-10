@@ -3,14 +3,20 @@
  */
 const applicationColumn = [
     {
-        title: "Name",
-        dataIndex: "name",
-        width: 150
+        title: "ID",
+        dataIndex: "id",
     },
     {
-        title: "Age",
-        dataIndex: "age",
-        width: 150
+        title: "表单名",
+        dataIndex: "formName"
+    },
+    {
+        title: "创建时间",
+        dataIndex: "createDate"
+    },
+    {
+        title: "修改时间",
+        dataIndex: "modifyDate"
     }
 ];
 
