@@ -1,0 +1,15 @@
+.main-information > .application-container {
+    position: relative;
+    padding: 22px 20px;
+    box-sizing: border-box;
+    height: calc(100% - 30px);
+}
+
+.information-container > .application-card {
+    height: 100%;
+}
+
+.application-card .ant-card-head-title {
+    font-size: 20px;
+    font-weight: normal;
+}

@@ -9,6 +9,7 @@ import localStorageObject from "../config/localStorage";
 import formRow from "../config/formItem";
 import integrationPasswordItem from "../config/passwordItem";
 import Error from "../prompt/error_prompt";
+import "../../stylesheets/studentInfo.css";
 
 //性别所有展现值
 const SEX = "M";
