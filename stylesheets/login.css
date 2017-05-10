@@ -65,6 +65,19 @@
     min-width: 960px;
 }
 
+.nav-container > .nav-logo {
+    float: left;
+    width: 150px;
+    height: 54px;
+}
+
+/*.nav-container > .nav-logo img,*/
+/*.nav-container > .nav-logo figure {*/
+    /*display: block;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+/*}*/
+
 .nav-container > .nav-button {
     float: right;
     vertical-align: top;

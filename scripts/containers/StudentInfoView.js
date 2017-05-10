@@ -186,10 +186,8 @@ class StudentView extends React.Component {
      * @param prompt
      */
     showErrorPrompt(prompt) {
+        this.setPromptTrueOrFalse(true, false, false);
         this.setState({
-            isError: true,
-            isWarn: false,
-            isSuccess: false,
             errorPrompt: prompt
         });
     }
@@ -199,10 +197,8 @@ class StudentView extends React.Component {
      * @param prompt
      */
     showPasswordErrorPrompt(prompt) {
+        this.setPasswordPromptTrueOrFalse(true, false, false);
         this.setState({
-            isPasswordError: true,
-            isPasswordWarn: false,
-            isPasswordSuccess: false,
             errorPasswordPrompt: prompt
         });
     }
