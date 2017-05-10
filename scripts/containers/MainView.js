@@ -101,6 +101,9 @@ class MainView extends React.Component {
             <main className="main-container">
                 {/*左边栏路由tab*/}
                 <div className="main-view">
+                    <div className="main-logo">
+
+                    </div>
                     <div className="main-sideBar">
                         <section className="sideBar-container">
                             <ul>
