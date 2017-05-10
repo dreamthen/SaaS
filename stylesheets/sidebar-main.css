@@ -153,6 +153,10 @@
     margin-top: 10px;
 }
 
+.information-card .information-save-button {
+    margin-top: 25px;
+}
+
 .information-card .information-button,
 .information-card .information-alert {
     width: 260px;
