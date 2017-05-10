@@ -427,6 +427,11 @@ class LoginView extends React.Component {
                     </div>
                     <div className="register-nav">
                         <nav className="nav-container">
+                            <div className="nav-logo">
+                                {/*<figure>*/}
+                                {/*<img src={require("../../images/login_bg.png")} alt="SaaS_Logo"/>*/}
+                                {/*</figure>*/}
+                            </div>
                             <Button type="default"
                                     className="nav-button"
                                     onClick={this.toLogin.bind(this)}

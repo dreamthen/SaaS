@@ -11,7 +11,6 @@ const localStorageObject = {
             storageArray.map((storageItem, index) => {
                 localStorage.setItem(storageItem["key"], storageItem["value"]);
             });
-            console.log(storageArray);
         } else {
             this.throwError();
         }
