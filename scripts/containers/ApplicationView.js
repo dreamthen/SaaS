@@ -19,6 +19,7 @@ class ApplicationView extends React.Component {
         return (
             <section className="application-container">
                 <Card title="申请表" className="application-card">
+
                     <Table columns={applicationColumn} dataSource={applicationList} scroll={{y: 240}}/>
                 </Card>
             </section>
