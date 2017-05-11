@@ -2,6 +2,7 @@
  * Created by yinwk on 2017/5/10.
  */
 import React, {PropTypes} from "react";
+import {Scrollbars} from "react-custom-scrollbars";
 import {Row, Col} from "antd";
 
 export class Table extends React.Component {
@@ -43,14 +44,31 @@ export class Table extends React.Component {
         )
     }
 
-    render() {
+    /**
+     * render表格内容结构
+     * @returns {XML}
+     */
+    renderBodyRow() {
         const {dataSource} = this.props;
+        return dataSource.map((sourceItem, index) => {
+            return (
+                <Row>
+
+                </Row>
+            )
+        })
+    }
+
+    render() {
         return (
             <div className="application-table">
                 <div className="application-table-header">
+                    {this.renderHeaderRow()}
                 </div>
                 <div className="application-table-body">
-                    {this.renderHeaderRow()}
+                    <Scrollbars>
+                        {this.renderBodyRow()}
+                    </Scrollbars>
                 </div>
             </div>
         )
