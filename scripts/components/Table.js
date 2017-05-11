@@ -15,32 +15,42 @@ export class Table extends React.Component {
         this.state = {}
     }
 
-    render() {
-        const {columns, dataSource} = this.props;
+    /**
+     * render表格头部结构
+     * @returns {XML}
+     */
+    renderHeaderRow() {
+        const {columns} = this.props;
         const {cols} = styles;
+        return (
+            <Row className="table-header-row">
+                {
+                    columns.map((colsItem, index) => {
+                        return (
+                            <Col
+                                key={colsItem["dataIndex"]}
+                                className="table-header-col"
+                                style={cols[index]}
+                            >
+                                {
+                                    colsItem["title"]
+                                }
+                            </Col>
+                        )
+                    })
+                }
+            </Row>
+        )
+    }
+
+    render() {
+        const {dataSource} = this.props;
         return (
             <div className="application-table">
                 <div className="application-table-header">
-                    <Row className="table-header-row">
-                        {
-                            columns.map((colsItem, index) => {
-                                return (
-                                    <Col
-                                        key={colsItem["dataIndex"]}
-                                        className="table-header-col"
-                                        style={cols[index]}
-                                    >
-                                        {
-                                            colsItem["title"]
-                                        }
-                                    </Col>
-                                )
-                            })
-                        }
-                    </Row>
                 </div>
                 <div className="application-table-body">
-
+                    {this.renderHeaderRow()}
                 </div>
             </div>
         )
