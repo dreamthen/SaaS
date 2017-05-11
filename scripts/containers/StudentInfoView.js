@@ -39,35 +39,59 @@ class StudentView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            //学生id
             id: 0,
+            //登录用户名
             account: "",
+            //登录密码
             password: "",
+            //性别
             sex: SEX,
+            //电话号码
             phone: "",
+            //邮箱
             email: "",
+            //签证状态
             visaStatus: VISA_STATUS,
+            //邮件地址
             postalAddress: "",
+            //修改密码弹框状态,是否弹出
             visible: false,
+            //原密码
             oldPassword: "",
+            //新密码
             newPassword: "",
+            //确认密码
             checkedPassword: "",
+            //错误提示框状态
             isError: false,
+            //警告提示框状态
             isWarn: false,
+            //成功提示框状态
             isSuccess: false,
+            //修改密码错误提示框状态
             isPasswordError: false,
+            //修改密码警告提示框状态
             isPasswordWarn: false,
+            //修改密码成功提示框状态
             isPasswordSuccess: false,
+            //错误提示语
             errorPrompt: "",
+            //警告提示语
             warnPrompt: "",
+            //成功提示语
             successPrompt: "",
+            //修改密码错误提示语
             errorPasswordPrompt: "",
+            //修改密码警告提示语
             warnPasswordPrompt: "",
+            //修改密码成功提示语
             successPasswordPrompt: ""
         }
     }
 
     componentWillMount() {
-        //组件开始装载,获取数据
+        //组件开始装载,获取用户数据
         this.fetchData();
     }
 
@@ -83,10 +107,10 @@ class StudentView extends React.Component {
     }
 
     /**
-     * 获取学生信息
+     * 获取用户信息
      */
     fetchData() {
-        //从localStorage中获取到登录之后传入的学生数据信息
+        //从localStorage中获取到登录之后传入的用户数据信息
         let storage_action = localStorageObject.getLocalStorage.bind(this);
         storage_action(storageData);
     }

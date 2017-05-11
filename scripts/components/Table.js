@@ -6,7 +6,8 @@ import {Row, Col} from "antd";
 
 export class Table extends React.Component {
     static propTypes = {
-        columns: PropTypes.array
+        columns: PropTypes.array,
+        dataSource: PropTypes.array
     };
 
     constructor(props) {
@@ -15,20 +16,52 @@ export class Table extends React.Component {
     }
 
     render() {
-        const {columns} = this.props;
+        const {columns, dataSource} = this.props;
+        const {cols} = styles;
         return (
             <div className="application-table">
-                <div className="application-table-display application-table-header">
-                    <Row>
-                        <Col style={{flex: "1"}}>
-                            世界
-                        </Col>
-                        <Col style={{flex: "1"}}>
-                            美妙
-                        </Col>
+                <div className="application-table-header">
+                    <Row className="table-header-row">
+                        {
+                            columns.map((colsItem, index) => {
+                                return (
+                                    <Col
+                                        key={colsItem["dataIndex"]}
+                                        className="table-header-col"
+                                        style={cols[index]}
+                                    >
+                                        {
+                                            colsItem["title"]
+                                        }
+                                    </Col>
+                                )
+                            })
+                        }
                     </Row>
+                </div>
+                <div className="application-table-body">
+
                 </div>
             </div>
         )
     }
 }
+
+let styles = {
+    cols: [
+        {
+            width: 80,
+            minWidth: 80,
+            marginLeft: 15
+        },
+        {
+            flex: 1
+        },
+        {
+            flex: 1
+        },
+        {
+            flex: 1
+        }
+    ]
+};

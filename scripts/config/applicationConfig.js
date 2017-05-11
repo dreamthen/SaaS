@@ -4,7 +4,7 @@
 const applicationColumn = [
     {
         title: "ID",
-        dataIndex: "id",
+        dataIndex: "id"
     },
     {
         title: "表单名",
