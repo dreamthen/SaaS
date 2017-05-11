@@ -4,6 +4,7 @@
 import React, {PropTypes} from "react";
 import {Scrollbars} from "react-custom-scrollbars";
 import {Row, Col} from "antd";
+import "./table.css";
 
 export class Table extends React.Component {
     static propTypes = {
@@ -49,16 +50,36 @@ export class Table extends React.Component {
      * @returns {XML}
      */
     renderBodyRow() {
-        const {dataSource} = this.props;
+        const {columns, dataSource} = this.props;
+        const {cols} = styles;
         return dataSource.map((sourceItem, index) => {
             return (
-                <Row>
-
+                <Row
+                    key={sourceItem["id"]}
+                    className="table-body-row"
+                >
+                    {
+                        columns.map((columnItem, columnIndex) => {
+                            return (
+                                <Col
+                                    key={columnItem["dataIndex"] + "-" + sourceItem["id"] + "-" + columnIndex}
+                                    className="table-body-col"
+                                    style={cols[columnIndex]}
+                                >
+                                    {sourceItem[columnItem["dataIndex"]]}
+                                </Col>
+                            )
+                        })
+                    }
                 </Row>
             )
         })
     }
 
+    /**
+     * render最终渲染结构
+     * @returns {XML}
+     */
     render() {
         return (
             <div className="application-table">

@@ -39,7 +39,7 @@ class StudentView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            //学生id
+            //登录用户id
             id: 0,
             //登录用户名
             account: "",

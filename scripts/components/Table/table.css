@@ -1,0 +1,58 @@
+.ant-card-body > .application-table {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 36px);
+    min-height: 260px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.application-table > .application-table-header,
+.application-table > .application-table-body {
+    width: 100%;
+    min-width: 960px;
+    height: 50px;
+    background-color: #f7f7f7;
+    overflow: hidden;
+}
+
+.application-table > .application-table-body {
+    position: relative;
+    background-color: #fff;
+    height: calc(100% - 50px);
+    overflow: auto;
+}
+
+.application-table-header > .table-header-row,
+.application-table-body .table-body-row {
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.application-table-body .table-body-row {
+    height: 50px;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.table-header-row > .table-header-col {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.table-body-row > .table-body-col {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.table-body-row:hover {
+    background-color: #ECF6FD;
+    cursor: pointer;
+}
