@@ -17,9 +17,6 @@ const applicationFormMode = [{
     key: "countryOfCitizenship",
     value: "国籍"
 }, {
-    key: "avatar",
-    value: "头像"
-}, {
     key: "gender",
     value: "性别"
 }, {
@@ -67,6 +64,72 @@ const applicationFormMode = [{
 }, {
     key: "receiver",
     value: "收件人"
+}, {
+    key: "englishAbility",
+    value: "英语能力"
+}, {
+    key: "chineseReading",
+    value: "汉语阅读"
+}, {
+    key: "chineseSpeaking",
+    value: "口语"
+}, {
+    key: "chineseListening",
+    value: "听"
+}, {
+    key: "chineseWriting",
+    value: "写"
+}, {
+    key: "otherLanguageAbility",
+    value: "其他语言能力"
+}, {
+    key: "otherLanguage",
+    value: "其他语言"
+}, {
+    key: "recommendedBy",
+    value: "推荐单位（人）"
+}, {
+    key: "contactPerson",
+    value: "联系人"
+}, {
+    key: "recommendAddress",
+    value: "联系地址"
+}, {
+    key: "contactTel",
+    value: "联系人手机"
+}, {
+    key: "majorOrStudy",
+    value: "专业(方向)"
+}, {
+    key: "chinaContactName",
+    value: "在华事务联系人"
+}, {
+    key: "chinaContactPhone",
+    value: "在华事务联系人手机"
+}, {
+    key: "chinaContactEmail",
+    value: "在华事务联系人邮箱"
+}, {
+    key: "chinaContactAddress",
+    value: "在华事务联系人地址"
+}, {
+    key: "formName",
+    value: "申请单标识名"
+}, {
+    key: "durationOfStudyFrom",
+    value: "学习开始日期"
+}, {
+    key: "durationOfStudyTo",
+    value: "学习结束日期"
+}, {
+    key: "financialResource",
+    value: "经费来源"
+}, {
+    key: "category",
+    value: "申请类别"
+}, {
+    key: "applyStatus",
+    value: "申请单状态"
 }];
 
 module.exports = applicationFormMode;
