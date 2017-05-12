@@ -210,14 +210,14 @@ const applicationFormIntegrationMode = [
             return (
                 <DatePicker
                     size="large"
-                    disabledDate={disabledFunc}
+                    disabledDate={disabledFunc.bind(this, datePickerItem["key"])}
                     showTime
                     format="YYYY-MM-DD HH:mm:ss"
                     value={content}
                     onChange={func.bind(this, datePickerItem["key"])}
                     placeholder={datePickerItem["value"]}
                     open={open}
-                    // onOpenChange={openFunc.bind(this, datePickerItem["key"] + "Open")}
+                    onOpenChange={openFunc.bind(this, datePickerItem["key"] + "Open")}
                 />
             )
         }
@@ -261,12 +261,10 @@ applicationFormIntegrationMode.map((modeItem, modeIndex) => {
     }
 });
 
-console.log(applicationFormIntegrationArray);
-
 //集成添加或修改申请表单所有组件对象
 const applicationFormIntegration = applicationFormIntegrationArray.map((integrationItem, integrationIndex) => {
     return {
-        name: applicationFormMode[integrationIndex]["key"],
+        name: applicationFormMode[integrationIndex]["value"],
         main: function (content, func, maxLength, open, openFunc, disabledFunc) {
             return integrationItem.bind(this)(content, func, maxLength, open, openFunc, disabledFunc);
         }

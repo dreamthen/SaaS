@@ -435,7 +435,6 @@ class StudentView extends React.Component {
      * @param evt
      */
     changeAllPassword(key, evt){
-        console.log(key);
         this.setState({
             [key]: evt.target.value
         });

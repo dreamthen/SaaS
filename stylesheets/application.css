@@ -37,3 +37,24 @@
     background-color: #529ECC;
     border-color: #529ECC;
 }
+
+.application-modal .application-row {
+    height: 34px;
+    line-height: 34px;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.application-modal .ant-modal-body {
+    max-height: 460px;
+    overflow: auto;
+}
+
+.application-row > .application-col {
+    text-align: right;
+}
+
+.application-row .ant-input,
+.application-row .ant-select {
+    width: 155px;
+}

@@ -7,10 +7,11 @@ import {getApplicationList} from "../actions/application_action";
 import localStorageObject from "../config/localStorage";
 import storageData from "../config/storageData";
 import applicationColumn from "../config/applicationConfig";
+import applicationFormIntegration from "../config/applicationFormIntegration";
 import {Table} from "../components/Table/index";
 import {NullComponent} from "../components/NullComponent/index";
 import "../../stylesheets/application.css";
-import applicationFormIntegration from "../config/applicationFormIntegration";
+import "../../stylesheets/windowScrollBar.css"
 
 //每页条数
 const PAGE_SIZE = 20;
@@ -162,7 +163,7 @@ class ApplicationView extends React.Component {
             //头像url
             avatar: "",
             //性别
-            gender: "",
+            gender: "M",
             //出生日期
             dateOfBirth: "",
             //出生地
@@ -174,7 +175,7 @@ class ApplicationView extends React.Component {
             //宗教
             religion: "",
             //婚姻状况
-            marriageStatus: "",
+            marriageStatus: "N",
             //职业
             occupation: "",
             //学校或工作单位
@@ -194,17 +195,17 @@ class ApplicationView extends React.Component {
             //收件人
             receiver: "",
             //英语能力
-            englishAbility: "",
+            englishAbility: "A",
             //汉语阅读
-            chineseReading: "",
+            chineseReading: "A",
             //口语
-            chineseSpeaking: "",
+            chineseSpeaking: "A",
             //听
-            chineseListening: "",
+            chineseListening: "A",
             //写
-            chineseWriting: "",
+            chineseWriting: "A",
             //其他语言能力
-            otherLanguageAbility: "",
+            otherLanguageAbility: "A",
             //其他语言
             otherLanguage: "",
             //推荐单位（人）
@@ -218,7 +219,7 @@ class ApplicationView extends React.Component {
             //专业(方向)
             majorOrStudy: "",
             //经费来源
-            financialResource: "",
+            financialResource: "A",
             //在华事务联系人
             chinaContactName: "",
             //在华事务联系人手机
@@ -230,13 +231,13 @@ class ApplicationView extends React.Component {
             //申请单标识名
             formName: "",
             //学习开始日期
-            durationOfStudyFrom: "",
+            durationOfStudyFrom: null,
             //学习结束日期
-            durationOfStudyTo: "",
+            durationOfStudyTo: null,
             //申请类别
-            category: "",
+            category: "1",
             //申请单状态
-            applyStatus: "",
+            applyStatus: "N",
             //学习开始日期控制弹层是否展开
             durationOfStudyFromOpen: false,
             //学习结束日期控制弹层是否展开
@@ -402,22 +403,26 @@ class ApplicationView extends React.Component {
 
     /**
      * 设置不可点击的DatePicker时间
+     * @param key
      * @param current
      */
-    onDisabledDatePicker(current) {
-        const {id} = this.state;
+    onDisabledDatePicker(key, current) {
         return current && current.valueOf() < Date.now();
     }
 
-
     /**
-     * render渲染申请单表单结构
-     * @returns {XML}
+     * 申请表单分栏
+     * @returns {{formRowSingle: Array, formRowDouble: Array}}
      */
-    renderForm() {
-        const {visible, title} = this.state;
+    renderFormRow() {
         let formMode = this.renderFormMode();
         let formResult = [];
+        let formRow = {
+            //左边列
+            formRowSingle: [],
+            //右边列
+            formRowDouble: []
+        };
         //分散添加或修改申请表单所有状态、方法和长度限制
         formMode.map((modeItem, modeIndex) => {
             if (Object.prototype.toString.call(modeItem) === "[object Object]") {
@@ -430,35 +435,66 @@ class ApplicationView extends React.Component {
             }
         });
         //集成添加或修改申请表单所有状态、方法和长度限制对象
+        applicationFormIntegration.map((integrationItem, integrationIndex) => {
+            let row = <Row
+                key={integrationItem["name"] + "_" + integrationIndex}
+                className="application-row"
+            >
+                <Col span="11" className="application-col">
+                    {integrationItem["name"]}
+                </Col>
+                <Col span="1">
+
+                </Col>
+                <Col span="12">
+                    {
+                        integrationItem.main.bind(this)(formResult[integrationIndex]["content"], formResult[integrationIndex]["func"], formResult[integrationIndex]["maxLength"], formResult[integrationIndex]["open"], formResult[integrationIndex]["openFunc"], formResult[integrationIndex]["disabledFunc"])
+                    }
+                </Col>
+            </Row>;
+            if (integrationIndex % 2 === 0) {
+                formRow["formRowSingle"].push(row)
+            } else {
+                formRow["formRowDouble"].push(row);
+            }
+        });
+        return formRow;
+    }
+
+
+    /**
+     * render渲染申请单表单结构
+     * @returns {XML}
+     */
+    renderForm() {
+        const {visible, title} = this.state;
+        let formRow = this.renderFormRow();
         return (
             <Modal
                 visible={visible}
                 title={title}
+                className="application-modal"
+                width={960}
                 okText="提交"
                 cancelText="取消"
                 onCancel={this.cancelApplication.bind(this)}
             >
-                {
-                    applicationFormIntegration.map((integrationItem, integrationIndex) => {
-                        return (
-                            <Row
-                                key={integrationItem["name"] + "_" + integrationIndex}
-                            >
-                                <Col span="11">
-                                    {integrationItem["name"]}
-                                </Col>
-                                <Col span="1">
-
-                                </Col>
-                                <Col span="12">
-                                    {
-                                        integrationItem.main.bind(this)(formResult[integrationIndex]["content"], formResult[integrationIndex]["func"], formResult[integrationIndex]["maxLength"], formResult[integrationIndex]["open"], formResult[integrationIndex]["openFunc"], formResult[integrationIndex]["disabledFunc"])
-                                    }
-                                </Col>
-                            </Row>
-                        )
-                    })
-                }
+                <Row>
+                    <Col span="11">
+                        {
+                            formRow["formRowSingle"].map((singleItem, singleIndex) => {
+                                return singleItem;
+                            })
+                        }
+                    </Col>
+                    <Col span="13">
+                        {
+                            formRow["formRowDouble"].map((doubleItem, doubleIndex) => {
+                                return doubleItem;
+                            })
+                        }
+                    </Col>
+                </Row>
             </Modal>
         )
     }
