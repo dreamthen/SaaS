@@ -26,7 +26,9 @@ if(!isMook) {
         //添加申请表单
         ADD_APPLICATION_FORMS: NGINX_DIR + "student/applicationForms",
         //获取申请表单
-        GET_APPLICATION_FORMS: NGINX_DIR + "student/applicationForms"
+        GET_APPLICATION_FORMS: NGINX_DIR + "student/applicationForms",
+        //修改申请表单
+        CHANGE_APPLICATION_FORMS:NGINX_DIR + "student/applicationForms"
     }
 }
 

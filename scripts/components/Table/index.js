@@ -4,8 +4,11 @@
 import React, {PropTypes} from "react";
 import {Scrollbars} from "react-custom-scrollbars";
 import {getApplicationForms} from "../../actions/application_action";
+import moment from "moment";
 import {Row, Col} from "antd";
 import "./table.css";
+
+const TIME = ["createDate", "modifyDate"];
 
 export class Table extends React.Component {
     static propTypes = {
@@ -55,6 +58,7 @@ export class Table extends React.Component {
     renderBodyRow() {
         const {columns, dataSource} = this.props;
         const {cols} = styles;
+        let timeFlag = false;
         return dataSource.map((sourceItem, index) => {
             return (
                 <Row
@@ -70,7 +74,19 @@ export class Table extends React.Component {
                                     className="table-body-col"
                                     style={cols[columnIndex]}
                                 >
-                                    {sourceItem[columnItem["dataIndex"]]}
+                                    {
+                                        TIME.map((timeItem, timeIndex) => {
+                                            if (timeItem === columnItem["dataIndex"]) {
+                                                timeFlag = true;
+                                            }
+                                        })
+                                    }
+                                    {
+                                        timeFlag && moment(sourceItem[columnItem["dataIndex"]]).format("YYYY-MM-DD HH:mm:ss")
+                                    }
+                                    {
+                                        !timeFlag && sourceItem[columnItem["dataIndex"]]
+                                    }
                                 </Col>
                             )
                         })

@@ -35,19 +35,19 @@ const applicationFormPartSelectEnd = [{
 }, {
     key: "category",
     value: [{
-        key: "1",
+        key: "A",
         value: "本科生"
     }, {
-        key: "2",
+        key: "B",
         value: "本科交换生"
     }, {
-        key: "3",
+        key: "C",
         value: "汉语言生"
     }, {
-        key: "4",
+        key: "D",
         value: "硕士生"
     }, {
-        key: "5",
+        key: "E",
         value: "博士生"
     }]
 }, {
@@ -93,9 +93,10 @@ const applicationFormPartDatePickerEnd = [
 //集成添加、查看或者修改申请表单所有组件
 const applicationFormIntegrationMode = [
     applicationFormPartInput.map((inputItem, index) => {
-        return (content, func, maxLength) => {
+        return (content, func, formDisabled, maxLength) => {
             return (
                 <Input
+                    disabled={formDisabled}
                     key={inputItem}
                     size="large"
                     type="text"
@@ -106,9 +107,10 @@ const applicationFormIntegrationMode = [
             )
         }
     }),
-    (content, func) => {
+    (content, func, formDisabled) => {
         return (
             <Select
+                disabled={formDisabled}
                 size="large"
                 value={content}
                 onChange={func.bind(this, applicationFormPartSelect[0])}
@@ -129,9 +131,10 @@ const applicationFormIntegrationMode = [
         )
     },
     applicationFormPartDatePicker.map((datePickerItem, index) => {
-        return (content, func, maxLength, open, openFunc, disabledFunc) => {
+        return (content, func, formDisabled, maxLength, open, openFunc, disabledFunc) => {
             return (
                 <DatePicker
+                    disabled={formDisabled}
                     size="large"
                     showTime={false}
                     format="YYYY-MM-DD"
@@ -145,10 +148,11 @@ const applicationFormIntegrationMode = [
         }
     }),
     applicationFormPartInputAno.map((inputItem, index) => {
-        return (content, func, maxLength) => {
+        return (content, func, formDisabled, maxLength) => {
             return (
                 <Input
                     key={inputItem}
+                    disabled={formDisabled}
                     size="large"
                     type="text"
                     value={content}
@@ -158,9 +162,10 @@ const applicationFormIntegrationMode = [
             )
         }
     }),
-    (content, func) => {
+    (content, func, formDisabled) => {
         return (
             <Select
+                disabled={formDisabled}
                 size="large"
                 value={content}
                 onChange={func.bind(this, applicationFormPartSelect[1])}
@@ -180,10 +185,11 @@ const applicationFormIntegrationMode = [
         )
     },
     applicationFormPartInputThen.map((inputItem, index) => {
-        return (content, func, maxLength) => {
+        return (content, func, formDisabled, maxLength) => {
             return (
                 <Input
                     size="large"
+                    disabled={formDisabled}
                     type="text"
                     value={content}
                     maxLength={maxLength}
@@ -193,10 +199,11 @@ const applicationFormIntegrationMode = [
         }
     }),
     applicationFormPartSelectAno.map((selectItem, index) => {
-        return (content, func) => {
+        return (content, func, formDisabled) => {
             return (
                 <Select
                     key={selectItem}
+                    disabled={formDisabled}
                     value={content}
                     onChange={func.bind(this, selectItem)}
                 >
@@ -219,10 +226,11 @@ const applicationFormIntegrationMode = [
         }
     }),
     applicationFormPartInputEnd.map((inputItem, index) => {
-        return (content, func, maxLength) => {
+        return (content, func, formDisabled, maxLength) => {
             return (
                 <Input
                     size="large"
+                    disabled={formDisabled}
                     type="text"
                     value={content}
                     maxLength={maxLength}
@@ -232,10 +240,11 @@ const applicationFormIntegrationMode = [
         }
     }),
     applicationFormPartDatePickerEnd.map((datePickerItem, index) => {
-        return (content, func, maxLength, open, openFunc, disabledFunc) => {
+        return (content, func, formDisabled, maxLength, open, openFunc, disabledFunc) => {
             return (
                 <DatePicker
                     size="large"
+                    disabled={formDisabled}
                     disabledDate={disabledFunc}
                     showTime
                     format="YYYY-MM-DD HH:mm:ss"
@@ -249,10 +258,11 @@ const applicationFormIntegrationMode = [
         }
     }),
     applicationFormPartSelectEnd.map((selectItem, selectIndex) => {
-        return (content, func) => {
+        return (content, func, formDisabled) => {
             return (
                 <Select
                     size="large"
+                    disabled={formDisabled}
                     value={content}
                     onChange={func.bind(this, selectItem["key"])}
                 >
@@ -291,8 +301,8 @@ applicationFormIntegrationMode.map((modeItem, modeIndex) => {
 const applicationFormIntegration = applicationFormIntegrationArray.map((integrationItem, integrationIndex) => {
     return {
         name: applicationFormMode[integrationIndex]["value"],
-        main: function (content, func, maxLength, open, openFunc, disabledFunc) {
-            return integrationItem.bind(this)(content, func, maxLength, open, openFunc, disabledFunc);
+        main: function (content, func, formDisabled, maxLength, open, openFunc, disabledFunc) {
+            return integrationItem.bind(this)(content, func, formDisabled, maxLength, open, openFunc, disabledFunc);
         }
     }
 });

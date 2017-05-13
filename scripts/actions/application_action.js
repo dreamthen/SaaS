@@ -7,13 +7,19 @@ import Success from "../prompt/success_prompt";
 /**
  * 获取申请列表
  * @param id
+ * @param pageNum
+ * @param pageSize
  */
-export function getApplicationList(id) {
+export function getApplicationList(id, pageNum, pageSize) {
     $.ajax({
         type: "get",
         dataType: "json",
         url: api.GET_APPLICATION_LIST + "/" + id,
-        async: true
+        async: true,
+        data: {
+            pageNum,
+            pageSize
+        }
     }).done(function ajaxDone(response, status) {
         let body = response.body,
             code = response.head.code,
@@ -30,8 +36,12 @@ export function getApplicationList(id) {
 
 /**
  * 添加申请表单
+ * @param forms
+ * @param id
+ * @param pageNum
+ * @param pageSize
  */
-export function addApplicationForms(forms) {
+export function addApplicationForms(forms, id, pageNum, pageSize) {
     $.ajax({
         url: api.ADD_APPLICATION_FORMS,
         type: "post",
@@ -43,13 +53,14 @@ export function addApplicationForms(forms) {
         let body = response.body,
             code = response.head.code,
             message = response.head.message;
-        const {id} = this.state;
         if (code === Success.APPLICATION_SUCCESS_CODE) {
             this.initApplication();
             this.setState({
                 visible: false
             });
-            getApplicationList(id);
+            //发出获取申请单列表ajax请求
+            let application_action = getApplicationList.bind(this);
+            application_action(id, pageNum, pageSize);
         } else {
             this.setPromptTrueOrFalse(false, true, false);
             this.setState({
@@ -74,6 +85,28 @@ export function getApplicationForms(id) {
             message = response.head.message;
         if (code === Success.APPLICATION_SUCCESS_CODE) {
             this.props.getApplicationFormsAlready(body);
+        } else {
+
+        }
+    }.bind(this));
+}
+
+/**
+ * 修改申请表单
+ */
+export function changeApplicationForms(forms, id) {
+    $.ajax({
+        url: api.CHANGE_APPLICATION_FORMS + "/" + id,
+        type: "put",
+        dataType: "json",
+        async: true,
+        data: JSON.stringify(forms)
+    }).done(function ajaxDone(response, status) {
+        let body = response.body,
+            code = response.head.code,
+            message = response.head.message;
+        if (code === Success.APPLICATION_SUCCESS_CODE) {
+
         } else {
 
         }
