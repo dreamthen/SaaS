@@ -38,6 +38,10 @@
     border-color: #529ECC;
 }
 
+.application-modal-wrapper {
+    overflow: hidden;
+}
+
 .application-modal .application-row {
     height: 34px;
     line-height: 34px;
@@ -46,8 +50,17 @@
 }
 
 .application-modal .ant-modal-body {
+    position: relative;
     max-height: 460px;
     overflow: auto;
+}
+
+.application-modal .application-alert {
+    position: fixed;
+    width: 240px;
+    top: 30px;
+    left: 50%;
+    margin-left: -120px;
 }
 
 .application-row > .application-col {

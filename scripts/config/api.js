@@ -22,7 +22,11 @@ if(!isMook) {
         //修改密码
         CHANGE_PASSWORD: NGINX_DIR + "student/sessions/password",
         //获取申请单列表
-        GET_APPLICATION_LIST: NGINX_DIR + "student/applicationForms/abstracts"
+        GET_APPLICATION_LIST: NGINX_DIR + "student/applicationForms/abstracts",
+        //添加申请表单
+        ADD_APPLICATION_FORMS: NGINX_DIR + "student/applicationForms",
+        //获取申请表单
+        GET_APPLICATION_FORMS: NGINX_DIR + "student/applicationForms"
     }
 }
 

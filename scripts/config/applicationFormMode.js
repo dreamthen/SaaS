@@ -23,14 +23,14 @@ const applicationFormMode = [{
     key: "dateOfBirth",
     value: "出生日期"
 }, {
+    key: "validUntil",
+    value: "护照有效至"
+}, {
     key: "placeOfBirth",
     value: "出生地"
 }, {
     key: "passportNo",
     value: "护照号"
-}, {
-    key: "validUntil",
-    value: "护照有效期"
 }, {
     key: "religion",
     value: "宗教"

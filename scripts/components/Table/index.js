@@ -3,13 +3,16 @@
  */
 import React, {PropTypes} from "react";
 import {Scrollbars} from "react-custom-scrollbars";
+import {getApplicationForms} from "../../actions/application_action";
 import {Row, Col} from "antd";
 import "./table.css";
 
 export class Table extends React.Component {
     static propTypes = {
+        id: PropTypes.number,
         columns: PropTypes.array,
-        dataSource: PropTypes.array
+        dataSource: PropTypes.array,
+        getApplicationFormsAlready: PropTypes.func
     };
 
     constructor(props) {
@@ -57,6 +60,7 @@ export class Table extends React.Component {
                 <Row
                     key={sourceItem["id"]}
                     className="table-body-row"
+                    onClick={this.getApplication.bind(this, sourceItem["id"])}
                 >
                     {
                         columns.map((columnItem, columnIndex) => {
@@ -75,6 +79,17 @@ export class Table extends React.Component {
             )
         })
     }
+
+    /**
+     * 获取申请表单
+     * @param id
+     * @param evt
+     */
+    getApplication = (id, evt) => {
+        let get_application = getApplicationForms.bind(this);
+        get_application(id);
+        evt.nativeEvent.stopImmediatePropagation();
+    };
 
     /**
      * render最终渲染结构

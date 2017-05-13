@@ -207,7 +207,7 @@ class StudentView extends React.Component {
     }
 
     /**
-     * 集成表单错误提示状态
+     * 集成表单提示状态
      * @param prompt
      */
     showErrorPrompt(prompt) {

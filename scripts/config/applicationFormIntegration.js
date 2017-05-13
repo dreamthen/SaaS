@@ -63,13 +63,23 @@ const applicationFormPartSelectEnd = [{
 //Input第一部分所有状态名
 const applicationFormPartInput = ["familyName", "middleName", "givenName", "chineseName", "countryOfCitizenship"];
 //Input第二部分所有状态名
-const applicationFormPartInputAno = ["dateOfBirth", "placeOfBirth", "passportNo", "validUntil", "religion"];
+const applicationFormPartInputAno = ["placeOfBirth", "passportNo", "religion"];
 //Input第三部分所有状态名
 const applicationFormPartInputThen = ["occupation", "institutionOrEmployer", "phone", "email", "homeCountryAddress", "zipCode", "fax", "mailingAddress", "receiver"];
 //Input最后一部分所有状态名
 const applicationFormPartInputEnd = ["otherLanguage", "recommendedBy", "contactPerson", "recommendAddress", "contactTel", "majorOrStudy", "chinaContactName", "chinaContactPhone", "chinaContactEmail", "chinaContactAddress", "formName"];
-//DatePicker所有状态名
 const applicationFormPartDatePicker = [
+    {
+        key: "dateOfBirth",
+        value: "出生日期"
+    },
+    {
+        key: "validUntil",
+        value: "护照有效期"
+    }
+];
+//DatePicker最后一部分状态名
+const applicationFormPartDatePickerEnd = [
     {
         key: "durationOfStudyFrom",
         value: "学习开始日期"
@@ -80,7 +90,7 @@ const applicationFormPartDatePicker = [
     }
 ];
 
-//集成添加或修改申请表单所有组件
+//集成添加、查看或者修改申请表单所有组件
 const applicationFormIntegrationMode = [
     applicationFormPartInput.map((inputItem, index) => {
         return (content, func, maxLength) => {
@@ -118,6 +128,22 @@ const applicationFormIntegrationMode = [
             </Select>
         )
     },
+    applicationFormPartDatePicker.map((datePickerItem, index) => {
+        return (content, func, maxLength, open, openFunc, disabledFunc) => {
+            return (
+                <DatePicker
+                    size="large"
+                    showTime={false}
+                    format="YYYY-MM-DD"
+                    value={content}
+                    onChange={func.bind(this, datePickerItem["key"])}
+                    placeholder={datePickerItem["value"]}
+                    open={open}
+                    onOpenChange={openFunc.bind(this, datePickerItem["key"] + "Open")}
+                />
+            )
+        }
+    }),
     applicationFormPartInputAno.map((inputItem, index) => {
         return (content, func, maxLength) => {
             return (
@@ -205,12 +231,12 @@ const applicationFormIntegrationMode = [
             )
         }
     }),
-    applicationFormPartDatePicker.map((datePickerItem, index) => {
+    applicationFormPartDatePickerEnd.map((datePickerItem, index) => {
         return (content, func, maxLength, open, openFunc, disabledFunc) => {
             return (
                 <DatePicker
                     size="large"
-                    disabledDate={disabledFunc.bind(this, datePickerItem["key"])}
+                    disabledDate={disabledFunc}
                     showTime
                     format="YYYY-MM-DD HH:mm:ss"
                     value={content}
@@ -248,7 +274,7 @@ const applicationFormIntegrationMode = [
     })
 ];
 
-//分散添加或修改申请表单所有组件
+//分散添加、修改或者修改申请表单所有组件
 let applicationFormIntegrationArray = [];
 applicationFormIntegrationMode.map((modeItem, modeIndex) => {
     if (Object.prototype.toString.call(modeItem) === "[object Function]") {
@@ -261,7 +287,7 @@ applicationFormIntegrationMode.map((modeItem, modeIndex) => {
     }
 });
 
-//集成添加或修改申请表单所有组件对象
+//集成添加、查看或者修改申请表单所有组件对象
 const applicationFormIntegration = applicationFormIntegrationArray.map((integrationItem, integrationIndex) => {
     return {
         name: applicationFormMode[integrationIndex]["value"],

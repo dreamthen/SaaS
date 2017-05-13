@@ -2,27 +2,119 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {Row, Col, Button, Card, Pagination, Modal, Input} from "antd";
-import {getApplicationList} from "../actions/application_action";
+import {Row, Col, Button, Card, Pagination, Modal, Alert} from "antd";
+import {getApplicationList, addApplicationForms} from "../actions/application_action";
 import localStorageObject from "../config/localStorage";
 import storageData from "../config/storageData";
 import applicationColumn from "../config/applicationConfig";
 import applicationFormIntegration from "../config/applicationFormIntegration";
+import applicationFormMode from "../config/applicationFormMode";
+import Error from "../prompt/error_prompt";
 import {Table} from "../components/Table/index";
 import {NullComponent} from "../components/NullComponent/index";
+import moment from "moment";
 import "../../stylesheets/application.css";
 import "../../stylesheets/windowScrollBar.css"
 
 //每页条数
 const PAGE_SIZE = 20;
-const applicationFormTitle = ["添加申请表", "修改申请表"];
+//申请表标题
+const applicationFormTitle = ["添加申请表", "查看申请表", "修改申请表"];
+//申请表保存或者提交
+const applicationFormSubmit = ["保存", "提交"];
 //Select第一部分所有状态名
 const applicationFormPartSelect = ["gender", "marriageStatus"];
 //Select第二部分所有状态名
 const applicationFormPartSelectAno = ["englishAbility", "chineseReading", "chineseSpeaking", "chineseListening", "chineseWriting", "otherLanguageAbility"];
 //Select最后一部分所有状态名
 const applicationFormPartSelectEnd = ["financialResource", "category", "applyStatus"];
-//Input第一部分所有状态名
+//Input所有状态名+限制长度
+const applicationFormPartAll = [{
+    key: "familyName",
+    maxLength: 20
+}, {
+    key: "middleName",
+    maxLength: 20
+}, {
+    key: "givenName",
+    maxLength: 20
+}, {
+    key: "chineseName",
+    maxLength: 10
+}, {
+    key: "countryOfCitizenship",
+    maxLength: 25
+}, {
+    key: "placeOfBirth",
+    maxLength: 25
+}, {
+    key: "passportNo",
+    maxLength: 25
+}, {
+    key: "religion",
+    maxLength: 25
+}, {
+    key: "occupation",
+    maxLength: 25
+}, {
+    key: "institutionOrEmployer",
+    maxLength: 25
+}, {
+    key: "phone",
+    maxLength: 20
+}, {
+    key: "email",
+    maxLength: 45
+}, {
+    key: "homeCountryAddress",
+    maxLength: 45
+}, {
+    key: "zipCode",
+    maxLength: 25
+}, {
+    key: "fax",
+    maxLength: 25
+}, {
+    key: "mailingAddress",
+    maxLength: 45
+}, {
+    key: "receiver",
+    maxLength: 15
+}, {
+    key: "otherLanguage",
+    maxLength: 45
+}, {
+    key: "recommendedBy",
+    maxLength: 45
+}, {
+    key: "contactPerson",
+    maxLength: 15
+}, {
+    key: "recommendAddress",
+    maxLength: 45
+}, {
+    key: "contactTel",
+    maxLength: 20
+}, {
+    key: "majorOrStudy",
+    maxLength: 45
+}, {
+    key: "chinaContactName",
+    maxLength: 15
+}, {
+    key: "chinaContactPhone",
+    maxLength: 20
+}, {
+    key: "chinaContactEmail",
+    maxLength: 45
+}, {
+    key: "chinaContactAddress",
+    maxLength: 45
+}, {
+    key: "formName",
+    maxLength: 45
+}];
+//Input第一部分所有状态名+限制长度
 const applicationFormPartInput = [{
     key: "familyName",
     maxLength: 20
@@ -39,24 +131,18 @@ const applicationFormPartInput = [{
     key: "countryOfCitizenship",
     maxLength: 25
 }];
-//Input第二部分所有状态名
+//Input第二部分所有状态名+限制长度
 const applicationFormPartInputAno = [{
-    key: "dateOfBirth",
-    maxLength: 25
-}, {
     key: "placeOfBirth",
     maxLength: 25
 }, {
     key: "passportNo",
     maxLength: 25
 }, {
-    key: "validUntil",
-    maxLength: 25
-}, {
     key: "religion",
     maxLength: 25
 }];
-//Input第三部分所有状态名
+//Input第三部分所有状态名+限制长度
 const applicationFormPartInputThen = [{
     key: "occupation",
     maxLength: 25
@@ -85,7 +171,7 @@ const applicationFormPartInputThen = [{
     key: "receiver",
     maxLength: 15
 }];
-//Input最后一部分所有状态名
+//Input最后一部分所有状态名+限制长度
 const applicationFormPartInputEnd = [{
     key: "otherLanguage",
     maxLength: 45
@@ -120,8 +206,18 @@ const applicationFormPartInputEnd = [{
     key: "formName",
     maxLength: 45
 }];
-//DatePicker所有状态名
 const applicationFormPartDatePicker = [
+    {
+        key: "dateOfBirth",
+        value: "出生日期"
+    },
+    {
+        key: "validUntil",
+        value: "护照有效期"
+    }
+];
+//DatePicker最后一部分状态名
+const applicationFormPartDatePickerEnd = [
     {
         key: "durationOfStudyFrom",
         value: "学习开始日期"
@@ -146,10 +242,14 @@ class ApplicationView extends React.Component {
             current: 1,
             //申请单列表
             applicationList: [],
-            //添加或者修改申请表单弹框是否弹出
+            //添加、查看或者修改申请表单弹框是否弹出
             visible: false,
-            //添加或者修改申请表单的标题
+            //添加、查看或者修改申请表单的标题
             title: "",
+            //添加、查看或者修改申请表单的保存、提交
+            submit: "",
+            //保存或者提交
+            saveOrSubmit: false,
             //姓
             familyName: "",
             //中间名
@@ -165,13 +265,13 @@ class ApplicationView extends React.Component {
             //性别
             gender: "M",
             //出生日期
-            dateOfBirth: "",
+            dateOfBirth: null,
             //出生地
             placeOfBirth: "",
             //护照号
             passportNo: "",
             //护照有效期
-            validUntil: "",
+            validUntil: null,
             //宗教
             religion: "",
             //婚姻状况
@@ -241,7 +341,23 @@ class ApplicationView extends React.Component {
             //学习开始日期控制弹层是否展开
             durationOfStudyFromOpen: false,
             //学习结束日期控制弹层是否展开
-            durationOfStudyToOpen: false
+            durationOfStudyToOpen: false,
+            //出生日期控制弹层是否展开
+            dateOfBirthOpen: false,
+            //护照有效期控制弹层是否展开
+            validUntilOpen: false,
+            //是否弹出错误提示框
+            isError: false,
+            //是否弹出警告提示框
+            isWarn: false,
+            //是否弹出成功提示框
+            isSuccess: false,
+            //错误提示语
+            errorPrompt: "",
+            //警告提示语
+            warnPrompt: "",
+            //成功提示语
+            successPrompt: ""
         }
     }
 
@@ -267,6 +383,154 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * 校验申请表中所有字段
+     */
+    onCheck(keyArray) {
+        for (let i = 0; i < keyArray.length; i++) {
+            if (this.state[keyArray[i]["key"]] === "") {
+                this.showErrorPrompt(Error["NULL_" + keyArray[i]["key"].toUpperCase() + "_VALUE"]);
+                return false;
+            }
+            if (this.state[keyArray[i]["key"]].length > keyArray[i]["maxLength"]) {
+                this.showErrorPrompt(Error["EXCESS_" + keyArray[i]["key"].toUpperCase() + "_LENGTH"]);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 设置错误、警告或者成功提示语状态
+     * @param isError
+     * @param isWarn
+     * @param isSuccess
+     */
+    setPromptTrueOrFalse(isError, isWarn, isSuccess) {
+        this.setState({
+            isError,
+            isWarn,
+            isSuccess
+        });
+    }
+
+    /**
+     * 集成表单提示状态
+     * @param prompt
+     */
+    showErrorPrompt(prompt) {
+        this.setPromptTrueOrFalse(true, false, false);
+        this.setState({
+            errorPrompt: prompt
+        });
+    }
+
+    /**
+     * 初始化添加、查看或者修改的申请表单
+     */
+    initApplication() {
+        this.setState({
+            //姓
+            familyName: "",
+            //中间名
+            middleName: "",
+            //名
+            givenName: "",
+            //中国名
+            chineseName: "",
+            //国籍
+            countryOfCitizenship: "",
+            //头像url
+            avatar: "",
+            //性别
+            gender: "M",
+            //出生日期
+            dateOfBirth: null,
+            //出生地
+            placeOfBirth: "",
+            //护照号
+            passportNo: "",
+            //护照有效期
+            validUntil: null,
+            //宗教
+            religion: "",
+            //婚姻状况
+            marriageStatus: "N",
+            //职业
+            occupation: "",
+            //学校或工作单位
+            institutionOrEmployer: "",
+            //手机号码
+            phone: "",
+            //邮箱
+            email: "",
+            //本国住址
+            homeCountryAddress: "",
+            //邮编
+            zipCode: "",
+            //传真
+            fax: "",
+            //收件地址
+            mailingAddress: "",
+            //收件人
+            receiver: "",
+            //英语能力
+            englishAbility: "A",
+            //汉语阅读
+            chineseReading: "A",
+            //口语
+            chineseSpeaking: "A",
+            //听
+            chineseListening: "A",
+            //写
+            chineseWriting: "A",
+            //其他语言能力
+            otherLanguageAbility: "A",
+            //其他语言
+            otherLanguage: "",
+            //推荐单位（人）
+            recommendedBy: "",
+            //联系人
+            contactPerson: "",
+            //联系地址
+            recommendAddress: "",
+            //联系人手机
+            contactTel: "",
+            //专业(方向)
+            majorOrStudy: "",
+            //经费来源
+            financialResource: "A",
+            //在华事务联系人
+            chinaContactName: "",
+            //在华事务联系人手机
+            chinaContactPhone: "",
+            //在华事务联系人邮箱
+            chinaContactEmail: "",
+            //在华事务联系人地址
+            chinaContactAddress: "",
+            //申请单标识名
+            formName: "",
+            //学习开始日期
+            durationOfStudyFrom: null,
+            //学习结束日期
+            durationOfStudyTo: null,
+            //申请类别
+            category: "1",
+            //申请单状态
+            applyStatus: "N",
+            //学习开始日期控制弹层是否展开
+            durationOfStudyFromOpen: false,
+            //学习结束日期控制弹层是否展开
+            durationOfStudyToOpen: false,
+            //出生日期控制弹层是否展开
+            dateOfBirthOpen: false,
+            //护照有效期控制弹层是否展开
+            validUntilOpen: false
+        });
+        //初始化提示语状态
+        this.setPromptTrueOrFalse(false, false, false);
+    }
+
+    /**
      * 表格为空时,render内容结构
      * @returns {XML}
      */
@@ -280,11 +544,14 @@ class ApplicationView extends React.Component {
      * render渲染申请单表格结构
      */
     renderTable() {
-        const {applicationList} = this.state;
+        const {applicationList, id} = this.state;
+        const {getApplicationFormsAlready} = this;
         return (
             <Table
+                id={id}
                 columns={applicationColumn}
                 dataSource={applicationList}
+                getApplicationFormsAlready={getApplicationFormsAlready.bind(this)}
             />
         )
     }
@@ -306,6 +573,15 @@ class ApplicationView extends React.Component {
                 content: this.state[applicationFormPartSelect[0]],
                 func: this.onChangeSelect.bind(this)
             },
+            applicationFormPartDatePicker.map((datePickerItem, datePickerIndex) => {
+                return {
+                    content: this.state[datePickerItem["key"]],
+                    func: this.onChangeDatePicker.bind(this),
+                    maxLength: 0,
+                    open: this.state[datePickerItem["key"] + "Open"],
+                    openFunc: this.onChangeDatePickerOpen.bind(this)
+                }
+            }),
             applicationFormPartInputAno.map((inputItem, index) => {
                 return {
                     content: this.state[inputItem["key"]],
@@ -337,7 +613,7 @@ class ApplicationView extends React.Component {
                     maxLength: inputItem["maxLength"]
                 }
             }),
-            applicationFormPartDatePicker.map((datePickerItem, datePickerIndex) => {
+            applicationFormPartDatePickerEnd.map((datePickerItem, datePickerIndex) => {
                 return {
                     content: this.state[datePickerItem["key"]],
                     func: this.onChangeDatePicker.bind(this),
@@ -403,10 +679,9 @@ class ApplicationView extends React.Component {
 
     /**
      * 设置不可点击的DatePicker时间
-     * @param key
      * @param current
      */
-    onDisabledDatePicker(key, current) {
+    onDisabledDatePicker(current) {
         return current && current.valueOf() < Date.now();
     }
 
@@ -423,7 +698,7 @@ class ApplicationView extends React.Component {
             //右边列
             formRowDouble: []
         };
-        //分散添加或修改申请表单所有状态、方法和长度限制
+        //分散添加、查看或者修改申请表单所有状态、方法和长度限制
         formMode.map((modeItem, modeIndex) => {
             if (Object.prototype.toString.call(modeItem) === "[object Object]") {
                 formResult.push(modeItem);
@@ -434,7 +709,7 @@ class ApplicationView extends React.Component {
                 });
             }
         });
-        //集成添加或修改申请表单所有状态、方法和长度限制对象
+        //集成添加、查看或者修改申请表单所有状态、方法和长度限制对象
         applicationFormIntegration.map((integrationItem, integrationIndex) => {
             let row = <Row
                 key={integrationItem["name"] + "_" + integrationIndex}
@@ -467,18 +742,21 @@ class ApplicationView extends React.Component {
      * @returns {XML}
      */
     renderForm() {
-        const {visible, title} = this.state;
+        const {visible, title, submit, saveOrSubmit} = this.state;
         let formRow = this.renderFormRow();
         return (
             <Modal
                 visible={visible}
                 title={title}
                 className="application-modal"
+                wrapClassName="application-modal-wrapper"
                 width={960}
-                okText="提交"
+                okText={submit}
                 cancelText="取消"
+                onOk={saveOrSubmit ? this.submitApplication.bind(this) : this.saveApplication.bind(this)}
                 onCancel={this.cancelApplication.bind(this)}
             >
+                {this.renderAlert()}
                 <Row>
                     <Col span="11">
                         {
@@ -496,6 +774,26 @@ class ApplicationView extends React.Component {
                     </Col>
                 </Row>
             </Modal>
+        )
+    }
+
+    /**
+     * render渲染提示语
+     */
+    renderAlert() {
+        const {isError, isWarn, isSuccess, errorPrompt, warnPrompt, successPrompt} = this.state;
+        return (
+            <div className="application-alert">
+                {
+                    isError && <Alert type="error" message={errorPrompt} showIcon/>
+                }
+                {
+                    isWarn && <Alert type="warning" message={warnPrompt} showIcon/>
+                }
+                {
+                    isSuccess && <Alert type="success" message={successPrompt} showIcon/>
+                }
+            </div>
         )
     }
 
@@ -526,9 +824,64 @@ class ApplicationView extends React.Component {
     addApplication = (evt) => {
         this.setState({
             visible: true,
-            title: applicationFormTitle[0]
+            title: applicationFormTitle[0],
+            submit: applicationFormSubmit[0],
+            saveOrSubmit: false
         });
         evt.nativeEvent.stopImmediatePropagation();
+    };
+
+    /**
+     * 点击申请表列表,通过id获取到某一个form表单的表单数据
+     * @param formObject
+     */
+    getApplicationFormsAlready(formObject) {
+        this.setState({
+            visible: true,
+            title: applicationFormTitle[1],
+            submit: applicationFormSubmit[1],
+            saveOrSubmit: true
+        });
+        for (let objectItemKey in formObject) {
+            this.setState({
+                [objectItemKey]: formObject[objectItemKey]
+            });
+        }
+    }
+
+    /**
+     * 点击保存按钮,发出添加申请表单的ajax请求
+     * @param evt
+     */
+    saveApplication = (evt) => {
+        const {id} = this.state;
+        let checked = this.onCheck(applicationFormPartAll);
+        if (checked) {
+            //添加申请表单发出ajax请求
+            let forms = {};
+            let mode = applicationFormMode;
+            for (let i = 0; i < mode.length; i++) {
+                if (mode[i]["key"] === "dateOfBirth" || mode[i]["key"] === "validUntil") {
+                    forms[mode[i]["key"]] = moment(this.state[mode[i]["key"]]).format('YYYY-MM-DD');
+                } else if (mode[i]["key"] === "durationOfStudyFrom" || mode[i]["key"] === "durationOfStudyTo") {
+                    forms[mode[i]["key"]] = moment(this.state[mode[i]["key"]]).format('YYYY-MM-DD HH:mm:ss');
+                } else {
+                    forms[mode[i]["key"]] = this.state[mode[i]["key"]];
+                }
+            }
+            forms["studentId"] = id;
+            let add_application = addApplicationForms.bind(this);
+            add_application(forms);
+        }
+        evt.nativeEvent.stopImmediatePropagation();
+    };
+
+    /**
+     * 点击提交按钮,发出
+     * @param evt
+     */
+    submitApplication = (evt) => {
+
     };
 
     /**
@@ -539,6 +892,8 @@ class ApplicationView extends React.Component {
         this.setState({
             visible: false
         });
+        //初始化整个申请表单
+        this.initApplication();
         evt.nativeEvent.stopImmediatePropagation();
     };
 
@@ -573,10 +928,10 @@ class ApplicationView extends React.Component {
                       }
                       className="application-card">
                     {
-                        applicationList.length > 0 ? this.renderTable() : this.renderNull()
+                        (applicationList && applicationList.length > 0) ? this.renderTable() : this.renderNull()
                     }
                     {
-                        applicationList.length > 0 && this.renderPagination()
+                        (applicationList && applicationList.length > 0) > 0 && this.renderPagination()
                     }
                     {this.renderForm()}
                 </Card>
