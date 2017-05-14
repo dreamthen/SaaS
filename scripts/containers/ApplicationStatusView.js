@@ -2,11 +2,18 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {Card} from "antd";
+import {Button, Card} from "antd";
 import storageData from "../config/storageData";
 import localStorageObject from "../config/localStorage";
+import relations from "../config/applicationStatusRelation";
 import {getApplyRelations} from "../actions/applicationStatus";
 import "../../stylesheets/applicationStatus.css";
+
+//已录取后显示快递状态按钮
+const endRelation = {
+    key: "D",
+    value: "快递状态"
+};
 
 class ApplicationStatusView extends React.Component {
     constructor(props) {
@@ -21,7 +28,11 @@ class ApplicationStatusView extends React.Component {
             //用户名
             account: "",
             //密码
-            password: ""
+            password: "",
+            //申请状态
+            relationStatus: "",
+            //备注
+            checkReason: ""
         }
     }
 
@@ -46,14 +57,49 @@ class ApplicationStatusView extends React.Component {
         storage_action(storageData);
     }
 
+    /**
+     * render最终渲染结构
+     * @returns {XML}
+     */
     render() {
+        const {relationStatus, checkReason} = this.state;
         return (
             <section className="applicationStatus-container">
                 <Card
                     title="申请状态"
                     className="applicationStatus-card"
                 >
+                    {
+                        relations.map((relationItem, relationIndex) => {
+                            if (relationItem["key"] === relationStatus) {
+                                return (
+                                    <div
+                                        key={relationItem["key"]}
+                                        className="applicationStatus-showRelations">
+                                        <i className={"iconfontSaaS " + relationItem["className"]}>
 
+                                        </i>
+                                        <p>
+                                            {relationItem["value"]}
+                                        </p>
+                                        <p>
+                                            {checkReason}
+                                        </p>
+                                        {
+                                            relationStatus === endRelation["key"] &&
+                                            <Button
+                                                size="large"
+                                                type="primary"
+                                                className="applicationStatus-email-button"
+                                            >
+                                                {endRelation["value"]}
+                                            </Button>
+                                        }
+                                    </div>
+                                )
+                            }
+                        })
+                    }
                 </Card>
             </section>
         )

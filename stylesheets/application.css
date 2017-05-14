@@ -19,8 +19,8 @@
 }
 
 .ant-card-extra > .application-add {
-    background-color: #529ECC;
-    border-color: #529ECC;
+    background-color: #34495E;
+    border-color: #34495E;
     color: #fff;
 }
 
@@ -34,8 +34,8 @@
 }
 
 .application-pagination .ant-pagination-item-active {
-    background-color: #529ECC;
-    border-color: #529ECC;
+    background-color: #34495E;
+    border-color: #34495E;
 }
 
 .application-modal-wrapper {
@@ -69,8 +69,8 @@
 }
 
 .application-modal .ant-modal-footer .ant-btn-primary {
-    background-color: #529ECC;
-    border-color: #529ECC;
+    background-color: #34495E;
+    border-color: #34495E;
 }
 
 .application-modal .ant-modal-close {
@@ -89,7 +89,7 @@
     font-size: 14px;
     height: 32px;
     cursor: pointer;
-    color: #529ECC;
+    color: #34495E;
 }
 
 .application-edit-button > .saas-edit {

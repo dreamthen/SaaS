@@ -29,10 +29,10 @@ export function getApplyRelations(id) {
                 } else if (relationItem === "applicationFormId") {
                     this.setState({
                         formId: body[relationItem]
-                    })
-                } else{
+                    });
+                } else {
                     this.setState({
-                        [relationItem] : body[relationItem]
+                        [relationItem]: body[relationItem] === null ? "" : body[relationItem]
                     });
                 }
             }

@@ -18,5 +18,29 @@
     min-height: 260px;
     height: calc(100% - 48px);
     display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.applicationStatus-card > .ant-card-body .applicationStatus-showRelations,
+.applicationStatus-showRelations > .iconfontSaaS {
+    text-align: center;
+    font-size: 40px;
+    font-weight: normal;
+    color: #34495E;
+}
+
+.applicationStatus-showRelations > .iconfontSaaS {
+    font-size: 120px;
+}
+
+.applicationStatus-showRelations > .applicationStatus-email-button {
+    width: 240px;
+    height: 54px;
+    margin-top: 18px;
+    font-size: 26px;
+    background-color: #34495E;
+    border-color: #34495E;
 }
 
