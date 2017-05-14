@@ -58,7 +58,6 @@ export class Table extends React.Component {
     renderBodyRow() {
         const {columns, dataSource} = this.props;
         const {cols} = styles;
-        let timeFlag = false;
         return dataSource.map((sourceItem, index) => {
             return (
                 <Row
@@ -68,6 +67,7 @@ export class Table extends React.Component {
                 >
                     {
                         columns.map((columnItem, columnIndex) => {
+                            let timeFlag = false;
                             return (
                                 <Col
                                     key={columnItem["dataIndex"] + "-" + sourceItem["id"] + "-" + columnIndex}
@@ -82,10 +82,10 @@ export class Table extends React.Component {
                                         })
                                     }
                                     {
-                                        timeFlag && moment(sourceItem[columnItem["dataIndex"]]).format("YYYY-MM-DD HH:mm:ss")
+                                        (timeFlag && sourceItem[columnItem["dataIndex"]]) && moment(sourceItem[columnItem["dataIndex"]]).format("YYYY-MM-DD HH:mm:ss")
                                     }
                                     {
-                                        !timeFlag && sourceItem[columnItem["dataIndex"]]
+                                        (!timeFlag && sourceItem[columnItem["dataIndex"]]) && sourceItem[columnItem["dataIndex"]]
                                     }
                                 </Col>
                             )
