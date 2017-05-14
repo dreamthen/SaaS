@@ -1,0 +1,76 @@
+.applicationStatus-modal .ant-modal-body {
+    height: 400px;
+}
+
+.applicationStatus-modal .applicationStatus-table {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 36px);
+    min-height: 260px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.applicationStatus-table > .applicationStatus-table-header,
+.applicationStatus-table > .applicationStatus-table-body {
+    width: 100%;
+    height: 50px;
+    background-color: #f7f7f7;
+    overflow: hidden;
+}
+
+.applicationStatus-table > .applicationStatus-table-body {
+    position: relative;
+    background-color: #fff;
+    height: calc(100% - 50px);
+    overflow: auto;
+}
+
+.applicationStatus-table-body .ant-radio-group {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+}
+
+.applicationStatus-table-body .ant-radio-wrapper {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+}
+
+.applicationStatus-table-header > .table-header-row,
+.applicationStatus-table-body .table-body-row {
+    position: relative;
+    z-index: 1000;
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.applicationStatus-table-body .table-body-row {
+    height: 50px;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.table-header-row > .table-header-col {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.table-body-row > .table-body-col {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.table-body-row:hover {
+    background-color: #ECF6FD;
+    cursor: pointer;
+}

@@ -41,3 +41,40 @@ export function getApplyRelations(id) {
         }
     }.bind(this));
 }
+
+/**
+ * 添加申请关系
+ * @param studentId
+ * @param formId
+ * @param universityId
+ * @param pageNum
+ * @param pageSize
+ */
+export function addApplyRelations(studentId, formId, universityId, pageNum, pageSize) {
+    $.ajax({
+        url: api.ADD_APPLY_RELATIONS,
+        type: "post",
+        dataType: "json",
+        data: JSON.stringify({
+            studentId,
+            applicationFormId: formId,
+            universityId
+        }),
+        contentType: "application/json",
+        async: true
+    }).done(function ajaxDone(response, status) {
+        let body = response.body,
+            code = response.head.code,
+            message = response.head.message;
+        if (code === Success.APPLICATION_STATUS_SUCCESS_CODE) {
+            //关闭获取申请列表弹窗
+            this.setState({
+                visible: false
+            });
+            let apply_status = getApplyRelations.bind(this);
+            apply_status(studentId);
+        } else {
+
+        }
+    }.bind(this));
+}
