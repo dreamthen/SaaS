@@ -90,7 +90,7 @@ export class Table extends React.Component {
                                         (timeFlag && sourceItem[columnItem["dataIndex"]]) && moment(sourceItem[columnItem["dataIndex"]]).format("YYYY-MM-DD HH:mm:ss")
                                     }
                                     {
-                                        (!timeFlag && sourceItem[columnItem["dataIndex"]]) && (columnItem["dataIndex"] === APPLY_STATUS && (sourceItem[columnItem["dataIndex"]] === applyStatus[0]["key"] ? applyStatus[0]["value"] : applyStatus[1]["value"]))
+                                        (!timeFlag && sourceItem[columnItem["dataIndex"]]) && (columnItem["dataIndex"] === APPLY_STATUS ? sourceItem[columnItem["dataIndex"]] === applyStatus[0]["key"] ? applyStatus[0]["value"] : applyStatus[1]["value"] : sourceItem[columnItem["dataIndex"]])
                                     }
                                 </Col>
                             )

@@ -57,6 +57,7 @@ export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, p
         if (code === Success.APPLICATION_SUCCESS_CODE) {
             //初始化添加、查看或者修改的申请表单
             this.initApplication();
+            //将添加、查看和修改申请单弹出框关闭
             this.setState({
                 visible: false
             });
@@ -91,6 +92,50 @@ export function getApplicationForms(id) {
             this.props.getApplicationFormsAlready(body);
         } else {
 
+        }
+    }.bind(this));
+}
+
+/**
+ * 添加申请关系
+ * @param studentId
+ * @param formId
+ * @param universityId
+ * @param pageNum
+ * @param pageSize
+ */
+export function addApplyRelations(studentId, formId, universityId, pageNum, pageSize) {
+    $.ajax({
+        url: api.ADD_APPLY_RELATIONS,
+        type: "post",
+        dataType: "json",
+        data: JSON.stringify({
+            studentId,
+            applicationFormId: formId,
+            universityId
+        }),
+        contentType: "application/json",
+        async: true
+    }).done(function ajaxDone(response) {
+        let body = response.body,
+            code = response.head.code,
+            message = response.head.message;
+        if (code === Success.APPLICATION_SUCCESS_CODE) {
+            //初始化添加、查看或者修改的申请表单
+            this.initApplication();
+            //将添加、查看和修改申请单弹出框关闭
+            this.setState({
+                visible: false
+            });
+            //发出获取申请单列表ajax请求
+            let application_action = getApplicationList.bind(this);
+            application_action(studentId, pageNum, pageSize);
+        } else {
+            //设置错误、警告或者成功提示语状态
+            this.setPromptTrueOrFalse(false, true, false);
+            this.setState({
+                warnPrompt: message
+            });
         }
     }.bind(this));
 }

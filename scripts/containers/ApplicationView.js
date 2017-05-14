@@ -3,7 +3,7 @@
  */
 import React from "react";
 import {Row, Col, Button, Card, Pagination, Modal, Alert} from "antd";
-import {getApplicationList, addOrChangeApplicationForms} from "../actions/application_action";
+import {getApplicationList, addOrChangeApplicationForms, addApplyRelations} from "../actions/application_action";
 import localStorageObject from "../config/localStorage";
 import storageData from "../config/storageData";
 import applicationFormTitle from "../config/applicationFormTitle";
@@ -244,6 +244,8 @@ class ApplicationView extends React.Component {
             id: 0,
             //申请单id
             formId: 0,
+            //学校id
+            universityId: 0,
             //登录用户名
             account: "",
             //登录密码
@@ -857,7 +859,6 @@ class ApplicationView extends React.Component {
     /**
      * 点击申请表列表,通过id获取到某一个form表单的表单数据
      * @param formObject
-     * @param formId
      */
     getApplicationFormsAlready(formObject) {
         this.setState({
@@ -865,14 +866,15 @@ class ApplicationView extends React.Component {
             title: applicationFormTitle[1] === lookOverTitle &&
             <div className="application-look-over">
                 查看申请表
-                <Button
-                    size="large"
-                    type="primary"
+                <span
                     className="application-edit-button"
                     onClick={this.editApplication.bind(this)}
                 >
+                    <i className="iconfontSaaS saas-edit">
+
+                    </i>
                     编辑
-                </Button>
+                </span>
             </div>,
             submit: applicationFormSubmit[1],
             formDisabled: true,
@@ -947,14 +949,14 @@ class ApplicationView extends React.Component {
     };
 
     /**
-     * 点击提交按钮,发出
+     * 点击提交按钮,发出添加申请ajax请求
      * @param evt
      */
     submitApplication = (evt) => {
-        let checked = this.onCheck(applicationFormPartAll);
-        if (checked) {
-            let forms = this.returnFormsObject();
-        }
+        const {id, formId, universityId, current} = this.state;
+        //发出添加申请关系ajax请求
+        let add_apply_relation_action = addApplyRelations.bind(this);
+        add_apply_relation_action(id, formId, universityId, current, PAGE_SIZE);
         evt.nativeEvent.stopImmediatePropagation();
     };
 

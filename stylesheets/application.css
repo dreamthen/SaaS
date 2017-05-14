@@ -77,10 +77,18 @@
 }
 
 .application-look-over .application-edit-button {
+    display: block;
     float: right;
     margin-right: 40px;
-    background-color: #529ECC;
-    border-color: #529ECC;
+    padding: 0 15px;
+    font-size: 14px;
+    height: 32px;
+    cursor: pointer;
+    color: #529ECC;
+}
+
+.application-edit-button > .saas-edit {
+    margin-right: 2px;
 }
 
 .application-look-over:after {
