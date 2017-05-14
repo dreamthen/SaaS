@@ -2,7 +2,7 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {getInformation, saveInformation, changePasswordRecently} from "../actions/studentInfo";
+import {getInformation, saveInformation, changePasswordRecently, setVerifyRecently} from "../actions/studentInfo";
 import {Row, Col, Card, Input, Button, Modal, Alert} from "antd";
 import storageData from "../config/storageData";
 import localStorageObject from "../config/localStorage";
@@ -34,6 +34,8 @@ const FORM_ITEM = [
 const rowArray = ["accountRow", "sexRow", "phoneRow", "emailRow", "postalAddressRow", "visaStatusRow"];
 //password Input框数据模板
 const passwordItem = ["oldPassword", "newPassword", "checkedPassword"];
+//email邮箱激活
+const email = "邮箱";
 
 class StudentView extends React.Component {
     constructor(props) {
@@ -200,6 +202,18 @@ class StudentView extends React.Component {
                         {
                             rowItem.main.bind(this)(resultRow[index].content, resultRow[index].func, resultRow[index].maxLength)
                         }
+                        {/*如果是邮箱那一行就添加一个激活按钮*/}
+                        {
+                            (rowItem["name"] === email) &&
+                            <Button
+                                size="large"
+                                type="primary"
+                                className="information-verify-button"
+                                onClick={this.setVerify.bind(this)}
+                            >
+                                Verify
+                            </Button>
+                        }
                     </Col>
                 </Row>
             )
@@ -284,6 +298,23 @@ class StudentView extends React.Component {
         }
         if (postalAddress.length > 50) {
             this.showErrorPrompt(Error.EXCESS_POSTALADDRESS_LENGTH);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 校验表单中的email空值和长度限额
+     * @returns {boolean}
+     */
+    onCheckEmail() {
+        const {email} = this.state;
+        if (email === "") {
+            this.showErrorPrompt(Error.NULL_EMAIL_VALUE);
+            return false;
+        }
+        if (email.length > 45) {
+            this.showErrorPrompt(Error.EXCESS_EMAIL_LENGTH);
             return false;
         }
         return true;
@@ -440,6 +471,21 @@ class StudentView extends React.Component {
         });
         evt.nativeEvent.stopImmediatePropagation();
     };
+
+    /**
+     * 点击Verify按钮激活邮箱
+     * @param evt
+     */
+    setVerify(evt) {
+        let checkedEmail = this.onCheckEmail();
+        const {id, email} = this.state;
+        if (checkedEmail) {
+            //发起激活邮箱ajax请求
+            let set_verify = setVerifyRecently.bind(this);
+            set_verify(id, email);
+        }
+        evt.nativeEvent.stopImmediatePropagation();
+    }
 
     render() {
         const {

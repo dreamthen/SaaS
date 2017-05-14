@@ -32,7 +32,9 @@ if(!isMook) {
         //添加申请关系
         ADD_APPLY_RELATIONS: NGINX_DIR + "student/applyRelations",
         //获取申请关系
-        GET_APPLY_RELATIONS: NGINX_DIR + "student/users/students"
+        GET_APPLY_RELATIONS: NGINX_DIR + "student/users/students",
+        //激活邮箱
+        SET_VERIFY: NGINX_DIR + "student/users/students"
     }
 }
 

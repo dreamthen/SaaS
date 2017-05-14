@@ -123,3 +123,32 @@ export function changePasswordRecently(olderPassword, newPassword) {
     }.bind(this));
 }
 
+/**
+ * 激活邮箱
+ * @param id
+ * @param email
+ */
+export function setVerifyRecently(id, email) {
+    $.ajax({
+        type: "get",
+        dataType: "json",
+        url: api.SET_VERIFY + "/" + id + "/emails",
+        data: {
+            email
+        },
+        async: true
+    }).done(function (response, status) {
+        let message = response.head.message,
+            code = response.head.code;
+        if (code === Success.STUDENT_SUCCESS_CODE) {
+            this.setPasswordPromptTrueOrFalse(false, false, true);
+        } else {
+            this.setPasswordPromptTrueOrFalse(false, true, false);
+            this.setState({
+                warnPasswordPrompt: message
+            });
+        }
+    }.bind(this));
+}
+
+

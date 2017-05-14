@@ -35,6 +35,12 @@
     width: 160px;
 }
 
+.information-row .information-verify-button {
+    margin-left: 5px;
+    background: #529ECC;
+    color: #fff;
+}
+
 .information-card .information-col,
 .information-modal .information-col {
     text-align: right;
@@ -57,7 +63,7 @@
 }
 
 .information-card .information-save-button {
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 .information-card .information-button,
