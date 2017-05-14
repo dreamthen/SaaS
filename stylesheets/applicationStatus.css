@@ -1,0 +1,22 @@
+.main-information > .applicationStatus-container {
+    position: relative;
+    padding: 22px 20px;
+    box-sizing: border-box;
+    height: calc(100% - 30px);
+}
+
+.applicationStatus-container > .applicationStatus-card {
+    height: 100%;
+}
+
+.applicationStatus-card .ant-card-head-title {
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.applicationStatus-card > .ant-card-body {
+    min-height: 260px;
+    height: calc(100% - 48px);
+    display: flex;
+}
+

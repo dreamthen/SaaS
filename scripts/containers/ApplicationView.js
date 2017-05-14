@@ -857,7 +857,7 @@ class ApplicationView extends React.Component {
     };
 
     /**
-     * 点击申请表列表,通过id获取到某一个form表单的表单数据
+     * 点击申请表列表,通过id获取到某一个form表单的表单数据,并setState到表单的每一个state状态
      * @param formObject
      */
     getApplicationFormsAlready(formObject) {

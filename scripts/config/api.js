@@ -30,7 +30,9 @@ if(!isMook) {
         //修改申请表单
         CHANGE_APPLICATION_FORMS: NGINX_DIR + "student/applicationForms",
         //添加申请关系
-        ADD_APPLY_RELATIONS: NGINX_DIR + "student/applyRelations"
+        ADD_APPLY_RELATIONS: NGINX_DIR + "student/applyRelations",
+        //获取申请关系
+        GET_APPLY_RELATIONS: NGINX_DIR + "student/users/students"
     }
 }
 

@@ -116,7 +116,7 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
         }),
         contentType: "application/json",
         async: true
-    }).done(function ajaxDone(response) {
+    }).done(function ajaxDone(response, status) {
         let body = response.body,
             code = response.head.code,
             message = response.head.message;
