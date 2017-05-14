@@ -17,6 +17,10 @@ const applicationColumn = [
     {
         title: "修改时间",
         dataIndex: "modifyDate"
+    },
+    {
+        title: "申请单状态",
+        dataIndex: "applyStatus"
     }
 ];
 

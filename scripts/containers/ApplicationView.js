@@ -3,9 +3,10 @@
  */
 import React from "react";
 import {Row, Col, Button, Card, Pagination, Modal, Alert} from "antd";
-import {getApplicationList, addApplicationForms, changeApplicationForms} from "../actions/application_action";
+import {getApplicationList, addOrChangeApplicationForms} from "../actions/application_action";
 import localStorageObject from "../config/localStorage";
 import storageData from "../config/storageData";
+import applicationFormTitle from "../config/applicationFormTitle";
 import applicationColumn from "../config/applicationConfig";
 import applicationFormIntegration from "../config/applicationFormIntegration";
 import applicationFormMode from "../config/applicationFormMode";
@@ -16,18 +17,25 @@ import moment from "moment";
 import "../../stylesheets/application.css";
 import "../../stylesheets/windowScrollBar.css"
 
+/**
+ * 查看申请表
+ * @type {string}
+ */
+const lookOverTitle = "查看申请表";
 //每页条数
 const PAGE_SIZE = 20;
-//申请表标题
-const applicationFormTitle = ["添加申请表", "查看申请表", "修改申请表"];
+//日期格式规范
+const dateFormat = 'YYYY-MM-DD';
+//时间格式规范
+const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 //申请表保存或者提交
-const applicationFormSubmit = ["保存", "编辑", "提交"];
+const applicationFormSubmit = ["保存", "提交"];
 //Select第一部分所有状态名
 const applicationFormPartSelect = ["gender", "marriageStatus"];
 //Select第二部分所有状态名
 const applicationFormPartSelectAno = ["englishAbility", "chineseReading", "chineseSpeaking", "chineseListening", "chineseWriting", "otherLanguageAbility"];
 //Select最后一部分所有状态名
-const applicationFormPartSelectEnd = ["financialResource", "category", "applyStatus"];
+const applicationFormPartSelectEnd = ["financialResource", "category"];
 //Input所有状态名+限制长度
 const applicationFormPartAll = [{
     key: "familyName",
@@ -234,6 +242,8 @@ class ApplicationView extends React.Component {
         this.state = {
             //登录用户id
             id: 0,
+            //申请单id
+            formId: 0,
             //登录用户名
             account: "",
             //登录密码
@@ -336,8 +346,6 @@ class ApplicationView extends React.Component {
             durationOfStudyTo: null,
             //申请类别
             category: "A",
-            //申请单状态
-            applyStatus: "N",
             //学习开始日期控制弹层是否展开
             durationOfStudyFromOpen: false,
             //学习结束日期控制弹层是否展开
@@ -431,6 +439,8 @@ class ApplicationView extends React.Component {
      */
     initApplication() {
         this.setState({
+            //申请单id
+            formId: 0,
             //姓
             familyName: "",
             //中间名
@@ -516,9 +526,7 @@ class ApplicationView extends React.Component {
             //学习结束日期
             durationOfStudyTo: null,
             //申请类别
-            category: "1",
-            //申请单状态
-            applyStatus: "N",
+            category: "A",
             //学习开始日期控制弹层是否展开
             durationOfStudyFromOpen: false,
             //学习结束日期控制弹层是否展开
@@ -582,7 +590,7 @@ class ApplicationView extends React.Component {
             },
             applicationFormPartDatePicker.map((datePickerItem, datePickerIndex) => {
                 return {
-                    content: this.state[datePickerItem["key"]],
+                    content: this.state[datePickerItem["key"]] ? moment(this.state[datePickerItem["key"]], dateFormat) : this.state[datePickerItem["key"]],
                     func: this.onChangeDatePicker.bind(this),
                     disabled: formDisabled,
                     maxLength: 0,
@@ -628,7 +636,7 @@ class ApplicationView extends React.Component {
             }),
             applicationFormPartDatePickerEnd.map((datePickerItem, datePickerIndex) => {
                 return {
-                    content: this.state[datePickerItem["key"]],
+                    content: this.state[datePickerItem["key"]] ? moment(this.state[datePickerItem["key"]], timeFormat) : this.state[datePickerItem["key"]],
                     func: this.onChangeDatePicker.bind(this),
                     disabled: formDisabled,
                     maxLength: 0,
@@ -738,7 +746,7 @@ class ApplicationView extends React.Component {
                 </Col>
                 <Col span="12">
                     {
-                        integrationItem.main.bind(this)(formResult[integrationIndex]["content"], formResult[integrationIndex]["func"], formResult[integrationIndex]["formDisabled"], formResult[integrationIndex]["maxLength"], formResult[integrationIndex]["open"], formResult[integrationIndex]["openFunc"], formResult[integrationIndex]["disabledFunc"])
+                        integrationItem.main.bind(this)(formResult[integrationIndex]["content"], formResult[integrationIndex]["func"], formResult[integrationIndex]["disabled"], formResult[integrationIndex]["maxLength"], formResult[integrationIndex]["open"], formResult[integrationIndex]["openFunc"], formResult[integrationIndex]["disabledFunc"])
                     }
                 </Col>
             </Row>;
@@ -849,21 +857,57 @@ class ApplicationView extends React.Component {
     /**
      * 点击申请表列表,通过id获取到某一个form表单的表单数据
      * @param formObject
+     * @param formId
      */
     getApplicationFormsAlready(formObject) {
         this.setState({
             visible: true,
-            title: applicationFormTitle[1],
+            title: applicationFormTitle[1] === lookOverTitle &&
+            <div className="application-look-over">
+                查看申请表
+                <Button
+                    size="large"
+                    type="primary"
+                    className="application-edit-button"
+                    onClick={this.editApplication.bind(this)}
+                >
+                    编辑
+                </Button>
+            </div>,
             submit: applicationFormSubmit[1],
             formDisabled: true,
-            saveOrSubmit: false
+            saveOrSubmit: true
         });
         for (let objectItemKey in formObject) {
-            this.setState({
-                [objectItemKey]: formObject[objectItemKey]
-            });
+            if (objectItemKey === "id") {
+                this.setState({
+                    formId: formObject[objectItemKey]
+                });
+            } else if (objectItemKey === "studentId") {
+                this.setState({
+                    id: formObject[objectItemKey]
+                });
+            } else {
+                this.setState({
+                    [objectItemKey]: formObject[objectItemKey]
+                });
+            }
         }
     }
+
+    /**
+     * 点击编辑按钮,编辑修改申请单
+     * @param evt
+     */
+    editApplication = (evt) => {
+        this.setState({
+            title: applicationFormTitle[2],
+            submit: applicationFormSubmit[0],
+            formDisabled: false,
+            saveOrSubmit: false
+        });
+        evt.nativeEvent.stopImmediatePropagation();
+    };
 
     /**
      * 返回集成的表单对象
@@ -891,13 +935,13 @@ class ApplicationView extends React.Component {
      * @param evt
      */
     saveApplication = (evt) => {
-        const {id, current} = this.state;
+        const {id, current, formId} = this.state;
         let checked = this.onCheck(applicationFormPartAll);
         if (checked) {
             let forms = this.returnFormsObject();
-            //添加申请表单发出ajax请求
-            let add_application = addApplicationForms.bind(this);
-            add_application(forms, id, current, PAGE_SIZE);
+            //添加或者修改申请表单发出ajax请求
+            let add_application = addOrChangeApplicationForms.bind(this);
+            add_application(forms, id, formId, current, PAGE_SIZE);
         }
         evt.nativeEvent.stopImmediatePropagation();
     };
@@ -910,9 +954,6 @@ class ApplicationView extends React.Component {
         let checked = this.onCheck(applicationFormPartAll);
         if (checked) {
             let forms = this.returnFormsObject();
-            //修改申请表单发出ajax请求
-            let change_application = changeApplicationForms.bind(this);
-            change_application(forms);
         }
         evt.nativeEvent.stopImmediatePropagation();
     };

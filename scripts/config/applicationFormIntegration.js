@@ -50,15 +50,6 @@ const applicationFormPartSelectEnd = [{
         key: "E",
         value: "博士生"
     }]
-}, {
-    key: "applyStatus",
-    value: [{
-        key: "N",
-        value: "未提交"
-    }, {
-        key: "Y",
-        value: "提交"
-    }]
 }];
 //Input第一部分所有状态名
 const applicationFormPartInput = ["familyName", "middleName", "givenName", "chineseName", "countryOfCitizenship"];

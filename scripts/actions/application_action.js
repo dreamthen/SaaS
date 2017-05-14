@@ -35,16 +35,17 @@ export function getApplicationList(id, pageNum, pageSize) {
 }
 
 /**
- * 添加申请表单
+ * 添加或者修改申请表单
  * @param forms
- * @param id
+ * @param studentId
+ * @param formId
  * @param pageNum
  * @param pageSize
  */
-export function addApplicationForms(forms, id, pageNum, pageSize) {
+export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, pageSize) {
     $.ajax({
-        url: api.ADD_APPLICATION_FORMS,
-        type: "post",
+        url: formId === 0 ? api.ADD_APPLICATION_FORMS : api.CHANGE_APPLICATION_FORMS + "/" + formId,
+        type: formId === 0 ? "post" : "put",
         dataType: "json",
         async: true,
         contentType: "application/json",
@@ -54,14 +55,16 @@ export function addApplicationForms(forms, id, pageNum, pageSize) {
             code = response.head.code,
             message = response.head.message;
         if (code === Success.APPLICATION_SUCCESS_CODE) {
+            //初始化添加、查看或者修改的申请表单
             this.initApplication();
             this.setState({
                 visible: false
             });
             //发出获取申请单列表ajax请求
             let application_action = getApplicationList.bind(this);
-            application_action(id, pageNum, pageSize);
+            application_action(studentId, pageNum, pageSize);
         } else {
+            //设置错误、警告或者成功提示语状态
             this.setPromptTrueOrFalse(false, true, false);
             this.setState({
                 warnPrompt: message
@@ -72,6 +75,7 @@ export function addApplicationForms(forms, id, pageNum, pageSize) {
 
 /**
  * 获取申请表单
+ * @param id
  */
 export function getApplicationForms(id) {
     $.ajax({
@@ -85,28 +89,6 @@ export function getApplicationForms(id) {
             message = response.head.message;
         if (code === Success.APPLICATION_SUCCESS_CODE) {
             this.props.getApplicationFormsAlready(body);
-        } else {
-
-        }
-    }.bind(this));
-}
-
-/**
- * 修改申请表单
- */
-export function changeApplicationForms(forms, id) {
-    $.ajax({
-        url: api.CHANGE_APPLICATION_FORMS + "/" + id,
-        type: "put",
-        dataType: "json",
-        async: true,
-        data: JSON.stringify(forms)
-    }).done(function ajaxDone(response, status) {
-        let body = response.body,
-            code = response.head.code,
-            message = response.head.message;
-        if (code === Success.APPLICATION_SUCCESS_CODE) {
-
         } else {
 
         }

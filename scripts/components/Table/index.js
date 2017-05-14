@@ -8,7 +8,12 @@ import moment from "moment";
 import {Row, Col} from "antd";
 import "./table.css";
 
+//创建时间和修改时间dataIndex
 const TIME = ["createDate", "modifyDate"];
+//申请单状态dataIndex
+const APPLY_STATUS = "applyStatus";
+//申请单状态value
+const applyStatus = [{key: "N", value: "未提交"}, {key: "Y", value: "提交"}];
 
 export class Table extends React.Component {
     static propTypes = {
@@ -85,7 +90,7 @@ export class Table extends React.Component {
                                         (timeFlag && sourceItem[columnItem["dataIndex"]]) && moment(sourceItem[columnItem["dataIndex"]]).format("YYYY-MM-DD HH:mm:ss")
                                     }
                                     {
-                                        (!timeFlag && sourceItem[columnItem["dataIndex"]]) && sourceItem[columnItem["dataIndex"]]
+                                        (!timeFlag && sourceItem[columnItem["dataIndex"]]) && (columnItem["dataIndex"] === APPLY_STATUS && (sourceItem[columnItem["dataIndex"]] === applyStatus[0]["key"] ? applyStatus[0]["value"] : applyStatus[1]["value"]))
                                     }
                                 </Col>
                             )
@@ -133,6 +138,9 @@ let styles = {
             width: 80,
             minWidth: 80,
             marginLeft: 15
+        },
+        {
+            flex: 1
         },
         {
             flex: 1

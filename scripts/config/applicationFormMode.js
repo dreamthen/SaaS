@@ -127,9 +127,6 @@ const applicationFormMode = [{
 }, {
     key: "category",
     value: "申请类别"
-}, {
-    key: "applyStatus",
-    value: "申请单状态"
 }];
 
 module.exports = applicationFormMode;
