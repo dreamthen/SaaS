@@ -24,22 +24,26 @@
 }
 
 .applicationStatus-card > .ant-card-body .applicationStatus-showRelations,
-.applicationStatus-showRelations > .iconfontSaaS {
+.applicationStatus-card > .ant-card-body .applicationStatus-showRelationsNull,
+.applicationStatus-showRelations > .iconfontSaaS,
+.applicationStatus-showRelationsNull > .saas-apply {
     text-align: center;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: normal;
     color: #34495E;
 }
 
-.applicationStatus-showRelations > .iconfontSaaS {
+.applicationStatus-showRelations > .iconfontSaaS,
+.applicationStatus-showRelationsNull > .saas-apply {
     font-size: 120px;
 }
 
-.applicationStatus-showRelations > .applicationStatus-email-button {
+.applicationStatus-showRelations > .applicationStatus-email-button,
+.applicationStatus-showRelationsNull > .applicationStatus-apply-button {
     width: 240px;
     height: 54px;
-    margin-top: 18px;
-    font-size: 26px;
+    margin-top: 20px;
+    font-size: 24px;
     background-color: #34495E;
     border-color: #34495E;
 }

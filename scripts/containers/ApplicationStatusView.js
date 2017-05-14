@@ -58,48 +58,86 @@ class ApplicationStatusView extends React.Component {
     }
 
     /**
+     * 当申请表没有添加申请关系时,render渲染结构
+     * @returns {XML}
+     */
+    renderRelationsNull() {
+        return (
+            <div
+                className="applicationStatus-showRelationsNull">
+                <i className="iconfontSaaS saas-apply">
+
+                </i>
+                <p>
+                    请选择一张申请表,提交您的申请~
+                </p>
+                <Button
+                    size="large"
+                    type="primary"
+                    className="applicationStatus-apply-button"
+                >
+                    提交申请
+                </Button>
+            </div>
+        )
+    }
+
+    /**
+     * 当申请表已经提交成功添加申请关系时,render渲染结构
+     * @returns {XML}
+     */
+    renderRelations() {
+        const {relationStatus, checkReason} = this.state;
+        return (
+            <div className="applicationStatus-relations-container">
+                {
+                    relations.map((relationItem, relationIndex) => {
+                        if (relationItem["key"] === relationStatus) {
+                            return (
+                                <div
+                                    key={relationItem["key"]}
+                                    className="applicationStatus-showRelations">
+                                    <i className={"iconfontSaaS " + relationItem["className"]}>
+
+                                    </i>
+                                    <p>
+                                        {relationItem["value"]}
+                                    </p>
+                                    <p>
+                                        {checkReason}
+                                    </p>
+                                    {
+                                        relationStatus === endRelation["key"] &&
+                                        <Button
+                                            size="large"
+                                            type="primary"
+                                            className="applicationStatus-email-button"
+                                        >
+                                            {endRelation["value"]}
+                                        </Button>
+                                    }
+                                </div>
+                            )
+                        }
+                    })
+                }
+            </div>
+        )
+    }
+
+    /**
      * render最终渲染结构
      * @returns {XML}
      */
     render() {
-        const {relationStatus, checkReason} = this.state;
+        const {relationStatus} = this.state;
         return (
             <section className="applicationStatus-container">
                 <Card
                     title="申请状态"
                     className="applicationStatus-card"
                 >
-                    {
-                        relations.map((relationItem, relationIndex) => {
-                            if (relationItem["key"] === relationStatus) {
-                                return (
-                                    <div
-                                        key={relationItem["key"]}
-                                        className="applicationStatus-showRelations">
-                                        <i className={"iconfontSaaS " + relationItem["className"]}>
-
-                                        </i>
-                                        <p>
-                                            {relationItem["value"]}
-                                        </p>
-                                        <p>
-                                            {checkReason}
-                                        </p>
-                                        {
-                                            relationStatus === endRelation["key"] &&
-                                            <Button
-                                                size="large"
-                                                type="primary"
-                                                className="applicationStatus-email-button"
-                                            >
-                                                {endRelation["value"]}
-                                            </Button>
-                                        }
-                                    </div>
-                                )
-                            }
-                        })
-                    }
+                    {relationStatus !== "" ? this.renderRelations() : this.renderRelationsNull()}
                 </Card>
             </section>
         )
