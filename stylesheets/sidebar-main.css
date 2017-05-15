@@ -85,6 +85,7 @@
     font-size: 14px;
     font-weight: bolder;
     color: #444;
+    border-color: #fff;
 }
 
 .main-view > .main-information::after {

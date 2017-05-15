@@ -38,6 +38,7 @@
 .information-row .information-verify-button {
     margin-left: 5px;
     background: #529ECC;
+    border-color: #529ECC;
     color: #fff;
 }
 
@@ -85,5 +86,6 @@
 
 .information-save-button .information-button {
     background: #529ECC;
+    border-color: #529ECC;
     color: #fff;
 }
