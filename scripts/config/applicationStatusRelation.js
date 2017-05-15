@@ -4,22 +4,22 @@
 const relations = [
     {
         key: "A",
-        value: "申请中",
+        value: "applying",
         className: "saas-applying"
     },
     {
         key: "B",
-        value: "待修改",
+        value: "sending modification",
         className: "saas-update"
     },
     {
         key: "C",
-        value: "不适合",
+        value: "not suitable",
         className: "saas-notGo"
     },
     {
         key: "D",
-        value: "已录取",
+        value: "accepted",
         className: "saas-access"
     }
 ];

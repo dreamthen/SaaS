@@ -793,7 +793,7 @@ class ApplicationView extends React.Component {
         return (
             <section className="application-section">
                 <div className="application-section-img">
-                    <img src="../../images/focus.png" title="留学focus" alt="留学focus"/>
+                    <img src="../../images/application_focus.png" title="留学focus" alt="留学focus"/>
                 </div>
                 <p className="application-section-declaration">
                     form apply

@@ -527,6 +527,8 @@ class StudentView extends React.Component {
                             修改密码
                         </Button>
                     </div>
+                    <div className="information-student-img">
+                    </div>
                     <Modal title="修改密码"
                            visible={visible}
                            className="information-modal"

@@ -247,6 +247,8 @@ class ApplicationStatusView extends React.Component {
                     className="applicationStatus-card"
                 >
                     {relationStatus !== "" ? this.renderRelations() : this.renderRelationsNull()}
+                    <div className="applicationStatus-relations-img">
+                    </div>
                     {this.renderModal()}
                 </Card>
             </section>

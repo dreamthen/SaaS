@@ -19,6 +19,10 @@
     overflow: hidden;
 }
 
+.applicationStatus-table > .applicationStatus-table-header {
+    background: url(/images/application_header_bg.jpg) no-repeat center center / 100% border-box content-box;
+}
+
 .applicationStatus-table > .applicationStatus-table-body {
     position: relative;
     background-color: #fff;

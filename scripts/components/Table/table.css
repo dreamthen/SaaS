@@ -12,8 +12,11 @@
     width: 100%;
     min-width: 960px;
     height: 50px;
-    background-color: #f7f7f7;
     overflow: hidden;
+}
+
+.application-table > .application-table-header {
+    background: url(/images/application_header_bg.jpg) no-repeat center center / 100% border-box content-box;
 }
 
 .application-table > .application-table-body {
@@ -39,10 +42,10 @@
 }
 
 .table-header-row > .table-header-col {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: normal;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
-    color: rgba(0, 0, 0, 0.85);
+    color: #fff;
 }
 
 .table-body-row > .table-body-col {
