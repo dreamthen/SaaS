@@ -786,6 +786,23 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * render渲染添加色彩区域
+     * @returns {XML}
+     */
+    renderFocusPlace() {
+        return (
+            <section className="application-section">
+                <div className="application-section-img">
+                    <img src="../../images/focus.png" title="留学focus" alt="留学focus"/>
+                </div>
+                <p className="application-section-declaration">
+                    form apply
+                </p>
+            </section>
+        )
+    }
+
+    /**
      * render渲染首行表单标识名
      * @returns {XML}
      */
@@ -832,6 +849,7 @@ class ApplicationView extends React.Component {
                 onCancel={this.cancelApplication.bind(this)}
             >
                 {this.renderAlert()}
+                {this.renderFocusPlace()}
                 {this.renderFormName()}
                 <Row>
                     <Col span="11">

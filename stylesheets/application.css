@@ -77,6 +77,33 @@
     top: 4px;
 }
 
+.application-modal .application-section {
+    width: 100%;
+    height: 190px;
+    background: url(/images/placeholder.jpg) no-repeat center center / cover border-box content-box;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.application-section > .application-section-img {
+    height: 136px;
+}
+
+.application-section > .application-section-declaration {
+    color: #fff;
+    font-family: Consolas, Menlo, Courier, monospace;
+    text-transform: uppercase;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.application-section-img > img {
+    width: auto;
+    height: 100%;
+}
+
 .application-look-over {
     line-height: 32px;
 }
