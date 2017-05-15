@@ -111,6 +111,19 @@
 .application-row .ant-input,
 .application-row .ant-select {
     width: 155px;
+    position: relative;
+    bottom: 2px;
+}
+
+.application-row .ant-input {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.application-row .ant-input:focus, .application-row .ant-input:hover {
+    border-color: #49a9ee;
+    box-shadow: none;
 }
 
 .application-row .ant-input:disabled,

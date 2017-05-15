@@ -211,7 +211,7 @@ class StudentView extends React.Component {
                                 className="information-verify-button"
                                 onClick={this.setVerify.bind(this)}
                             >
-                                Verify
+                                verify
                             </Button>
                         }
                     </Col>

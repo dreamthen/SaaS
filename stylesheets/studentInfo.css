@@ -15,7 +15,7 @@
 }
 
 .information-card .information-row,
-.information-modal .information-row{
+.information-modal .information-row {
     height: 30px;
     line-height: 30px;
     font-size: 16px;
@@ -30,13 +30,26 @@
     margin: 0;
 }
 
+.information-row .ant-input {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.information-row .ant-input:focus, .information-row .ant-input:hover {
+    border-color: #49a9ee;
+    box-shadow: none;
+}
+
 .information-row .ant-input,
 .information-card .information-select {
+    position: relative;
+    bottom: 2px;
     width: 160px;
 }
 
 .information-row .information-verify-button {
-    margin-left: 5px;
+    margin-left: 8px;
     background: #529ECC;
     border-color: #529ECC;
     color: #fff;
@@ -53,7 +66,7 @@
 
 .information-oldPassword-row .ant-input,
 .information-newPassword-row .ant-input,
-.information-checkedPassword-row .ant-input{
+.information-checkedPassword-row .ant-input {
     width: 200px;
 }
 
