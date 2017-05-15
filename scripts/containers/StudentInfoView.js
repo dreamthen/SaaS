@@ -506,26 +506,30 @@ class StudentView extends React.Component {
         return (
             <section className="information-container">
                 <Card title="个人信息" className="information-card">
-                    {this.renderFormRow()}
-                    {isError && <Alert type="error" className="information-alert" message={errorPrompt} showIcon/>}
-                    {isWarn && <Alert type="warning" className="information-alert" message={warnPrompt} showIcon/>}
-                    {isSuccess &&
-                    <Alert type="success" className="information-alert" message={successPrompt} showIcon/>}
-                    <div className="information-save-button">
-                        <Button type="default"
-                                className="information-button"
-                                onClick={this.toSave.bind(this)}
-                        >
-                            保存
-                        </Button>
+                    <div className="information-student-container">
+                        {this.renderFormRow()}
+                        {isError && <Alert type="error" className="information-alert" message={errorPrompt} showIcon/>}
+                        {isWarn && <Alert type="warning" className="information-alert" message={warnPrompt} showIcon/>}
+                        {isSuccess &&
+                        <Alert type="success" className="information-alert" message={successPrompt} showIcon/>}
+                        <div className="information-save-button">
+                            <Button type="default"
+                                    className="information-button"
+                                    onClick={this.toSave.bind(this)}
+                            >
+                                保存
+                            </Button>
+                        </div>
+                        <div className="information-change-password">
+                            <Button type="default"
+                                    className="information-button"
+                                    onClick={this.changePassword.bind(this)}
+                            >
+                                修改密码
+                            </Button>
+                        </div>
                     </div>
-                    <div className="information-change-password">
-                        <Button type="default"
-                                className="information-button"
-                                onClick={this.changePassword.bind(this)}
-                        >
-                            修改密码
-                        </Button>
+                    <div className="information-student-shadow">
                     </div>
                     <div className="information-student-img">
                     </div>
