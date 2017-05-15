@@ -58,7 +58,7 @@ const applicationFormPartInputAno = ["placeOfBirth", "passportNo", "religion"];
 //Input第三部分所有状态名
 const applicationFormPartInputThen = ["occupation", "institutionOrEmployer", "phone", "email", "homeCountryAddress", "zipCode", "fax", "mailingAddress", "receiver"];
 //Input最后一部分所有状态名
-const applicationFormPartInputEnd = ["otherLanguage", "recommendedBy", "contactPerson", "recommendAddress", "contactTel", "majorOrStudy", "chinaContactName", "chinaContactPhone", "chinaContactEmail", "chinaContactAddress", "formName"];
+const applicationFormPartInputEnd = ["otherLanguage", "recommendedBy", "contactPerson", "recommendAddress", "contactTel", "majorOrStudy", "chinaContactName", "chinaContactPhone", "chinaContactEmail", "chinaContactAddress"];
 const applicationFormPartDatePicker = [
     {
         key: "dateOfBirth",

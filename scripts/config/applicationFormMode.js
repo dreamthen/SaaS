@@ -113,9 +113,6 @@ const applicationFormMode = [{
     key: "chinaContactAddress",
     value: "在华事务联系人地址"
 }, {
-    key: "formName",
-    value: "申请单标识名"
-}, {
     key: "durationOfStudyFrom",
     value: "学习开始日期"
 }, {

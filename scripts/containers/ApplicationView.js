@@ -2,7 +2,7 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {Row, Col, Button, Card, Pagination, Modal, Alert} from "antd";
+import {Row, Col, Button, Card, Pagination, Modal, Alert, Input} from "antd";
 import {getApplicationList, addOrChangeApplicationForms, addApplyRelations} from "../actions/application_action";
 import localStorageObject from "../config/localStorage";
 import storageData from "../config/storageData";
@@ -15,12 +15,15 @@ import {Table} from "../components/Table/index";
 import {NullComponent} from "../components/NullComponent/index";
 import moment from "moment";
 import "../../stylesheets/application.css";
-import "../../stylesheets/windowScrollBar.css"
+import "../../stylesheets/windowScrollBar.css";
 
-/**
- * 查看申请表
- * @type {string}
- */
+//表单标识名
+const formName = {
+    key: "formName",
+    value: "申请表标识名",
+    maxLength: 45
+};
+//查看申请表
 const lookOverTitle = "查看申请表";
 //每页条数
 const PAGE_SIZE = 20;
@@ -38,6 +41,9 @@ const applicationFormPartSelectAno = ["englishAbility", "chineseReading", "chine
 const applicationFormPartSelectEnd = ["financialResource", "category"];
 //Input所有状态名+限制长度
 const applicationFormPartAll = [{
+    key: "formName",
+    maxLength: 45
+}, {
     key: "familyName",
     maxLength: 20
 }, {
@@ -117,9 +123,6 @@ const applicationFormPartAll = [{
     maxLength: 45
 }, {
     key: "chinaContactAddress",
-    maxLength: 45
-}, {
-    key: "formName",
     maxLength: 45
 }];
 //Input第一部分所有状态名+限制长度
@@ -209,9 +212,6 @@ const applicationFormPartInputEnd = [{
     maxLength: 45
 }, {
     key: "chinaContactAddress",
-    maxLength: 45
-}, {
-    key: "formName",
     maxLength: 45
 }];
 const applicationFormPartDatePicker = [
@@ -761,6 +761,56 @@ class ApplicationView extends React.Component {
         return formRow;
     }
 
+    /**
+     * render渲染提示语
+     * @returns {XML}
+     */
+    renderAlert() {
+        const {isError, isWarn, isSuccess, errorPrompt, warnPrompt, successPrompt} = this.state;
+        return (
+            <div className="application-alert">
+                {/*错误提示语*/}
+                {
+                    isError && <Alert type="error" message={errorPrompt} showIcon/>
+                }
+                {/*警告提示语*/}
+                {
+                    isWarn && <Alert type="warning" message={warnPrompt} showIcon/>
+                }
+                {/*成功提示语*/}
+                {
+                    isSuccess && <Alert type="success" message={successPrompt} showIcon/>
+                }
+            </div>
+        )
+    }
+
+    /**
+     * render渲染首行表单标识名
+     * @returns {XML}
+     */
+    renderFormName() {
+        const {formDisabled} = this.state;
+        const {onChangeInput} = this;
+        return (
+            <Row className="application-row">
+                <Col span="12" className="application-col">
+                    <span className="application-header-title">{formName["value"]}</span>
+                </Col>
+                <Col span="12" className="application-col-formName">
+                    <Input
+                        size="large"
+                        type="text"
+                        maxLength={formName["maxLength"]}
+                        value={this.state[formName["key"]]}
+                        disabled={formDisabled}
+                        onChange={onChangeInput.bind(this, formName["key"])}
+                    />
+                </Col>
+            </Row>
+        )
+    }
+
 
     /**
      * render渲染申请单表单结构
@@ -782,6 +832,7 @@ class ApplicationView extends React.Component {
                 onCancel={this.cancelApplication.bind(this)}
             >
                 {this.renderAlert()}
+                {this.renderFormName()}
                 <Row>
                     <Col span="11">
                         {
@@ -799,26 +850,6 @@ class ApplicationView extends React.Component {
                     </Col>
                 </Row>
             </Modal>
-        )
-    }
-
-    /**
-     * render渲染提示语
-     */
-    renderAlert() {
-        const {isError, isWarn, isSuccess, errorPrompt, warnPrompt, successPrompt} = this.state;
-        return (
-            <div className="application-alert">
-                {
-                    isError && <Alert type="error" message={errorPrompt} showIcon/>
-                }
-                {
-                    isWarn && <Alert type="warning" message={warnPrompt} showIcon/>
-                }
-                {
-                    isSuccess && <Alert type="success" message={successPrompt} showIcon/>
-                }
-            </div>
         )
     }
 

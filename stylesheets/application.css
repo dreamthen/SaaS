@@ -108,6 +108,14 @@
     text-align: right;
 }
 
+.application-col > .application-header-title {
+    margin-right: 8px;
+}
+
+.application-col-formName .ant-input {
+    margin-left: 8px;
+}
+
 .application-row .ant-input,
 .application-row .ant-select {
     width: 155px;
