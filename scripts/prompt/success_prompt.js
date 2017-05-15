@@ -10,6 +10,7 @@ const Success = {
     LOGIN_SUCCESS_MESSAGE: "登录成功",
     REGISTER_SUCCESS_MESSAGE: "注册成功,即将跳往登录页面",
     SAVE_STUDENT_INFORMATION_SUCCESS: "个人信息保存成功",
-    CHANGE_STUDENT_PASSWORD_SUCCESS: "修改密码成功"
+    CHANGE_STUDENT_PASSWORD_SUCCESS: "修改密码成功",
+    EMAIL_VERIFY_SUCCESS: "邮箱激活成功"
 };
 module.exports = Success;

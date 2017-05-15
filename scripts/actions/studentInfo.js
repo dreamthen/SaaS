@@ -4,6 +4,7 @@
 import $ from "jquery";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
+import {message} from "antd";
 /**
  * 获取学生信息
  * @param id
@@ -138,15 +139,12 @@ export function setVerifyRecently(id, email) {
         },
         async: true
     }).done(function (response, status) {
-        let message = response.head.message,
+        let msg = response.head.message,
             code = response.head.code;
         if (code === Success.STUDENT_SUCCESS_CODE) {
-            this.setPasswordPromptTrueOrFalse(false, false, true);
+            message.success(Success.EMAIL_VERIFY_SUCCESS);
         } else {
-            this.setPasswordPromptTrueOrFalse(false, true, false);
-            this.setState({
-                warnPasswordPrompt: message
-            });
+            message.warning(msg);
         }
     }.bind(this));
 }
