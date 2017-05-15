@@ -126,7 +126,30 @@
     box-shadow: none;
 }
 
+.application-row .ant-calendar-picker .ant-input {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+}
+
+.application-row .ant-calendar-picker .ant-input:focus, .application-row .ant-calendar-picker .ant-input:hover {
+    border-color: #49a9ee;
+    box-shadow: 0 0 0 2px rgba(16, 142, 233, .2);
+}
+
 .application-row .ant-input:disabled,
 .application-row .ant-select-disabled {
     color: rgba(0, 0, 0, .6);
+}
+
+.application-row .ant-input[disabled]{
+    background-color: #fff;
+}
+
+.application-row .ant-calendar-picker .ant-input[disabled] {
+    background-color: #f7f7f7;
+}
+
+.application-row .ant-input[disabled]:hover {
+    border-color: #d9d9d9;
+    box-shadow: none;
 }
