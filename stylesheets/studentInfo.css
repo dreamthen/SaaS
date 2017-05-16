@@ -48,6 +48,10 @@
     width: 160px;
 }
 
+.information-row .ant-input {
+    background-color: transparent;
+}
+
 .information-row .information-verify-button {
     margin-left: 8px;
     background: #529ECC;
@@ -99,7 +103,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top right, rgba(255, 255, 255, 0), rgba(0, 0, 0, .2));
+    background: linear-gradient(to top right, rgba(255, 255, 255, 0), rgba(0, 0, 0, .1));
     z-index: 1500;
 }
 

@@ -34,7 +34,11 @@ if(!isMook) {
         //获取申请关系
         GET_APPLY_RELATIONS: NGINX_DIR + "student/users/students",
         //激活邮箱
-        SET_VERIFY: NGINX_DIR + "student/users/students"
+        SET_VERIFY: NGINX_DIR + "student/users/students",
+        //获取国家列表
+        GET_COUNTRY: NGINX_DIR + "student/meta/countries",
+        //获取宗教列表
+        GET_RELIGIONS: NGINX_DIR + "student/meta/religions"
     }
 }
 

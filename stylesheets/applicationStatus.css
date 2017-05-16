@@ -24,7 +24,8 @@
     align-items: center;
 }
 
-.applicationStatus-card .applicationStatus-relations-container {
+.applicationStatus-card .applicationStatus-relations-container,
+.applicationStatus-card .applicationStatus-showRelationsNull {
     position: relative;
     z-index: 2000;
 }
