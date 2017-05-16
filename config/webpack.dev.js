@@ -36,7 +36,8 @@ var webpackDev = {
     //入口配置
     entry: {
         app: APP_DIR + "/app.js",
-        login: APP_DIR + "/login.js"
+        login: APP_DIR + "/login.js",
+        notFound: APP_DIR + "/notFound.js"
     },
     //输出文件位置,文件名字
     output: {
@@ -102,6 +103,12 @@ var webpackDev = {
             filename: "login.html",
             template: ROOT_DIR + "/login.html",
             chunks: ["login"]
+        }),
+        new HtmlWebpackPlugin({
+            publicPath: "/",
+            filename: "notFound.html",
+            template: ROOT_DIR + "/notFound.html",
+            chunks: ['notFound']
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {

@@ -5,6 +5,7 @@ import $ from "jquery";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
 import {message} from "antd";
+import requestError from "../config/requestError";
 /**
  * 获取学生信息
  * @param id
@@ -13,7 +14,12 @@ export function getInformation(id) {
     $.ajax({
         type: "get",
         dataType: "json",
-        url: api.GET_STUDENT_INFORMATION + "/" + id
+        url: api.GET_STUDENT_INFORMATION + "/" + id,
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function (response, status) {
         if (response.head.code === Success.STUDENT_SUCCESS_CODE) {
             let body = response.body,
@@ -60,7 +66,11 @@ export function saveInformation(id, sex, email, phone, visaStatus, postalAddress
             visaStatus,
             postalAddress
         }),
-        async: true
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function (response, status) {
         let message = response.head.message,
             code = response.head.code;
@@ -98,7 +108,11 @@ export function changePasswordRecently(olderPassword, newPassword) {
             oldPassword: olderPassword,
             newPassword: newPassword
         }),
-        async: true
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function (response, status) {
         let message = response.head.message,
             code = response.head.code;
@@ -137,7 +151,11 @@ export function setVerifyRecently(id, email) {
         data: {
             email
         },
-        async: true
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function (response, status) {
         let msg = response.head.message,
             code = response.head.code;

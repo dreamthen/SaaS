@@ -123,6 +123,16 @@ var config = {
                 removeComments: true,
                 collapseWhitespace: true
             }
+        }),
+        new HtmlWebpackPlugin({
+            publicPath: "/",
+            filename: "notFound.html",
+            template: ROOT_DIR + "/notFound.html",
+            chunks: ["notFound"],
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true
+            }
         })
     ]
 };

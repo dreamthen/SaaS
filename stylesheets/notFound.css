@@ -25,3 +25,14 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.saas-error-container > .error-container-button {
+    background-color: #529ECC;
+    border-color: #529ECC;
+    width: 260px;
+    height: 40px;
+    font: 14px/1.4 Helvetica Neue, HelveticaNeue, Helvetica, Arial, sans-serif;
+    color: #fff;
+    outline: none;
+    margin-top: 10px;
+}

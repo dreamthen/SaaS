@@ -2,10 +2,12 @@
  * Created by yinwk on 2017/5/6.
  */
 import $ from "jquery";
+import "whatwg-fetch";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
 import localStorageObject from "../config/localStorage";
 import storageData from "../config/storageData";
+import requestError from "../config/requestError";
 
 /**
  * 登录功能post ajax请求
@@ -22,7 +24,11 @@ export function loginAction(account, password) {
             password
         }),
         async: true,
-        contentType: "application/json"
+        contentType: "application/json",
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function (response, status) {
         let message = response.head.message,
             code = response.head.code,
@@ -85,7 +91,11 @@ export function registerAction(account, password) {
             password
         }),
         async: true,
-        contentType: "application/json"
+        contentType: "application/json",
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function (response, status) {
         let message = response.head.message,
             code = response.head.code;
@@ -128,7 +138,11 @@ export function logOutAction() {
         type: "get",
         dataType: "json",
         url: api.LOGOUT_ACTION,
-        async: true
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function (response, status) {
         //删除localStorage中的学生数据信息
         localStorageObject.removeLocalStorage(storageData);

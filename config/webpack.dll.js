@@ -16,7 +16,7 @@ const ROOT_DIR = path.resolve(__dirname, "../..");
 module.exports = {
     //入口配置,以react,react-dom,react-router,babel-polyfill这些最常见的外部依赖包作为入口
     entry: {
-        vendor: ["react", "react-dom", "react-router", "babel-polyfill"]
+        vendor: ["react", "react-dom", "react-router", "whatwg-fetch", "babel-polyfill"]
     },
     //依赖对象输出位置,文件名字,形成一个library对象
     output: {

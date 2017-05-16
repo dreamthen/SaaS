@@ -4,6 +4,7 @@
 import $ from "jquery";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
+import requestError from "../config/requestError";
 
 /**
  * 获取申请关系
@@ -15,6 +16,10 @@ export function getApplyRelations(id) {
         type: "get",
         dataType: "json",
         async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function ajaxDone(response, status) {
         let body = response.body,
             code = response.head.code,
@@ -61,7 +66,11 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
             universityId
         }),
         contentType: "application/json",
-        async: true
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function ajaxDone(response, status) {
         let body = response.body,
             code = response.head.code,

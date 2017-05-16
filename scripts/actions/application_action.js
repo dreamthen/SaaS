@@ -4,6 +4,7 @@
 import $ from "jquery";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
+import requestError from "../config/requestError";
 /**
  * 获取申请列表
  * @param id
@@ -19,6 +20,10 @@ export function getApplicationList(id, pageNum, pageSize) {
         data: {
             pageNum,
             pageSize
+        },
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
         }
     }).done(function ajaxDone(response, status) {
         let body = response.body,
@@ -49,7 +54,11 @@ export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, p
         dataType: "json",
         async: true,
         contentType: "application/json",
-        data: JSON.stringify(forms)
+        data: JSON.stringify(forms),
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function ajaxDone(response, status) {
         let body = response.body,
             code = response.head.code,
@@ -83,7 +92,11 @@ export function getApplicationForms(id) {
         url: api.GET_APPLICATION_FORMS + "/" + id,
         type: "get",
         dataType: "json",
-        async: true
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function ajaxDone(response, status) {
         let body = response.body,
             code = response.head.code,
@@ -115,7 +128,11 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
             universityId
         }),
         contentType: "application/json",
-        async: true
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
     }).done(function ajaxDone(response, status) {
         let body = response.body,
             code = response.head.code,

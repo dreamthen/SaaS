@@ -4,6 +4,8 @@
 const Error = {
     NULL_ACCOUNT_VALUE: "请输入用户名",
     EXCESS_ACCOUNT_LENGTH: "超出用户名长度限额",
+    SESSION_EXPIRED: "会话过期,请重新登录",
+    SERVER_ERROR: "服务器错误:",
     NULL_PASSWORD_VALUE: "请输入密码",
     EXCESS_PASSWORD_LENGTH: "密码只允许输入6位",
     NULL_PHONE_VALUE: "请输入您的手机号码",
