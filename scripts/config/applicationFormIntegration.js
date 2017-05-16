@@ -50,241 +50,326 @@ const applicationFormIntegration = [{
     key: "formName",
     value: "申请表标识名",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_FORM_NAME_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_FORM_NAME_VALUE,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "input",
     key: "familyName",
     value: "姓",
     maxLength: 20,
-    placeholder: PlaceHolder.PLACEHOLDER_FAMILY_NAME_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_FAMILY_NAME_VALUE,
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "input",
     key: "middleName",
     value: "中间名",
     maxLength: 20,
-    placeholder: PlaceHolder.PLACEHOLDER_MIDDLE_NAME_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_MIDDLE_NAME_VALUE,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "input",
     key: "givenName",
     value: "名",
     maxLength: 20,
-    placeholder: PlaceHolder.PLACEHOLDER_GIVEN_NAME_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_GIVEN_NAME_VALUE,
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "input",
     key: "chineseName",
     value: "中国名",
     maxLength: 10,
-    placeholder: PlaceHolder.PLACEHOLDER_CHINESE_NAME_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_CHINESE_NAME_VALUE,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "select",
     key: "countryOfCitizenship",
     value: "国籍",
-    options: []
+    options: [],
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "select",
     key: "gender",
     value: "性别",
-    options: SEX
+    options: SEX,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "datePicker",
     key: "dateOfBirth",
     value: "出生日期",
     format: dateFormat,
-    disabled: true
+    disabled: true,
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "datePicker",
     key: "validUntil",
     value: "护照有效至",
     format: dateFormat,
-    disabled: true
+    disabled: true,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "input",
     key: "placeOfBirth",
     value: "出生地",
     maxLength: 25,
-    placeholder: PlaceHolder.PLACEHOLDER_PLACE_OF_BIRTH_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_PLACE_OF_BIRTH_VALUE,
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "input",
     key: "passportNo",
     value: "护照号",
     maxLength: 25,
-    placeholder: PlaceHolder.PLACEHOLDER_PASSPORT_NO_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_PASSPORT_NO_VALUE,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "select",
     key: "religion",
     value: "宗教",
-    options: []
+    options: [],
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "select",
     key: "marriageStatus",
     value: "婚姻状况",
-    options: MARRIAGE_STATUS
+    options: MARRIAGE_STATUS,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "input",
     key: "occupation",
     value: "职业",
     maxLength: 25,
-    placeholder: PlaceHolder.PLACEHOLDER_OCCUPATION_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_OCCUPATION_VALUE,
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "input",
     key: "institutionOrEmployer",
     value: "学校或工作单位",
     maxLength: 25,
-    placeholder: PlaceHolder.PLACEHOLDER_INSTITUTION_OR_EMPLOYER_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_INSTITUTION_OR_EMPLOYER_VALUE,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "input",
     key: "phone",
     value: "手机号码",
     maxLength: 20,
-    placeholder: PlaceHolder.PLACEHOLDER_PHONE_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_PHONE_VALUE,
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "input",
     key: "email",
     value: "邮箱",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_EMAIL_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_EMAIL_VALUE,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "input",
     key: "homeCountryAddress",
     value: "本国住址",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_HOME_COUNTRY_ADDRESS_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_HOME_COUNTRY_ADDRESS_VALUE,
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "input",
     key: "zipCode",
     value: "邮编",
     maxLength: 25,
-    placeholder: PlaceHolder.PLACEHOLDER_ZIP_CODE_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_ZIP_CODE_VALUE,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "input",
     key: "fax",
     value: "传真",
     maxLength: 25,
-    placeholder: PlaceHolder.PLACEHOLDER_FAX_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_FAX_VALUE,
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "input",
     key: "mailingAddress",
     value: "收件地址",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_MAILING_ADDRESS_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_MAILING_ADDRESS_VALUE,
+    mastFill: "mast-fill",
+    position: "left"
 }, {
     classify: "input",
     key: "receiver",
     value: "收件人",
     maxLength: 15,
-    placeholder: PlaceHolder.PLACEHOLDER_RECEIVER_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_RECEIVER_VALUE,
+    mastFill: "mast-fill",
+    position: "right"
 }, {
     classify: "select",
     key: "englishAbility",
     value: "英语能力",
-    options: CHINESE_OR_ENGLISH_ABILITY
+    options: CHINESE_OR_ENGLISH_ABILITY,
+    mastFill: "chinese-fluency",
+    position: "left"
 }, {
     classify: "select",
     key: "chineseReading",
     value: "汉语阅读",
-    options: CHINESE_OR_ENGLISH_ABILITY
+    options: CHINESE_OR_ENGLISH_ABILITY,
+    mastFill: "chinese-fluency",
+    position: "right"
 }, {
     classify: "select",
     key: "chineseSpeaking",
     value: "口语",
-    options: CHINESE_OR_ENGLISH_ABILITY
+    options: CHINESE_OR_ENGLISH_ABILITY,
+    mastFill: "chinese-fluency",
+    position: "left"
 }, {
     classify: "select",
     key: "chineseListening",
     value: "听",
-    options: CHINESE_OR_ENGLISH_ABILITY
+    options: CHINESE_OR_ENGLISH_ABILITY,
+    mastFill: "chinese-fluency",
+    position: "right"
 }, {
     classify: "select",
     key: "chineseWriting",
     value: "写",
-    options: CHINESE_OR_ENGLISH_ABILITY
+    options: CHINESE_OR_ENGLISH_ABILITY,
+    mastFill: "chinese-fluency",
+    position: "left"
 }, {
     classify: "select",
     key: "otherLanguageAbility",
     value: "其他语言能力",
-    options: CHINESE_OR_ENGLISH_ABILITY
+    options: CHINESE_OR_ENGLISH_ABILITY,
+    mastFill: "chinese-fluency",
+    position: "right"
 }, {
     classify: "input",
     key: "otherLanguage",
     value: "其他语言",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_OTHER_LANGUAGE_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_OTHER_LANGUAGE_VALUE,
+    mastFill: "chinese-fluency",
+    position: "left"
 }, {
     classify: "input",
     key: "recommendedBy",
     value: "推荐单位（人）",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_RECOMMENDED_BY_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_RECOMMENDED_BY_VALUE,
+    mastFill: "chinese-fluency",
+    position: "right"
 }, {
     classify: "input",
     key: "contactPerson",
     value: "联系人",
     maxLength: 15,
-    placeholder: PlaceHolder.PLACEHOLDER_CONTACT_PERSON_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_CONTACT_PERSON_VALUE,
+    mastFill: "chinese-fluency",
+    position: "left"
 }, {
     classify: "input",
     key: "recommendAddress",
     value: "联系地址",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_RECOMMEND_ADDRESS_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_RECOMMEND_ADDRESS_VALUE,
+    mastFill: "chinese-fluency",
+    position: "right"
 }, {
     classify: "input",
     key: "contactTel",
     value: "联系人手机",
     maxLength: 20,
-    placeholder: PlaceHolder.PLACEHOLDER_CONTACT_TEL_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_CONTACT_TEL_VALUE,
+    mastFill: "chinese-fluency",
+    position: "left"
 }, {
     classify: "input",
     key: "majorOrStudy",
     value: "专业(方向)",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_MAJOR_OR_STUDY_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_MAJOR_OR_STUDY_VALUE,
+    mastFill: "chinese-fluency",
+    position: "right"
 }, {
     classify: "input",
     key: "chinaContactName",
     value: "在华事务联系人",
     maxLength: 15,
-    placeholder: PlaceHolder.PLACEHOLDER_CHINA_CONTACT_NAME_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_CHINA_CONTACT_NAME_VALUE,
+    mastFill: "other-information",
+    position: "left"
 }, {
     classify: "input",
     key: "chinaContactPhone",
     value: "在华事务联系人手机",
     maxLength: 20,
-    placeholder: PlaceHolder.PLACEHOLDER_CHINA_CONTACT_PHONE_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_CHINA_CONTACT_PHONE_VALUE,
+    mastFill: "other-information",
+    position: "right"
 }, {
     classify: "input",
     key: "chinaContactEmail",
     value: "在华事务联系人邮箱",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_CHINA_CONTACT_EMAIL_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_CHINA_CONTACT_EMAIL_VALUE,
+    mastFill: "other-information",
+    position: "left"
 }, {
     classify: "input",
     key: "chinaContactAddress",
     value: "在华事务联系人地址",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_CHINA_CONTACT_ADDRESS_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_CHINA_CONTACT_ADDRESS_VALUE,
+    mastFill: "other-information",
+    position: "right"
 }, {
     classify: "datePicker",
     key: "durationOfStudyFrom",
     value: "学习开始日期",
     disabled: false,
-    format: timeFormat
+    format: timeFormat,
+    mastFill: "chinese-fluency",
+    position: "left"
 }, {
     classify: "datePicker",
     key: "durationOfStudyTo",
     value: "学习结束日期",
     disabled: false,
-    format: timeFormat
+    format: timeFormat,
+    mastFill: "chinese-fluency",
+    position: "right"
 }, {
     classify: "select",
     key: "financialResource",
     value: "经费来源",
-    options: FINANCIAL_RESOURCE
+    options: FINANCIAL_RESOURCE,
+    mastFill: "other-information",
+    position: "left"
+
 }, {
     classify: "select",
     key: "category",
     value: "申请类别",
-    options: CATEGORY
+    options: CATEGORY,
+    mastFill: "chinese-fluency",
+    position: "left"
 }];
 
 export default applicationFormIntegration;

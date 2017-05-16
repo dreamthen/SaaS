@@ -37,6 +37,9 @@ const applicationFormSubmit = ["保存", "提交"];
 const applicationFormClassify = ["input", "select", "datePicker"];
 //国籍或者宗教
 const countryOrReligion = ["countryOfCitizenship", "religion"];
+//根据必填、中文能力以及其他能力进行划分三块
+const mustFillClassify = ["mast-fill", "chinese-fluency", "other-information"];
+const positionClassify = ["left", "right"];
 
 class ApplicationView extends React.Component {
     constructor(props) {
@@ -534,40 +537,69 @@ class ApplicationView extends React.Component {
         let {renderFormMode} = this;
         let integration = applicationFormIntegration;
         let formRow = {
-            //左边列
-            formRowSingle: [],
-            //右边列
-            formRowDouble: []
+            //第一部分必填域
+            formRowMustFill: {
+                left: [],
+                right: []
+            },
+            //第二部分中文能力
+            formRowChineseFluency: {
+                left: [],
+                right: []
+            },
+            //第三部分其他信息
+            formRowOtherInformation: {
+                left: [],
+                right: []
+            }
         };
         //实现添加、查看或者修改申请表单所有组件、状态、方法和长度限制对象
         integration.map((integrationItem, integrationIndex) => {
-            let row = <Row
-                key={integrationItem["name"] + "_" + integrationIndex}
-                className="application-row"
-            >
-                <Col span="11" className="application-col">
-                    {integrationItem["value"]}
-                </Col>
-                <Col span="1">
+            if (integrationIndex !== 0) {
+                let row = <Row
+                    key={integrationItem["key"] + "_" + integrationItem["value"]}
+                    className="application-row"
+                >
+                    <Col span="11" className="application-col">
+                        {integrationItem["value"]}
+                    </Col>
+                    <Col span="1">
 
-                </Col>
-                <Col span="12">
-                    {renderFormMode.bind(this)(
-                        integrationItem["classify"],
-                        integrationItem["key"],
-                        integrationItem["value"],
-                        integrationItem["placeholder"],
-                        integrationItem["maxLength"],
-                        integrationItem["format"],
-                        integrationItem["options"],
-                        integrationItem["disabled"]
-                    )}
-                </Col>
-            </Row>;
-            if (integrationIndex % 2 === 0) {
-                formRow["formRowSingle"].push(row)
-            } else {
-                formRow["formRowDouble"].push(row);
+                    </Col>
+                    <Col span="12">
+                        {renderFormMode.bind(this)(
+                            integrationItem["classify"],
+                            integrationItem["key"],
+                            integrationItem["value"],
+                            integrationItem["placeholder"],
+                            integrationItem["maxLength"],
+                            integrationItem["format"],
+                            integrationItem["options"],
+                            integrationItem["disabled"]
+                        )}
+                    </Col>
+                </Row>;
+                if (integrationItem["mustFill"] === mustFillClassify[0]) {
+                    if (integrationItem["position"] === positionClassify[0]) {
+                        formRow["formRowMustFill"][positionClassify[0]].push(row);
+                    } else {
+                        formRow["formRowMustFill"][positionClassify[1]].push(row);
+                    }
+                }
+                if (integrationItem["mustFill"] === mustFillClassify[1]) {
+                    if (integrationItem["position"] === positionClassify[0]) {
+                        formRow["formRowChineseFluency"][positionClassify[0]].push(row);
+                    } else {
+                        formRow["formRowChineseFluency"][positionClassify[1]].push(row);
+                    }
+                }
+                if (integrationItem["mustFill"] === mustFillClassify[2]) {
+                    if (integrationItem["position"] === positionClassify[0]) {
+                        formRow["formRowOtherInformation"][positionClassify[0]].push(row);
+                    } else {
+                        formRow["formRowOtherInformation"][positionClassify[1]].push(row);
+                    }
+                }
             }
         });
         return formRow;
@@ -657,24 +689,62 @@ class ApplicationView extends React.Component {
                 {this.renderAlert()}
                 {this.renderFocusPlace()}
                 {this.renderFormName()}
-                <Row>
-                    <Col span="11">
-                        {
-                            formRow["formRowSingle"].map((singleItem, singleIndex) => {
-                                return singleItem;
-                            })
-                        }
-                    </Col>
-                    <Col span="13">
-                        {
-                            formRow["formRowDouble"].map((doubleItem, doubleIndex) => {
-                                return doubleItem;
-                            })
-                        }
-                    </Col>
-                </Row>
+                {this.renderMustFill(formRow["formRowMustFill"])}
+                {this.renderChineseFluency(formRow["formRowChineseFluency"])}
+                {this.renderOtherInformation(formRow["formRowOtherInformation"])}
             </Modal>
         )
+    }
+
+    /**
+     *
+     * @param formArea
+     * @returns {XML}
+     */
+    renderFormCommon(formArea) {
+        return (
+            <Row>
+                <Col span="11">
+                    {
+                        formArea["left"].map((singleItem, singleIndex) => {
+                            return singleItem;
+                        })
+                    }
+                </Col>
+                <Col span="13">
+                    {
+                        formArea["right"].map((doubleItem, doubleIndex) => {
+                            return doubleItem;
+                        })
+                    }
+                </Col>
+            </Row>
+        )
+    }
+
+    /**
+     * render必填域渲染结构
+     * @param mustFill
+     * @returns {XML}
+     */
+    renderMustFill(mustFill) {
+        this.renderFormCommon(mustFill);
+    }
+
+    /**
+     * render中文能力渲染结构
+     * @param chineseFluency
+     */
+    renderChineseFluency(chineseFluency) {
+        this.renderFormCommon(chineseFluency);
+    }
+
+    /**
+     * render其他信息渲染结构
+     * @param otherInformation
+     */
+    renderOtherInformation(otherInformation) {
+        this.renderFormCommon(otherInformation);
     }
 
     /**
