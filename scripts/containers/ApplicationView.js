@@ -73,7 +73,9 @@ class ApplicationView extends React.Component {
             //中国名
             chineseName: "",
             //国籍
-            countryOfCitizenship: [],
+            countryOfCitizenship: "2",
+            //国籍列表
+            countryOfCitizenshipList: [],
             //头像url
             avatar: "",
             //性别
@@ -87,7 +89,9 @@ class ApplicationView extends React.Component {
             //护照有效期
             validUntil: null,
             //宗教
-            religion: [],
+            religion: "1",
+            //宗教列表
+            religionList: [],
             //婚姻状况
             marriageStatus: "N",
             //职业
@@ -182,12 +186,6 @@ class ApplicationView extends React.Component {
 
     componentDidMount() {
         const {id, current} = this.state;
-        //获取国家列表
-        let get_countries = getCountriesOrReligions.bind(this);
-        get_countries(countryOrReligion[0], api.GET_COUNTRIES);
-        //获取宗教列表
-        let get_religions = getCountriesOrReligions.bind(this);
-        get_religions(countryOrReligion[1], api.GET_RELIGIONS);
         //发出获取申请单列表ajax请求
         let application_action = getApplicationList.bind(this);
         application_action(id, current, PAGE_SIZE);
@@ -200,6 +198,18 @@ class ApplicationView extends React.Component {
         //从localStorage中获取到登录之后传入的用户数据信息
         let storage_action = localStorageObject.getLocalStorage.bind(this);
         storage_action(storageData);
+    }
+
+    /**
+     * 获取宗教和国籍的列表
+     */
+    fetchCountryOrReligionData() {
+        //获取国籍列表
+        let get_countries = getCountriesOrReligions.bind(this);
+        get_countries(countryOrReligion[0], api.GET_COUNTRIES);
+        //获取宗教列表
+        let get_religions = getCountriesOrReligions.bind(this);
+        get_religions(countryOrReligion[1], api.GET_RELIGIONS);
     }
 
     /**
@@ -260,7 +270,9 @@ class ApplicationView extends React.Component {
             //中国名
             chineseName: "",
             //国籍
-            countryOfCitizenship: "",
+            countryOfCitizenship: "2",
+            //国籍列表
+            countryOfCitizenshipList: [],
             //头像url
             avatar: "",
             //性别
@@ -274,7 +286,9 @@ class ApplicationView extends React.Component {
             //护照有效期
             validUntil: null,
             //宗教
-            religion: "",
+            religion: "1",
+            //宗教列表
+            religionList: [],
             //婚姻状况
             marriageStatus: "N",
             //职业
@@ -448,7 +462,7 @@ class ApplicationView extends React.Component {
      * @param options
      */
     judgeOptions(key, options) {
-        return options && options.length > 0 ? options : this.state[key];
+        return options && options.length > 0 ? options : this.state[key + "List"];
     }
 
     /**
@@ -694,6 +708,7 @@ class ApplicationView extends React.Component {
             submit: applicationFormSubmit[0],
             saveOrSubmit: false
         });
+        this.fetchCountryOrReligionData.bind(this)();
         evt.nativeEvent.stopImmediatePropagation();
     };
 
@@ -702,6 +717,8 @@ class ApplicationView extends React.Component {
      * @param formObject
      */
     getApplicationFormsAlready(formObject) {
+        //获取国籍和宗教列表
+        this.fetchCountryOrReligionData.bind(this)();
         this.setState({
             visible: true,
             title: applicationFormTitle[1] === lookOverTitle &&

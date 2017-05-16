@@ -175,8 +175,13 @@ export function getCountriesOrReligions(key, url) {
             code = response.head.code,
             message = response.head.message;
         if (code === Success.APPLICATION_SUCCESS_CODE) {
+            let result = [];
+            body.forEach((bodyItem, bodyIndex) => {
+                let resultObj = {key: bodyItem["id"].toString(), value: bodyItem["enName"]};
+                result.push(resultObj);
+            });
             this.setState({
-                [key]: body
+                [key + "List"]: result
             });
         } else {
 

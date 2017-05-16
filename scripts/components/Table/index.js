@@ -3,7 +3,8 @@
  */
 import React, {PropTypes} from "react";
 import {Scrollbars} from "react-custom-scrollbars";
-import {getApplicationForms} from "../../actions/application_action";
+import api from "../../config/api";
+import {getApplicationForms, getCountriesOrReligions} from "../../actions/application_action";
 import moment from "moment";
 import {Row, Col} from "antd";
 import "./table.css";
@@ -107,6 +108,7 @@ export class Table extends React.Component {
      * @param evt
      */
     getApplication = (id, evt) => {
+        //获取申请表单
         let get_application = getApplicationForms.bind(this);
         get_application(id);
         evt.nativeEvent.stopImmediatePropagation();
