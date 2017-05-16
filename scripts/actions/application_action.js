@@ -156,3 +156,30 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
         }
     }.bind(this));
 }
+
+/**
+ * 添加国家列表
+ */
+export function getCountriesOrReligions(key, url) {
+    $.ajax({
+        url,
+        type: "get",
+        dataType: "json",
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
+    }).done(function ajaxDone(response, status) {
+        let body = response.body,
+            code = response.head.code,
+            message = response.head.message;
+        if (code === Success.APPLICATION_SUCCESS_CODE) {
+            this.setState({
+                [key]: body
+            });
+        } else {
+
+        }
+    }.bind(this));
+}

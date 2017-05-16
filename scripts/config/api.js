@@ -36,7 +36,7 @@ if(!isMook) {
         //激活邮箱
         SET_VERIFY: NGINX_DIR + "student/users/students",
         //获取国家列表
-        GET_COUNTRY: NGINX_DIR + "student/meta/countries",
+        GET_COUNTRIES: NGINX_DIR + "student/meta/countries",
         //获取宗教列表
         GET_RELIGIONS: NGINX_DIR + "student/meta/religions"
     }

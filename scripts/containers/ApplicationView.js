@@ -2,27 +2,27 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {Row, Col, Button, Card, Pagination, Modal, Alert, Input} from "antd";
-import {getApplicationList, addOrChangeApplicationForms, addApplyRelations} from "../actions/application_action";
+import {Row, Col, Button, Card, Pagination, Modal, Alert, Input, Select, DatePicker} from "antd";
+import api from "../config/api";
+import {
+    getApplicationList,
+    addOrChangeApplicationForms,
+    addApplyRelations,
+    getCountriesOrReligions
+} from "../actions/application_action";
 import localStorageObject from "../config/localStorage";
 import storageData from "../config/storageData";
 import applicationFormTitle from "../config/applicationFormTitle";
 import applicationColumn from "../config/applicationConfig";
 import applicationFormIntegration from "../config/applicationFormIntegration";
-import applicationFormMode from "../config/applicationFormMode";
 import Error from "../prompt/error_prompt";
 import {Table} from "../components/Table/index";
 import {NullComponent} from "../components/NullComponent/index";
 import moment from "moment";
 import "../../stylesheets/application.css";
 import "../../stylesheets/windowScrollBar.css";
+const Option = Select.Option;
 
-//表单标识名
-const formName = {
-    key: "formName",
-    value: "申请表标识名",
-    maxLength: 45
-};
 //查看申请表
 const lookOverTitle = "查看申请表";
 //每页条数
@@ -33,208 +33,10 @@ const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 //申请表保存或者提交
 const applicationFormSubmit = ["保存", "提交"];
-//Select第一部分所有状态名
-const applicationFormPartSelect = ["gender", "marriageStatus"];
-//Select第二部分所有状态名
-const applicationFormPartSelectAno = ["englishAbility", "chineseReading", "chineseSpeaking", "chineseListening", "chineseWriting", "otherLanguageAbility"];
-//Select最后一部分所有状态名
-const applicationFormPartSelectEnd = ["financialResource", "category"];
-//Input所有状态名+限制长度
-const applicationFormPartAll = [{
-    key: "formName",
-    maxLength: 45
-}, {
-    key: "familyName",
-    maxLength: 20
-}, {
-    key: "middleName",
-    maxLength: 20
-}, {
-    key: "givenName",
-    maxLength: 20
-}, {
-    key: "chineseName",
-    maxLength: 10
-}, {
-    key: "countryOfCitizenship",
-    maxLength: 25
-}, {
-    key: "placeOfBirth",
-    maxLength: 25
-}, {
-    key: "passportNo",
-    maxLength: 25
-}, {
-    key: "religion",
-    maxLength: 25
-}, {
-    key: "occupation",
-    maxLength: 25
-}, {
-    key: "institutionOrEmployer",
-    maxLength: 25
-}, {
-    key: "phone",
-    maxLength: 20
-}, {
-    key: "email",
-    maxLength: 45
-}, {
-    key: "homeCountryAddress",
-    maxLength: 45
-}, {
-    key: "zipCode",
-    maxLength: 25
-}, {
-    key: "fax",
-    maxLength: 25
-}, {
-    key: "mailingAddress",
-    maxLength: 45
-}, {
-    key: "receiver",
-    maxLength: 15
-}, {
-    key: "otherLanguage",
-    maxLength: 45
-}, {
-    key: "recommendedBy",
-    maxLength: 45
-}, {
-    key: "contactPerson",
-    maxLength: 15
-}, {
-    key: "recommendAddress",
-    maxLength: 45
-}, {
-    key: "contactTel",
-    maxLength: 20
-}, {
-    key: "majorOrStudy",
-    maxLength: 45
-}, {
-    key: "chinaContactName",
-    maxLength: 15
-}, {
-    key: "chinaContactPhone",
-    maxLength: 20
-}, {
-    key: "chinaContactEmail",
-    maxLength: 45
-}, {
-    key: "chinaContactAddress",
-    maxLength: 45
-}];
-//Input第一部分所有状态名+限制长度
-const applicationFormPartInput = [{
-    key: "familyName",
-    maxLength: 20
-}, {
-    key: "middleName",
-    maxLength: 20
-}, {
-    key: "givenName",
-    maxLength: 20
-}, {
-    key: "chineseName",
-    maxLength: 10
-}, {
-    key: "countryOfCitizenship",
-    maxLength: 25
-}];
-//Input第二部分所有状态名+限制长度
-const applicationFormPartInputAno = [{
-    key: "placeOfBirth",
-    maxLength: 25
-}, {
-    key: "passportNo",
-    maxLength: 25
-}, {
-    key: "religion",
-    maxLength: 25
-}];
-//Input第三部分所有状态名+限制长度
-const applicationFormPartInputThen = [{
-    key: "occupation",
-    maxLength: 25
-}, {
-    key: "institutionOrEmployer",
-    maxLength: 25
-}, {
-    key: "phone",
-    maxLength: 20
-}, {
-    key: "email",
-    maxLength: 45
-}, {
-    key: "homeCountryAddress",
-    maxLength: 45
-}, {
-    key: "zipCode",
-    maxLength: 25
-}, {
-    key: "fax",
-    maxLength: 25
-}, {
-    key: "mailingAddress",
-    maxLength: 45
-}, {
-    key: "receiver",
-    maxLength: 15
-}];
-//Input最后一部分所有状态名+限制长度
-const applicationFormPartInputEnd = [{
-    key: "otherLanguage",
-    maxLength: 45
-}, {
-    key: "recommendedBy",
-    maxLength: 45
-}, {
-    key: "contactPerson",
-    maxLength: 15
-}, {
-    key: "recommendAddress",
-    maxLength: 45
-}, {
-    key: "contactTel",
-    maxLength: 20
-}, {
-    key: "majorOrStudy",
-    maxLength: 45
-}, {
-    key: "chinaContactName",
-    maxLength: 15
-}, {
-    key: "chinaContactPhone",
-    maxLength: 20
-}, {
-    key: "chinaContactEmail",
-    maxLength: 45
-}, {
-    key: "chinaContactAddress",
-    maxLength: 45
-}];
-const applicationFormPartDatePicker = [
-    {
-        key: "dateOfBirth",
-        value: "出生日期"
-    },
-    {
-        key: "validUntil",
-        value: "护照有效期"
-    }
-];
-//DatePicker最后一部分状态名
-const applicationFormPartDatePickerEnd = [
-    {
-        key: "durationOfStudyFrom",
-        value: "学习开始日期"
-    },
-    {
-        key: "durationOfStudyTo",
-        value: "学习结束日期"
-    }
-];
+//表单里面的组件分类
+const applicationFormClassify = ["input", "select", "datePicker"];
+//国籍或者宗教
+const countryOrReligion = ["countryOfCitizenship", "religion"];
 
 class ApplicationView extends React.Component {
     constructor(props) {
@@ -271,7 +73,7 @@ class ApplicationView extends React.Component {
             //中国名
             chineseName: "",
             //国籍
-            countryOfCitizenship: "",
+            countryOfCitizenship: [],
             //头像url
             avatar: "",
             //性别
@@ -285,7 +87,7 @@ class ApplicationView extends React.Component {
             //护照有效期
             validUntil: null,
             //宗教
-            religion: "",
+            religion: [],
             //婚姻状况
             marriageStatus: "N",
             //职业
@@ -380,6 +182,12 @@ class ApplicationView extends React.Component {
 
     componentDidMount() {
         const {id, current} = this.state;
+        //获取国家列表
+        let get_countries = getCountriesOrReligions.bind(this);
+        get_countries(countryOrReligion[0], api.GET_COUNTRIES);
+        //获取宗教列表
+        let get_religions = getCountriesOrReligions.bind(this);
+        get_religions(countryOrReligion[1], api.GET_RELIGIONS);
         //发出获取申请单列表ajax请求
         let application_action = getApplicationList.bind(this);
         application_action(id, current, PAGE_SIZE);
@@ -571,90 +379,76 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * 集成添加或修改申请表单所有状态、方法和长度限制
+     * 集成添加、查看和修改申请表单所有组件、状态、方法和长度限制
      * @returns {*}
      */
-    renderFormMode() {
+    renderFormMode(classify, key, value, placeholder, maxLength, format, options, disabled) {
         const {formDisabled} = this.state;
-        return [
-            applicationFormPartInput.map((inputItem, index) => {
-                return {
-                    content: this.state[inputItem["key"]],
-                    func: this.onChangeInput.bind(this),
-                    disabled: formDisabled,
-                    maxLength: inputItem["maxLength"]
-                }
-            }),
-            {
-                content: this.state[applicationFormPartSelect[0]],
-                func: this.onChangeSelect.bind(this),
-                disabled: formDisabled
-            },
-            applicationFormPartDatePicker.map((datePickerItem, datePickerIndex) => {
-                return {
-                    content: this.state[datePickerItem["key"]] ? moment(this.state[datePickerItem["key"]], dateFormat) : this.state[datePickerItem["key"]],
-                    func: this.onChangeDatePicker.bind(this),
-                    disabled: formDisabled,
-                    maxLength: 0,
-                    open: this.state[datePickerItem["key"] + "Open"],
-                    openFunc: this.onChangeDatePickerOpen.bind(this)
-                }
-            }),
-            applicationFormPartInputAno.map((inputItem, index) => {
-                return {
-                    content: this.state[inputItem["key"]],
-                    func: this.onChangeInput.bind(this),
-                    disabled: formDisabled,
-                    maxLength: inputItem["maxLength"]
-                }
-            }),
-            {
-                content: this.state[applicationFormPartSelect[1]],
-                func: this.onChangeSelect.bind(this),
-                disabled: formDisabled
-            },
-            applicationFormPartInputThen.map((inputItem, index) => {
-                return {
-                    content: this.state[inputItem["key"]],
-                    func: this.onChangeInput.bind(this),
-                    disabled: formDisabled,
-                    maxLength: inputItem["maxLength"]
-                }
-            }),
-            applicationFormPartSelectAno.map((selectItem, selectIndex) => {
-                return {
-                    content: this.state[selectItem],
-                    func: this.onChangeSelect.bind(this),
-                    disabled: formDisabled
-                }
-            }),
-            applicationFormPartInputEnd.map((inputItem, index) => {
-                return {
-                    content: this.state[inputItem["key"]],
-                    func: this.onChangeInput.bind(this),
-                    disabled: formDisabled,
-                    maxLength: inputItem["maxLength"]
-                }
-            }),
-            applicationFormPartDatePickerEnd.map((datePickerItem, datePickerIndex) => {
-                return {
-                    content: this.state[datePickerItem["key"]] ? moment(this.state[datePickerItem["key"]], timeFormat) : this.state[datePickerItem["key"]],
-                    func: this.onChangeDatePicker.bind(this),
-                    disabled: formDisabled,
-                    maxLength: 0,
-                    open: this.state[datePickerItem["key"] + "Open"],
-                    openFunc: this.onChangeDatePickerOpen.bind(this),
-                    disabledFunc: this.onDisabledDatePicker.bind(this)
-                }
-            }),
-            applicationFormPartSelectEnd.map((selectItem, selectIndex) => {
-                return {
-                    content: this.state[selectItem],
-                    func: this.onChangeSelect.bind(this),
-                    disabled: formDisabled
-                }
-            })
-        ]
+        //国家或者国籍都保存在state中
+        //判断options是否为空数组
+        options = this.judgeOptions(key, options);
+        //对表单内的组件进行分类处理,Input,Select,DatePicker
+        switch (classify) {
+            case applicationFormClassify[0]:
+                return (
+                    <Input
+                        size="large"
+                        type="text"
+                        placeholder={placeholder}
+                        disabled={formDisabled}
+                        maxLength={maxLength}
+                        value={this.state[key]}
+                        onChange={this.onChangeInput.bind(this, key)}
+                    />
+                );
+                break;
+            case applicationFormClassify[1]:
+                return (
+                    <Select
+                        size="large"
+                        disabled={formDisabled}
+                        value={this.state[key]}
+                        onChange={this.onChangeSelect.bind(this, key)}
+                    >
+                        {
+                            options.map((optionItem, index) => {
+                                return (
+                                    <Option
+                                        key={key + "-" + optionItem["key"]}
+                                        value={optionItem["key"]}>
+                                        {optionItem["value"]}
+                                    </Option>
+                                )
+                            })
+                        }
+                    </Select>
+                );
+                break;
+            case applicationFormClassify[2]:
+                return (
+                    <DatePicker
+                        disabledDate={disabled ? this.onDisabledDatePicker.bind(this) : this.onDisabledDatePickerNull.bind(this)}
+                        placeholder={value}
+                        size="large"
+                        disabled={formDisabled}
+                        value={this.state[key] ? moment(this.state[key], format) : this.state[key]}
+                        onChange={this.onChangeDatePicker.bind(this, key)}
+                        open={this.state[key + "Open"]}
+                        onOpenChange={this.onChangeDatePickerOpen.bind(this, key + "Open")}
+                    />
+                );
+                break;
+        }
+    }
+
+    /**
+     * 国家或者国籍都保存在state中
+     * 判断options是否为空数组
+     * @param key
+     * @param options
+     */
+    judgeOptions(key, options) {
+        return options && options.length > 0 ? options : this.state[key];
     }
 
     /**
@@ -711,45 +505,49 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * 设置所有的时间都可点击,以前、现在和未来
+     * @param current
+     */
+    onDisabledDatePickerNull(current) {
+        return false;
+    }
+
+    /**
      * 申请表单分栏
      * @returns {{formRowSingle: Array, formRowDouble: Array}}
      */
     renderFormRow() {
-        let formMode = this.renderFormMode();
-        let formResult = [];
+        let {renderFormMode} = this;
+        let integration = applicationFormIntegration;
         let formRow = {
             //左边列
             formRowSingle: [],
             //右边列
             formRowDouble: []
         };
-        //分散添加、查看或者修改申请表单所有状态、方法和长度限制
-        formMode.map((modeItem, modeIndex) => {
-            if (Object.prototype.toString.call(modeItem) === "[object Object]") {
-                formResult.push(modeItem);
-            }
-            if (Object.prototype.toString.call(modeItem) === "[object Array]") {
-                modeItem.forEach((item, index) => {
-                    formResult.push(item);
-                });
-            }
-        });
-        //集成添加、查看或者修改申请表单所有状态、方法和长度限制对象
-        applicationFormIntegration.map((integrationItem, integrationIndex) => {
+        //实现添加、查看或者修改申请表单所有组件、状态、方法和长度限制对象
+        integration.map((integrationItem, integrationIndex) => {
             let row = <Row
                 key={integrationItem["name"] + "_" + integrationIndex}
                 className="application-row"
             >
                 <Col span="11" className="application-col">
-                    {integrationItem["name"]}
+                    {integrationItem["value"]}
                 </Col>
                 <Col span="1">
 
                 </Col>
                 <Col span="12">
-                    {
-                        integrationItem.main.bind(this)(formResult[integrationIndex]["content"], formResult[integrationIndex]["func"], formResult[integrationIndex]["disabled"], formResult[integrationIndex]["maxLength"], formResult[integrationIndex]["open"], formResult[integrationIndex]["openFunc"], formResult[integrationIndex]["disabledFunc"])
-                    }
+                    {renderFormMode.bind(this)(
+                        integrationItem["classify"],
+                        integrationItem["key"],
+                        integrationItem["value"],
+                        integrationItem["placeholder"],
+                        integrationItem["maxLength"],
+                        integrationItem["format"],
+                        integrationItem["options"],
+                        integrationItem["disabled"]
+                    )}
                 </Col>
             </Row>;
             if (integrationIndex % 2 === 0) {
@@ -807,22 +605,16 @@ class ApplicationView extends React.Component {
      * @returns {XML}
      */
     renderFormName() {
-        const {formDisabled} = this.state;
-        const {onChangeInput} = this;
+        let integration = applicationFormIntegration;
         return (
             <Row className="application-row">
                 <Col span="12" className="application-col">
-                    <span className="application-header-title">{formName["value"]}</span>
+                    <span className="application-header-title">{integration[0]["value"]}</span>
                 </Col>
                 <Col span="12" className="application-col-formName">
-                    <Input
-                        size="large"
-                        type="text"
-                        maxLength={formName["maxLength"]}
-                        value={this.state[formName["key"]]}
-                        disabled={formDisabled}
-                        onChange={onChangeInput.bind(this, formName["key"])}
-                    />
+                    {
+                        this.renderFormMode(integration[0]["classify"], integration[0]["key"], integration[0]["maxLength"], integration[0]["placeholder"])
+                    }
                 </Col>
             </Row>
         )
@@ -967,12 +759,12 @@ class ApplicationView extends React.Component {
     returnFormsObject() {
         const {id} = this.state;
         let forms = {};
-        let mode = applicationFormMode;
+        let mode = applicationFormIntegration;
         for (let i = 0; i < mode.length; i++) {
             if (mode[i]["key"] === "dateOfBirth" || mode[i]["key"] === "validUntil") {
-                forms[mode[i]["key"]] = moment(this.state[mode[i]["key"]]).format('YYYY-MM-DD');
+                forms[mode[i]["key"]] = moment(this.state[mode[i]["key"]]).format(dateFormat);
             } else if (mode[i]["key"] === "durationOfStudyFrom" || mode[i]["key"] === "durationOfStudyTo") {
-                forms[mode[i]["key"]] = moment(this.state[mode[i]["key"]]).format('YYYY-MM-DD HH:mm:ss');
+                forms[mode[i]["key"]] = moment(this.state[mode[i]["key"]]).format(timeFormat);
             } else {
                 forms[mode[i]["key"]] = this.state[mode[i]["key"]];
             }
@@ -987,7 +779,7 @@ class ApplicationView extends React.Component {
      */
     saveApplication = (evt) => {
         const {id, current, formId} = this.state;
-        let checked = this.onCheck(applicationFormPartAll);
+        let checked = this.onCheck(applicationFormIntegration);
         if (checked) {
             let forms = this.returnFormsObject();
             //添加或者修改申请表单发出ajax请求
