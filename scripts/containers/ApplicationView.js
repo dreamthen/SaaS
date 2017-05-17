@@ -2,7 +2,7 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {Row, Col, Button, Card, Pagination, Modal, Alert, Input, Select, DatePicker} from "antd";
+import {Row, Col, Button, Card, Pagination, Modal, Alert, Input, Select, DatePicker, Spin} from "antd";
 import api from "../config/api";
 import {
     getApplicationList,
@@ -176,7 +176,9 @@ class ApplicationView extends React.Component {
             //成功提示语
             successPrompt: "",
             //表单是否可编辑
-            formDisabled: false
+            formDisabled: false,
+            //是否显示正在载入loading
+            loading: true
         }
     }
 
@@ -388,9 +390,19 @@ class ApplicationView extends React.Component {
                 id={id}
                 columns={applicationColumn}
                 dataSource={applicationList}
+                showLoading={this.showLoading.bind(this)}
                 getApplicationFormsAlready={getApplicationFormsAlready.bind(this)}
             />
         )
+    }
+
+    /**
+     * 显示正在载入loading......
+     */
+    showLoading() {
+        this.setState({
+            loading: true
+        });
     }
 
     /**
@@ -807,6 +819,21 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * 渲染正在载入loading
+     * @returns {XML}
+     */
+    renderSpin(){
+        const {loading} = this.state;
+        return (
+            <Spin
+                tip="loading......"
+                size="large"
+                spinning={loading}
+            />
+        )
+    }
+
+    /**
      * 添加申请表单
      * @param evt
      */
@@ -845,7 +872,8 @@ class ApplicationView extends React.Component {
             </div>,
             submit: applicationFormSubmit[1],
             formDisabled: true,
-            saveOrSubmit: true
+            saveOrSubmit: true,
+            loading: false
         });
         for (let objectItemKey in formObject) {
             if (objectItemKey === "id") {
@@ -982,6 +1010,7 @@ class ApplicationView extends React.Component {
                     }
                     {this.renderForm()}
                 </Card>
+                {this.renderSpin()}
             </section>
         )
     }

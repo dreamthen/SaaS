@@ -9,6 +9,34 @@
     height: 100%;
 }
 
+.application-container > .ant-spin {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1500;
+}
+
+.application-container > .ant-spin > .ant-spin-dot,
+.application-container > .ant-spin > .ant-spin-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2000;
+    margin-top: -26px;
+    margin-left: -20px;
+}
+
+.application-container > .ant-spin > .ant-spin-text {
+    width: 100%;
+    top: 50%;
+    left: 0;
+    padding-top: 12px;
+    font-size: 16px;
+    margin: 0;
+}
+
 .application-card .ant-card-head-title {
     font-size: 20px;
     font-weight: normal;
