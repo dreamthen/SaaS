@@ -115,14 +115,8 @@ class ApplicationView extends React.Component {
             receiver: "",
             //英语能力
             englishAbility: "A",
-            //汉语阅读
-            chineseReading: "A",
-            //口语
-            chineseSpeaking: "A",
-            //听
-            chineseListening: "A",
-            //写
-            chineseWriting: "A",
+            //汉语能力
+            chineseAbility: "A",
             //其他语言能力
             otherLanguageAbility: "A",
             //其他语言
@@ -178,7 +172,7 @@ class ApplicationView extends React.Component {
             //表单是否可编辑
             formDisabled: false,
             //是否显示正在载入loading
-            loading: true
+            loading: false
         }
     }
 
@@ -220,7 +214,7 @@ class ApplicationView extends React.Component {
      */
     onCheck(keyArray) {
         for (let i = 0; i < keyArray.length; i++) {
-            if (this.state[keyArray[i]["key"]] === "") {
+            if ((this.state[keyArray[i]["key"]] === "" || this.state[keyArray[i]["key"]] === null) && keyArray[i]["isRequired"]) {
                 this.showErrorPrompt(Error["NULL_" + keyArray[i]["key"].toUpperCase() + "_VALUE"]);
                 return false;
             }
@@ -668,7 +662,7 @@ class ApplicationView extends React.Component {
                     <div className="must-fill-title">
                     </div>
                     <div className="must-fill-title-font">
-                        Including Person Information(must fill)
+                        Including Person Information
                     </div>
                 </div>
                 <Row className="application-row">
@@ -822,7 +816,7 @@ class ApplicationView extends React.Component {
      * 渲染正在载入loading
      * @returns {XML}
      */
-    renderSpin(){
+    renderSpin() {
         const {loading} = this.state;
         return (
             <Spin

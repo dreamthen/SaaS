@@ -50,7 +50,8 @@ const applicationFormIntegration = [{
     key: "formName",
     value: "申请表标识名",
     maxLength: 45,
-    placeholder: PlaceHolder.PLACEHOLDER_FORM_NAME_VALUE
+    placeholder: PlaceHolder.PLACEHOLDER_FORM_NAME_VALUE,
+    isRequired: true
 }, {
     classify: "input",
     key: "familyName",
@@ -58,7 +59,8 @@ const applicationFormIntegration = [{
     maxLength: 20,
     placeholder: PlaceHolder.PLACEHOLDER_FAMILY_NAME_VALUE,
     mustFill: "mast-fill",
-    position: "left"
+    position: "left",
+    isRequired: true
 }, {
     classify: "input",
     key: "middleName",
@@ -74,7 +76,8 @@ const applicationFormIntegration = [{
     maxLength: 20,
     placeholder: PlaceHolder.PLACEHOLDER_GIVEN_NAME_VALUE,
     mustFill: "mast-fill",
-    position: "left"
+    position: "left",
+    isRequired: true
 }, {
     classify: "input",
     key: "chineseName",
@@ -105,7 +108,8 @@ const applicationFormIntegration = [{
     disabled: true,
     mustFill: "mast-fill",
     position: "left",
-    showTime: false
+    showTime: false,
+    isRequired: true
 }, {
     classify: "datePicker",
     key: "validUntil",
@@ -114,7 +118,8 @@ const applicationFormIntegration = [{
     disabled: true,
     mustFill: "mast-fill",
     position: "right",
-    showTime: false
+    showTime: false,
+    isRequired: true
 }, {
     classify: "input",
     key: "placeOfBirth",
@@ -122,7 +127,8 @@ const applicationFormIntegration = [{
     maxLength: 25,
     placeholder: PlaceHolder.PLACEHOLDER_PLACE_OF_BIRTH_VALUE,
     mustFill: "mast-fill",
-    position: "left"
+    position: "left",
+    isRequired: true
 }, {
     classify: "input",
     key: "passportNo",
@@ -130,7 +136,8 @@ const applicationFormIntegration = [{
     maxLength: 25,
     placeholder: PlaceHolder.PLACEHOLDER_PASSPORT_NO_VALUE,
     mustFill: "mast-fill",
-    position: "right"
+    position: "right",
+    isRequired: true
 }, {
     classify: "select",
     key: "religion",
@@ -152,7 +159,8 @@ const applicationFormIntegration = [{
     maxLength: 25,
     placeholder: PlaceHolder.PLACEHOLDER_OCCUPATION_VALUE,
     mustFill: "mast-fill",
-    position: "left"
+    position: "left",
+    isRequired: true
 }, {
     classify: "input",
     key: "institutionOrEmployer",
@@ -160,7 +168,8 @@ const applicationFormIntegration = [{
     maxLength: 25,
     placeholder: PlaceHolder.PLACEHOLDER_INSTITUTION_OR_EMPLOYER_VALUE,
     mustFill: "mast-fill",
-    position: "right"
+    position: "right",
+    isRequired: true
 }, {
     classify: "input",
     key: "phone",
@@ -168,7 +177,8 @@ const applicationFormIntegration = [{
     maxLength: 20,
     placeholder: PlaceHolder.PLACEHOLDER_PHONE_VALUE,
     mustFill: "mast-fill",
-    position: "left"
+    position: "left",
+    isRequired: true
 }, {
     classify: "input",
     key: "email",
@@ -176,7 +186,8 @@ const applicationFormIntegration = [{
     maxLength: 45,
     placeholder: PlaceHolder.PLACEHOLDER_EMAIL_VALUE,
     mustFill: "mast-fill",
-    position: "right"
+    position: "right",
+    isRequired: true
 }, {
     classify: "input",
     key: "homeCountryAddress",
@@ -184,7 +195,8 @@ const applicationFormIntegration = [{
     maxLength: 45,
     placeholder: PlaceHolder.PLACEHOLDER_HOME_COUNTRY_ADDRESS_VALUE,
     mustFill: "mast-fill",
-    position: "left"
+    position: "left",
+    isRequired: true
 }, {
     classify: "input",
     key: "zipCode",
@@ -192,7 +204,8 @@ const applicationFormIntegration = [{
     maxLength: 25,
     placeholder: PlaceHolder.PLACEHOLDER_ZIP_CODE_VALUE,
     mustFill: "mast-fill",
-    position: "right"
+    position: "right",
+    isRequired: true
 }, {
     classify: "input",
     key: "fax",
@@ -208,7 +221,8 @@ const applicationFormIntegration = [{
     maxLength: 45,
     placeholder: PlaceHolder.PLACEHOLDER_MAILING_ADDRESS_VALUE,
     mustFill: "mast-fill",
-    position: "right"
+    position: "right",
+    isRequired: true
 }, {
     classify: "input",
     key: "receiver",
@@ -216,7 +230,8 @@ const applicationFormIntegration = [{
     maxLength: 15,
     placeholder: PlaceHolder.PLACEHOLDER_RECEIVER_VALUE,
     mustFill: "mast-fill",
-    position: "left"
+    position: "left",
+    isRequired: true
 }, {
     classify: "select",
     key: "englishAbility",
@@ -226,39 +241,18 @@ const applicationFormIntegration = [{
     position: "left"
 }, {
     classify: "select",
-    key: "chineseReading",
-    value: "汉语阅读",
+    key: "chineseAbility",
+    value: "汉语能力",
     options: CHINESE_OR_ENGLISH_ABILITY,
     mustFill: "chinese-fluency",
     position: "right"
-}, {
-    classify: "select",
-    key: "chineseSpeaking",
-    value: "口语",
-    options: CHINESE_OR_ENGLISH_ABILITY,
-    mustFill: "chinese-fluency",
-    position: "left"
-}, {
-    classify: "select",
-    key: "chineseListening",
-    value: "听",
-    options: CHINESE_OR_ENGLISH_ABILITY,
-    mustFill: "chinese-fluency",
-    position: "right"
-}, {
-    classify: "select",
-    key: "chineseWriting",
-    value: "写",
-    options: CHINESE_OR_ENGLISH_ABILITY,
-    mustFill: "chinese-fluency",
-    position: "left"
 }, {
     classify: "select",
     key: "otherLanguageAbility",
     value: "其他语言能力",
     options: CHINESE_OR_ENGLISH_ABILITY,
     mustFill: "chinese-fluency",
-    position: "right"
+    position: "left"
 }, {
     classify: "input",
     key: "otherLanguage",
@@ -266,39 +260,39 @@ const applicationFormIntegration = [{
     maxLength: 45,
     placeholder: PlaceHolder.PLACEHOLDER_OTHER_LANGUAGE_VALUE,
     mustFill: "chinese-fluency",
-    position: "left"
+    position: "right"
 }, {
     classify: "input",
     key: "recommendedBy",
     value: "推荐单位（人）",
     maxLength: 45,
     placeholder: PlaceHolder.PLACEHOLDER_RECOMMENDED_BY_VALUE,
-    mustFill: "chinese-fluency",
-    position: "right"
+    mustFill: "other-information",
+    position: "left"
 }, {
     classify: "input",
     key: "contactPerson",
     value: "联系人",
     maxLength: 15,
     placeholder: PlaceHolder.PLACEHOLDER_CONTACT_PERSON_VALUE,
-    mustFill: "chinese-fluency",
-    position: "left"
+    mustFill: "other-information",
+    position: "right"
 }, {
     classify: "input",
     key: "recommendAddress",
     value: "联系地址",
     maxLength: 45,
     placeholder: PlaceHolder.PLACEHOLDER_RECOMMEND_ADDRESS_VALUE,
-    mustFill: "chinese-fluency",
-    position: "right"
+    mustFill: "other-information",
+    position: "left"
 }, {
     classify: "input",
     key: "contactTel",
     value: "联系人手机",
     maxLength: 20,
     placeholder: PlaceHolder.PLACEHOLDER_CONTACT_TEL_VALUE,
-    mustFill: "chinese-fluency",
-    position: "left"
+    mustFill: "other-information",
+    position: "right"
 }, {
     classify: "input",
     key: "majorOrStudy",
@@ -306,7 +300,7 @@ const applicationFormIntegration = [{
     maxLength: 45,
     placeholder: PlaceHolder.PLACEHOLDER_MAJOR_OR_STUDY_VALUE,
     mustFill: "chinese-fluency",
-    position: "right"
+    position: "left"
 }, {
     classify: "input",
     key: "chinaContactName",
@@ -346,8 +340,9 @@ const applicationFormIntegration = [{
     disabled: false,
     format: timeFormat,
     mustFill: "chinese-fluency",
-    position: "left",
-    showTime: true
+    position: "right",
+    showTime: true,
+    isRequired: true
 }, {
     classify: "datePicker",
     key: "durationOfStudyTo",
@@ -355,8 +350,9 @@ const applicationFormIntegration = [{
     disabled: false,
     format: timeFormat,
     mustFill: "chinese-fluency",
-    position: "right",
-    showTime: true
+    position: "left",
+    showTime: true,
+    isRequired: true
 }, {
     classify: "select",
     key: "financialResource",
@@ -371,7 +367,7 @@ const applicationFormIntegration = [{
     value: "申请类别",
     options: CATEGORY,
     mustFill: "chinese-fluency",
-    position: "left"
+    position: "right"
 }];
 
 export default applicationFormIntegration;
