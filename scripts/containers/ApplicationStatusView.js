@@ -106,7 +106,7 @@ class ApplicationStatusView extends React.Component {
 
                 </i>
                 <p>
-                    请选择一张申请表,提交您的申请~
+                    Please choose an application form and submit your application ~
                 </p>
                 <Button
                     size="large"
@@ -114,7 +114,7 @@ class ApplicationStatusView extends React.Component {
                     className="applicationStatus-apply-button"
                     onClick={this.chooseApplicationStatus.bind(this)}
                 >
-                    提交申请
+                    submit application
                 </Button>
             </div>
         )
