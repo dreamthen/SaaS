@@ -728,7 +728,18 @@ class ApplicationView extends React.Component {
      * @returns {XML}
      */
     renderMustFill(mustFill) {
-        this.renderFormCommon(mustFill);
+        return (
+            <div className="application-must-fill">
+                <div className="application-common-container">
+                    <div className="must-fill-title">
+                    </div>
+                    <div className="must-fill-title-font">
+                        Including Person Information(must fill)
+                    </div>
+                </div>
+                {this.renderFormCommon(mustFill)}
+            </div>
+        )
     }
 
     /**
@@ -736,7 +747,18 @@ class ApplicationView extends React.Component {
      * @param chineseFluency
      */
     renderChineseFluency(chineseFluency) {
-        this.renderFormCommon(chineseFluency);
+        return (
+            <div className="application-chinese-fluency">
+                <div className="application-common-container">
+                    <div className="chinese-fluency-title">
+                    </div>
+                    <div className="chinese-fluency-title-font">
+                        Education
+                    </div>
+                </div>
+                {this.renderFormCommon(chineseFluency)}
+            </div>
+        )
     }
 
     /**
@@ -744,7 +766,18 @@ class ApplicationView extends React.Component {
      * @param otherInformation
      */
     renderOtherInformation(otherInformation) {
-        this.renderFormCommon(otherInformation);
+        return (
+            <div className="application-other-information">
+                <div className="application-common-container other-information-title">
+                    <div className="other-information-title">
+                    </div>
+                    <div className="other-information-title-font">
+                        Other Information
+                    </div>
+                </div>
+                {this.renderFormCommon(otherInformation)}
+            </div>
+        )
     }
 
     /**
