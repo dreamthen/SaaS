@@ -2,7 +2,8 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {Button, Card, Modal} from "antd";
+import {Button, Card, Modal, Alert} from "antd";
+import Error from "../prompt/error_prompt";
 import storageData from "../config/storageData";
 import localStorageObject from "../config/localStorage";
 import relations from "../config/applicationStatusRelation";
@@ -44,7 +45,19 @@ class ApplicationStatusView extends React.Component {
             //是否弹出获取申请列表弹窗
             visible: false,
             //分页页数
-            current: 1
+            current: 1,
+            //是否弹出错误提示框
+            isError: false,
+            //是否弹出警告提示框
+            isWarn: false,
+            //是否弹出成功提示框
+            isSuccess: false,
+            //错误提示语
+            errorPrompt: "",
+            //警告提示语
+            warnPrompt: "",
+            //成功提示语
+            successPrompt: "",
         }
     }
 
@@ -58,6 +71,18 @@ class ApplicationStatusView extends React.Component {
         //发出获取申请关系的ajax请求
         let apply_status = getApplyRelations.bind(this);
         apply_status(id);
+    }
+
+    /**
+     * 初始化申请单列表弹出框
+     */
+    initApplicationStatus() {
+        this.setState({
+            //申请表id
+            formId: 0
+        });
+        //初始化提示语状态
+        this.setPromptTrueOrFalse(false, false, false);
     }
 
     /**
@@ -91,9 +116,57 @@ class ApplicationStatusView extends React.Component {
                 >
                     提交申请
                 </Button>
-
             </div>
         )
+    }
+
+    /**
+     * render渲染提示语
+     * @returns {XML}
+     */
+    renderAlert() {
+        const {isError, isWarn, isSuccess, errorPrompt, warnPrompt, successPrompt} = this.state;
+        return (
+            <div className="applicationStatus-alert">
+                {/*错误提示语*/}
+                {
+                    isError && <Alert type="error" message={errorPrompt} showIcon/>
+                }
+                {/*警告提示语*/}
+                {
+                    isWarn && <Alert type="warning" message={warnPrompt} showIcon/>
+                }
+                {/*成功提示语*/}
+                {
+                    isSuccess && <Alert type="success" message={successPrompt} showIcon/>
+                }
+            </div>
+        )
+    }
+
+    /**
+     * 设置错误、警告或者成功提示语状态
+     * @param isError
+     * @param isWarn
+     * @param isSuccess
+     */
+    setPromptTrueOrFalse(isError, isWarn, isSuccess) {
+        this.setState({
+            isError,
+            isWarn,
+            isSuccess
+        });
+    }
+
+    /**
+     * 集成申请列表错误提示状态
+     * @param prompt
+     */
+    showErrorPrompt(prompt) {
+        this.setPromptTrueOrFalse(true, false, false);
+        this.setState({
+            errorPrompt: prompt
+        });
     }
 
     /**
@@ -201,15 +274,29 @@ class ApplicationStatusView extends React.Component {
                 title="申请表"
                 visible={visible}
                 width={960}
+                wrapClassName="applicationStatus-modal-wrapper"
                 className="applicationStatus-modal"
                 okText="确认提交"
                 onOk={this.submitApplication}
                 onCancel={this.cancelApplicationStatus}
             >
+                {this.renderAlert()}
                 {(applicationList && applicationList.length > 0) ? this.renderTable() : this.renderNull()}
-
             </Modal>
         )
+    }
+
+    /**
+     * 校验申请列表中是否有数据
+     */
+    onCheck() {
+        const {applicationList} = this.state;
+        const {showErrorPrompt} = this;
+        if (applicationList.length <= 0) {
+            showErrorPrompt.bind(this)(Error.NULL_APPLY_LIST_VALUE);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -218,10 +305,13 @@ class ApplicationStatusView extends React.Component {
      */
     submitApplication = (evt) => {
         const {id, formId, universityId, current} = this.state;
-        //发出添加申请关系ajax请求
-        let add_apply_relation_action = addApplyRelations.bind(this);
-        add_apply_relation_action(id, formId, universityId, current, PAGE_SIZE);
-        evt.nativeEvent.stopImmediatePropagation();
+        let checked = this.onCheck();
+        if (checked) {
+            //发出添加申请关系ajax请求
+            let add_apply_relation_action = addApplyRelations.bind(this);
+            add_apply_relation_action(id, formId, universityId, current, PAGE_SIZE);
+            evt.nativeEvent.stopImmediatePropagation();
+        }
     };
 
     /**
@@ -231,6 +321,8 @@ class ApplicationStatusView extends React.Component {
         this.setState({
             visible: false
         });
+        //初始化申请单列表弹出框
+        this.initApplicationStatus();
         evt.nativeEvent.stopImmediatePropagation();
     };
 

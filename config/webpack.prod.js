@@ -37,7 +37,8 @@ const AUTOPREFIXER_BROWSERS = [
 var config = {
     entry: {
         app: APP_DIR + '/app.js',
-        login: APP_DIR + '/login.js'
+        login: APP_DIR + '/login.js',
+        notFound: APP_DIR + '/notFound.js'
     },
 
     output: {

@@ -68,3 +68,16 @@
     border-color: #529ECC;
 }
 
+.applicationStatus-modal-wrapper {
+    overflow: hidden;
+}
+
+.applicationStatus-modal .applicationStatus-alert {
+    position: fixed;
+    width: 240px;
+    top: 30px;
+    left: 50%;
+    margin-left: -120px;
+}
+
+

@@ -104,7 +104,8 @@ const applicationFormIntegration = [{
     format: dateFormat,
     disabled: true,
     mustFill: "mast-fill",
-    position: "left"
+    position: "left",
+    showTime: false
 }, {
     classify: "datePicker",
     key: "validUntil",
@@ -112,7 +113,8 @@ const applicationFormIntegration = [{
     format: dateFormat,
     disabled: true,
     mustFill: "mast-fill",
-    position: "right"
+    position: "right",
+    showTime: false
 }, {
     classify: "input",
     key: "placeOfBirth",
@@ -344,7 +346,8 @@ const applicationFormIntegration = [{
     disabled: false,
     format: timeFormat,
     mustFill: "chinese-fluency",
-    position: "left"
+    position: "left",
+    showTime: true
 }, {
     classify: "datePicker",
     key: "durationOfStudyTo",
@@ -352,7 +355,8 @@ const applicationFormIntegration = [{
     disabled: false,
     format: timeFormat,
     mustFill: "chinese-fluency",
-    position: "right"
+    position: "right",
+    showTime: true
 }, {
     classify: "select",
     key: "financialResource",

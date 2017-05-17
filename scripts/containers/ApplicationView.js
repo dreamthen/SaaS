@@ -247,7 +247,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * 集成表单提示状态
+     * 集成表单错误提示状态
      * @param prompt
      */
     showErrorPrompt(prompt) {
@@ -399,7 +399,7 @@ class ApplicationView extends React.Component {
      * 集成添加、查看和修改申请表单所有组件、状态、方法和长度限制
      * @returns {*}
      */
-    renderFormMode(classify, key, value, placeholder, maxLength, format, options, disabled) {
+    renderFormMode(classify, key, value, placeholder, maxLength, format, options, disabled, showTime) {
         const {formDisabled} = this.state;
         //国家或者国籍都保存在state中
         //判断options是否为空数组
@@ -448,6 +448,8 @@ class ApplicationView extends React.Component {
                         placeholder={value}
                         size="large"
                         disabled={formDisabled}
+                        showTime={showTime ? true : false}
+                        format={showTime ? timeFormat : dateFormat}
                         value={this.state[key] ? moment(this.state[key], format) : this.state[key]}
                         onChange={this.onChangeDatePicker.bind(this, key)}
                         open={this.state[key + "Open"]}
@@ -575,7 +577,8 @@ class ApplicationView extends React.Component {
                             integrationItem["maxLength"],
                             integrationItem["format"],
                             integrationItem["options"],
-                            integrationItem["disabled"]
+                            integrationItem["disabled"],
+                            integrationItem["showTime"]
                         )}
                     </Col>
                 </Row>;
@@ -653,16 +656,25 @@ class ApplicationView extends React.Component {
     renderFormName() {
         let integration = applicationFormIntegration;
         return (
-            <Row className="application-row">
-                <Col span="12" className="application-col">
-                    <span className="application-header-title">{integration[0]["value"]}</span>
-                </Col>
-                <Col span="12" className="application-col-formName">
-                    {
-                        this.renderFormMode(integration[0]["classify"], integration[0]["key"], integration[0]["maxLength"], integration[0]["placeholder"])
-                    }
-                </Col>
-            </Row>
+            <div className="application-common">
+                <div className="application-common-container">
+                    <div className="must-fill-title">
+                    </div>
+                    <div className="must-fill-title-font">
+                        Including Person Information(must fill)
+                    </div>
+                </div>
+                <Row className="application-row">
+                    <Col span="12" className="application-col">
+                        <span className="application-header-title">{integration[0]["value"]}</span>
+                    </Col>
+                    <Col span="12" className="application-col-formName">
+                        {
+                            this.renderFormMode(integration[0]["classify"], integration[0]["key"], integration[0]["maxLength"], integration[0]["placeholder"])
+                        }
+                    </Col>
+                </Row>
+            </div>
         )
     }
 
@@ -730,13 +742,6 @@ class ApplicationView extends React.Component {
     renderMustFill(mustFill) {
         return (
             <div className="application-must-fill">
-                <div className="application-common-container">
-                    <div className="must-fill-title">
-                    </div>
-                    <div className="must-fill-title-font">
-                        Including Person Information(must fill)
-                    </div>
-                </div>
                 {this.renderFormCommon(mustFill)}
             </div>
         )

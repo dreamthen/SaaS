@@ -66,6 +66,7 @@ const Error = {
     EXCESS_CHINACONTACTADDRESS_LENGTH: "超出在华事务联系人地址长度限额",
     NULL_FORMNAME_VALUE: "请输入您的申请单标识名",
     EXCESS_FORMNAME_LENGTH: "超出申请单标识名长度限额",
+    NULL_APPLY_LIST_VALUE: "申请列表暂无数据,请在申请表页面添加一张申请表",
     INPUT_NULL_ONLY_OLD_PASSWORD: "请输入原密码",
     INPUT_EXCESS_ONLY_OLD_PASSWORD: "原密码只允许输入6位",
     INPUT_NULL_ONLY_NEW_PASSWORD: "请输入新密码",
