@@ -161,6 +161,7 @@ export function setVerifyRecently(id, email) {
             code = response.head.code;
         if (code === Success.STUDENT_SUCCESS_CODE) {
             message.success(Success.EMAIL_VERIFY_SUCCESS);
+            this.setPasswordPromptTrueOrFalse(false, false, false);
         } else {
             message.warning(msg);
         }
