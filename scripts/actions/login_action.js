@@ -34,11 +34,18 @@ export function loginAction(account, password) {
             code = response.head.code,
             localStorageArray = [];
         if (code === Success.LOGIN_SUCCESS_CODE) {
-            let id = response.body.id,
-                email = response.body.email,
-                sex = response.body.sex,
-                phone = response.body.phone,
-                body = response.body;
+                //用户登录的所有信息(id,用户名,密码,邮箱,性别和手机号码)
+            let body = response.body,
+                //用户登录id
+                id = body.id,
+                //个人信息邮箱
+                email = body.email,
+                //个人信息性别
+                sex = body.sex,
+                //个人信息手机号码
+                phone = body.phone;
+            //初始化提示语和输入框
+            this.initState();
             //设置成功状态和成功提示语
             this.setPromptTrueOrFalse(false, false, true);
             this.setState({
@@ -108,13 +115,14 @@ export function registerAction(account, password) {
                 accountClassName: "input-account-container SaaS-leave",
                 passwordClassName: "input-password-container SaaS-enter"
             });
-            //FIXME 这里需要设置一个时间控制器，需要使用setTimeout
+            //FIXME 这里需要设置一个时间控制器,需要使用setTimeout生成动画,在注册成功1.5s之后,右划到登录页面
             let timer = setTimeout(function timerControl() {
+                //初始化提示语和输入框
+                this.initState();
                 this.setState({
-                    account: "",
-                    password: "",
-                    isSuccess: false,
+                    //设置登录页面模块距离左边长度为0
                     loginActionLeft: 0,
+                    //设置注册页面模块距离左边长度为100%
                     registerActionLeft: "100%"
                 }, () => {
                     clearTimeout(timer);

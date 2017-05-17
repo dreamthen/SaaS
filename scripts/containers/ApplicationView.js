@@ -15,6 +15,7 @@ import storageData from "../config/storageData";
 import applicationFormTitle from "../config/applicationFormTitle";
 import applicationColumn from "../config/applicationConfig";
 import applicationFormIntegration from "../config/applicationFormIntegration";
+import mustFillClassify from "../config/mustFillClassify";
 import Error from "../prompt/error_prompt";
 import {Table} from "../components/Table/index";
 import {NullComponent} from "../components/NullComponent/index";
@@ -37,9 +38,6 @@ const applicationFormSubmit = ["保存", "提交"];
 const applicationFormClassify = ["input", "select", "datePicker"];
 //国籍或者宗教
 const countryOrReligion = ["countryOfCitizenship", "religion"];
-//根据必填、中文能力以及其他能力进行划分三块
-const mustFillClassify = ["mast-fill", "chinese-fluency", "other-information"];
-const positionClassify = ["left", "right"];
 
 class ApplicationView extends React.Component {
     constructor(props) {
@@ -396,7 +394,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * 集成添加、查看和修改申请表单所有组件、状态、方法和长度限制
+     * 集成添加、查看和修改申请表单所有组件
      * @returns {*}
      */
     renderFormMode(classify, key, value, placeholder, maxLength, format, options, disabled, showTime) {
@@ -407,6 +405,7 @@ class ApplicationView extends React.Component {
         //对表单内的组件进行分类处理,Input,Select,DatePicker
         switch (classify) {
             case applicationFormClassify[0]:
+                //Input输入框
                 return (
                     <Input
                         size="large"
@@ -420,6 +419,7 @@ class ApplicationView extends React.Component {
                 );
                 break;
             case applicationFormClassify[1]:
+                //Select选择框
                 return (
                     <Select
                         size="large"
@@ -442,6 +442,7 @@ class ApplicationView extends React.Component {
                 );
                 break;
             case applicationFormClassify[2]:
+                //DatePicker时间框
                 return (
                     <DatePicker
                         disabledDate={disabled ? this.onDisabledDatePicker.bind(this) : this.onDisabledDatePickerNull.bind(this)}
@@ -536,8 +537,11 @@ class ApplicationView extends React.Component {
      * @returns {{formRowSingle: Array, formRowDouble: Array}}
      */
     renderFormRow() {
+        //集成添加、查看和修改申请表单所有组件、方法和禁用状态
         let {renderFormMode} = this;
+        //集成添加、查看和修改申请表单所有提示语、状态、框内默认提示语和长度限制等一些属性
         let integration = applicationFormIntegration;
+        ///集成添加、查看和修改申请表单最终渲染数据结构
         let formRow = {
             //第一部分必填域
             formRowMustFill: {
@@ -556,8 +560,9 @@ class ApplicationView extends React.Component {
             }
         };
         //实现添加、查看或者修改申请表单所有组件、状态、方法和长度限制对象
-        integration.map((integrationItem, integrationIndex) => {
+        integration.forEach((integrationItem, integrationIndex) => {
             if (integrationIndex !== 0) {
+                //集成添加、查看和修改申请表单所有组件、方法、禁用状态、提示语、状态、框内默认提示语和长度限制的react结构
                 let row = <Row
                     key={integrationItem["key"] + "_" + integrationItem["value"]}
                     className="application-row"
@@ -582,27 +587,16 @@ class ApplicationView extends React.Component {
                         )}
                     </Col>
                 </Row>;
-                if (integrationItem["mustFill"] === mustFillClassify[0]) {
-                    if (integrationItem["position"] === positionClassify[0]) {
-                        formRow["formRowMustFill"][positionClassify[0]].push(row);
-                    } else {
-                        formRow["formRowMustFill"][positionClassify[1]].push(row);
+                //集成添加、查看和修改申请表单最终渲染react结构
+                mustFillClassify.forEach((mustFillItem, mustFillIndex) => {
+                    if (integrationItem[mustFillItem["navigation"]] === mustFillItem["key"]) {
+                        if (integrationItem[mustFillItem["position"]] === mustFillItem["children"][0]) {
+                            formRow[mustFillItem["value"]][mustFillItem["children"][0]].push(row);
+                        } else {
+                            formRow[mustFillItem["value"]][mustFillItem["children"][1]].push(row);
+                        }
                     }
-                }
-                if (integrationItem["mustFill"] === mustFillClassify[1]) {
-                    if (integrationItem["position"] === positionClassify[0]) {
-                        formRow["formRowChineseFluency"][positionClassify[0]].push(row);
-                    } else {
-                        formRow["formRowChineseFluency"][positionClassify[1]].push(row);
-                    }
-                }
-                if (integrationItem["mustFill"] === mustFillClassify[2]) {
-                    if (integrationItem["position"] === positionClassify[0]) {
-                        formRow["formRowOtherInformation"][positionClassify[0]].push(row);
-                    } else {
-                        formRow["formRowOtherInformation"][positionClassify[1]].push(row);
-                    }
-                }
+                });
             }
         });
         return formRow;

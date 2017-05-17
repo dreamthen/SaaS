@@ -23,7 +23,8 @@ const requestError = {
                 break;
             //其他服务器错误
             default:
-                message.warning(Error.SERVER_ERROR + status + ",请重新登录", 4);
+                message.warning(Error.SERVER_ERROR + "30x,请重新登录", 4);
+                //FIXME 这里设置一个时间处理器,4s之后跳转到登录页面
                 setTimeout(() => {
                     window.location = "./login.html";
                 }, 4000);

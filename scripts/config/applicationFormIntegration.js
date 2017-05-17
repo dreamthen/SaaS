@@ -44,7 +44,7 @@ const dateFormat = 'YYYY-MM-DD';
 //时间格式规范
 const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 
-//集成添加、查看和修改申请表单所有状态、方法和长度限制
+//集成添加、查看和修改申请表单所有提示语、状态、框内默认提示语和长度限制等一些属性
 const applicationFormIntegration = [{
     classify: "input",
     key: "formName",

@@ -49,12 +49,14 @@ class LoginView extends React.Component {
     }
 
     /**
-     * 集成错误提示状态
+     * 集成错误提示状态和提示语
      * @param prompt
      */
     showErrorPrompt(prompt) {
         this.setState({
+            //设置错误状态
             isError: true,
+            //设置错误提示语
             errorPrompt: prompt
         });
     }
@@ -77,9 +79,12 @@ class LoginView extends React.Component {
      * 初始化提示语和输入框
      */
     initState() {
+        //初始化默认提示语状态
         this.setPromptTrueOrFalse(false, false, false);
         this.setState({
+            //初始化用户名
             account: "",
+            //初始化密码
             password: ""
         })
     }
@@ -384,6 +389,10 @@ class LoginView extends React.Component {
         evt.nativeEvent.stopPropagation();
     };
 
+    /**
+     * render渲染最终结构
+     * @returns {XML}
+     */
     render() {
         const {
             whetherNext,
@@ -428,9 +437,7 @@ class LoginView extends React.Component {
                     <div className="register-nav">
                         <nav className="nav-container">
                             <div className="nav-logo">
-                                {/*<figure>*/}
-                                {/*<img src={require("../../images/login_bg.png")} alt="SaaS_Logo"/>*/}
-                                {/*</figure>*/}
+
                             </div>
                             <Button type="default"
                                     className="nav-button"
