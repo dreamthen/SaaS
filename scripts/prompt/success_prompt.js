@@ -11,6 +11,9 @@ const Success = {
     REGISTER_SUCCESS_MESSAGE: "注册成功,即将跳往登录页面",
     SAVE_STUDENT_INFORMATION_SUCCESS: "个人信息保存成功",
     CHANGE_STUDENT_PASSWORD_SUCCESS: "修改密码成功",
+    ADD_APPLICATION_FORMS_SUCCESS: "添加申请表成功",
+    CHANGE_APPLICATION_FORMS_SUCCESS: "修改申请表成功",
+    ADD_APPLY_RELATIONS_SUCCESS: "提交成功,已添加申请关系",
     EMAIL_VERIFY_SUCCESS: "注意查收激活邮件"
 };
 module.exports = Success;

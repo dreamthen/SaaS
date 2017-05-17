@@ -445,7 +445,7 @@ class ApplicationView extends React.Component {
                 //DatePicker时间框
                 return (
                     <DatePicker
-                        disabledDate={disabled ? this.onDisabledDatePicker.bind(this) : this.onDisabledDatePickerNull.bind(this)}
+                        disabledDate={disabled ? this.onDisabledDatePickerNull.bind(this) : this.onDisabledDatePicker.bind(this)}
                         placeholder={value}
                         size="large"
                         disabled={formDisabled}
@@ -648,6 +648,7 @@ class ApplicationView extends React.Component {
      * @returns {XML}
      */
     renderFormName() {
+        //集成添加、查看和修改申请表单所有提示语、状态、框内默认提示语和长度限制等一些属性
         let integration = applicationFormIntegration;
         return (
             <div className="application-common">
@@ -692,11 +693,17 @@ class ApplicationView extends React.Component {
                 onOk={saveOrSubmit ? this.submitApplication.bind(this) : this.saveApplication.bind(this)}
                 onCancel={this.cancelApplication.bind(this)}
             >
+                {/*错误、警告和成功状态提示语部分*/}
                 {this.renderAlert()}
+                {/*头部Focus图标和蓝色placeholder背景图*/}
                 {this.renderFocusPlace()}
+                {/*表单内容顶部申请单标识名以及第一部分标题Including Person Information(must fill)*/}
                 {this.renderFormName()}
+                {/*第一部分必填域*/}
                 {this.renderMustFill(formRow["formRowMustFill"])}
+                {/*第一部分中文能力*/}
                 {this.renderChineseFluency(formRow["formRowChineseFluency"])}
+                {/*第一部分其他信息*/}
                 {this.renderOtherInformation(formRow["formRowOtherInformation"])}
             </Modal>
         )

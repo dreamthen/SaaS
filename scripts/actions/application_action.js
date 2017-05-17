@@ -66,15 +66,24 @@ export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, p
         if (code === Success.APPLICATION_SUCCESS_CODE) {
             //初始化添加、查看或者修改的申请表单
             this.initApplication();
+            //设置成功状态和提示语
             //将添加、查看和修改申请单弹出框关闭
+            this.setPromptTrueOrFalse(false, false, true);
             this.setState({
-                visible: false
+                successPrompt: formId === 0 ? Success.ADD_APPLICATION_FORMS_SUCCESS : Success.CHANGE_APPLICATION_FORMS_SUCCESS
             });
-            //发出获取申请单列表ajax请求
-            let application_action = getApplicationList.bind(this);
-            application_action(studentId, pageNum, pageSize);
+            // FIXME 这里需要设置一个时间控制器,需要使用setTimeout延迟时间,延迟1.5s将添加、查看和修改申请单弹出框关闭并发出获取申请单列表ajax请求
+            setTimeout(function timerControl() {
+                //将添加、查看和修改申请单弹出框关闭
+                this.setState({
+                    visible: false
+                });
+                //发出获取申请单列表ajax请求
+                let application_action = getApplicationList.bind(this);
+                application_action(studentId, pageNum, pageSize);
+            }.bind(this), 1500);
         } else {
-            //设置错误、警告或者成功提示语状态
+            //设置警告状态和提示语
             this.setPromptTrueOrFalse(false, true, false);
             this.setState({
                 warnPrompt: message
@@ -140,15 +149,23 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
         if (code === Success.APPLICATION_SUCCESS_CODE) {
             //初始化添加、查看或者修改的申请表单
             this.initApplication();
-            //将添加、查看和修改申请单弹出框关闭
+            //设置成功状态和提示语
+            this.setPromptTrueOrFalse(false, false, true);
             this.setState({
-                visible: false
+                successPrompt: Success.ADD_APPLY_RELATIONS_SUCCESS
             });
-            //发出获取申请单列表ajax请求
-            let application_action = getApplicationList.bind(this);
-            application_action(studentId, pageNum, pageSize);
+            // FIXME 这里需要设置一个时间控制器,需要使用setTimeout延迟时间,延迟1.5s将添加、查看和修改申请单弹出框关闭并发出获取申请单列表ajax请求
+            setTimeout(function timerControl() {
+                //将添加、查看和修改申请单弹出框关闭
+                this.setState({
+                    visible: false
+                });
+                //发出获取申请单列表ajax请求
+                let application_action = getApplicationList.bind(this);
+                application_action(studentId, pageNum, pageSize);
+            }.bind(this), 1500);
         } else {
-            //设置错误、警告或者成功提示语状态
+            //设置警告状态和提示语
             this.setPromptTrueOrFalse(false, true, false);
             this.setState({
                 warnPrompt: message
@@ -158,7 +175,9 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
 }
 
 /**
- * 添加国家列表
+ * 获取国家或者宗教列表
+ * @param key
+ * @param url
  */
 export function getCountriesOrReligions(key, url) {
     $.ajax({
