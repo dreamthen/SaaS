@@ -9,17 +9,34 @@
     height: 100%;
 }
 
-.application-container > .ant-spin {
+.application-container > .application-spin-container,
+.application-spin-container > .ant-spin,
+.application-spin-container > .application-spin-filter {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1000;
+}
+
+.application-spin-container > .application-spin-filter {
+    opacity: .7;
+    filter: blur(2px);
+    width: calc(100% - 44px);
+    height: calc(100% - 40px);
+    top: 22px;
+    left: 20px;
+    background-color: #fff;
     z-index: 1500;
 }
 
-.application-container > .ant-spin > .ant-spin-dot,
-.application-container > .ant-spin > .ant-spin-text {
+.application-spin-container > .ant-spin {
+    z-index: 2000;
+}
+
+.application-spin-container > .ant-spin > .ant-spin-dot,
+.application-spin-container > .ant-spin > .ant-spin-text {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -28,7 +45,7 @@
     margin-left: -20px;
 }
 
-.application-container > .ant-spin > .ant-spin-text {
+.application-spin-container > .ant-spin > .ant-spin-text {
     width: 100%;
     top: 50%;
     left: 0;

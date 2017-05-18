@@ -819,11 +819,15 @@ class ApplicationView extends React.Component {
     renderSpin() {
         const {loading} = this.state;
         return (
-            <Spin
-                tip="loading......"
-                size="large"
-                spinning={loading}
-            />
+            <div className="application-spin-container" style={{display: loading ? "block" : "none"}}>
+                <Spin
+                    tip="loading......"
+                    size="large"
+                    spinning={loading}
+                />
+                <div className="application-spin-filter">
+                </div>
+            </div>
         )
     }
 
