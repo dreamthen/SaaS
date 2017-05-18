@@ -26,6 +26,11 @@ export class RadioTable extends React.Component {
         }
     }
 
+    componentDidMount() {
+        const {getApplicationForms} = this.props;
+        getApplicationForms(this.props.dataSource[0]["id"]);
+    }
+
     /**
      * render表格头部结构
      * @returns {XML}

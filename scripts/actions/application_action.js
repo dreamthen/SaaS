@@ -31,8 +31,7 @@ export function getApplicationList(id, pageNum, pageSize) {
             msg = response.head.msg;
         if (code === Success.APPLICATION_SUCCESS_CODE) {
             this.setState({
-                applicationList: body,
-                formId: body[0]["id"]
+                applicationList: body
             });
         } else {
 
