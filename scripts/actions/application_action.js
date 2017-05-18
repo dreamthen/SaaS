@@ -30,9 +30,9 @@ export function getApplicationList(id, pageNum, pageSize) {
             code = response.head.code,
             msg = response.head.msg;
         if (code === Success.APPLICATION_SUCCESS_CODE) {
-            this.initApplication();
             this.setState({
-                applicationList: body
+                applicationList: body,
+                formId: body[0]["id"]
             });
         } else {
 
@@ -68,13 +68,14 @@ export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, p
             //初始化添加、查看或者修改的申请表单
             this.initApplication();
             //设置成功状态和提示语
-            //将添加、查看和修改申请单弹出框关闭
             this.setPromptTrueOrFalse(false, false, true);
             this.setState({
                 successPrompt: formId === 0 ? Success.ADD_APPLICATION_FORMS_SUCCESS : Success.CHANGE_APPLICATION_FORMS_SUCCESS
             });
             // FIXME 这里需要设置一个时间控制器,需要使用setTimeout延迟时间,延迟1.5s将添加、查看和修改申请单弹出框关闭并发出获取申请单列表ajax请求
             setTimeout(function timerControl() {
+                //设置提示语状态取消
+                this.setPromptTrueOrFalse(false, false, false);
                 //将添加、查看和修改申请单弹出框关闭
                 this.setState({
                     visible: false

@@ -37,7 +37,7 @@ const applicationFormSubmit = ["保存", "提交"];
 //表单里面的组件分类
 const applicationFormClassify = ["input", "select", "datePicker"];
 //国籍或者宗教
-const countryOrReligion = ["countryOfCitizenship", "religion"];
+const countryOrReligion = ["countryId", "religionId"];
 
 class ApplicationView extends React.Component {
     constructor(props) {
@@ -74,9 +74,9 @@ class ApplicationView extends React.Component {
             //中国名
             chineseName: "",
             //国籍
-            countryOfCitizenship: "2",
+            countryId: "2",
             //国籍列表
-            countryOfCitizenshipList: [],
+            countryIdList: [],
             //头像url
             avatar: "",
             //性别
@@ -90,9 +90,9 @@ class ApplicationView extends React.Component {
             //护照有效期
             validUntil: null,
             //宗教
-            religion: "1",
+            religionId: "1",
             //宗教列表
-            religionList: [],
+            religionIdList: [],
             //婚姻状况
             marriageStatus: "N",
             //职业
@@ -267,9 +267,9 @@ class ApplicationView extends React.Component {
             //中国名
             chineseName: "",
             //国籍
-            countryOfCitizenship: "2",
+            countryId: "2",
             //国籍列表
-            countryOfCitizenshipList: [],
+            countryIdList: [],
             //头像url
             avatar: "",
             //性别
@@ -283,9 +283,9 @@ class ApplicationView extends React.Component {
             //护照有效期
             validUntil: null,
             //宗教
-            religion: "1",
+            religionId: "1",
             //宗教列表
-            religionList: [],
+            religionIdList: [],
             //婚姻状况
             marriageStatus: "N",
             //职业
@@ -877,6 +877,10 @@ class ApplicationView extends React.Component {
             } else if (objectItemKey === "studentId") {
                 this.setState({
                     id: formObject[objectItemKey]
+                });
+            } else if (objectItemKey === countryOrReligion[0] || objectItemKey === countryOrReligion[1]) {
+                this.setState({
+                    [objectItemKey]: formObject[objectItemKey].toString()
                 });
             } else {
                 this.setState({

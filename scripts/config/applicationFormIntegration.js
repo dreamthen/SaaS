@@ -88,7 +88,7 @@ const applicationFormIntegration = [{
     position: "right"
 }, {
     classify: "select",
-    key: "countryOfCitizenship",
+    key: "countryId",
     value: "国籍",
     options: [],
     mustFill: "mast-fill",
@@ -140,7 +140,7 @@ const applicationFormIntegration = [{
     isRequired: true
 }, {
     classify: "select",
-    key: "religion",
+    key: "religionId",
     value: "宗教",
     options: [],
     mustFill: "mast-fill",
