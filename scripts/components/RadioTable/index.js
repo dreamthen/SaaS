@@ -42,7 +42,6 @@ export class RadioTable extends React.Component {
     componentWillReceiveProps(nextProps) {
         const {getApplicationForms, dataSource} = this.props;
         if (this.props.modalVisible !== nextProps.modalVisible) {
-            console.log("helloworld");
             this.orderFormId.bind(this)(dataSource[0]["id"], getApplicationForms);
         }
     }
