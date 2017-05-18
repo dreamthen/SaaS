@@ -300,7 +300,8 @@ const applicationFormIntegration = [{
     maxLength: 45,
     placeholder: PlaceHolder.PLACEHOLDER_MAJOR_OR_STUDY_VALUE,
     mustFill: "chinese-fluency",
-    position: "left"
+    position: "left",
+    isRequired: true
 }, {
     classify: "input",
     key: "chinaContactName",

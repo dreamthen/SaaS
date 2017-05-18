@@ -126,7 +126,7 @@ var webpackDev = {
         host: "0.0.0.0",
         proxy: {
             '/SaaS/': {
-                target: "http://35.185.186.126:8080/",
+                target: "http://118.89.191.214:8080/",
                 secure: false,
                 pathRewrite: {'/SaaS/': ""}
             }

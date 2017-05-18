@@ -30,6 +30,7 @@ export function getApplicationList(id, pageNum, pageSize) {
             code = response.head.code,
             msg = response.head.msg;
         if (code === Success.APPLICATION_SUCCESS_CODE) {
+            this.initApplication();
             this.setState({
                 applicationList: body
             });

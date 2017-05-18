@@ -117,13 +117,14 @@
     z-index: 1000;
 }
 
-.information-card .information-alert {
+.information-card .information-alert,
+.information-modal .information-alert{
     margin: 10px auto 0 auto;
+    height: auto;
 }
 
 .information-modal .information-alert {
     width: 200px;
-    margin: 10px auto 0 auto;
 }
 
 .information-save-button .information-button {
