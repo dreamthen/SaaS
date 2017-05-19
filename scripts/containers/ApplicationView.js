@@ -47,7 +47,7 @@ const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 //申请表保存或者提交
 const applicationFormSubmit = ["保存", "提交"];
-//表单里面的组件分类
+//申请表单里面的组件分类
 const applicationFormClassify = ["input", "select", "datePicker"];
 //国籍或者宗教
 const countryOrReligion = ["countryId", "religionId"];
@@ -440,13 +440,21 @@ class ApplicationView extends React.Component {
      */
     renderFormMode(classify, key, value, placeholder, maxLength, format, options, disabled, showTime) {
         const {formDisabled} = this.state;
+        const {
+            onChangeInput,
+            onChangeSelect,
+            onChangeDatePicker,
+            onChangeDatePickerOpen,
+            onDisabledDatePicker,
+            onDisabledDatePickerNull
+        } = this;
         //国家或者国籍都保存在state中
         //判断options是否为空数组
         options = this.judgeOptions(key, options);
         //对表单内的组件进行分类处理,Input,Select,DatePicker
         switch (classify) {
             case applicationFormClassify[0]:
-                //Input输入框
+                //Input输入框组件
                 return (
                     <Input
                         size="large"
@@ -455,18 +463,18 @@ class ApplicationView extends React.Component {
                         disabled={formDisabled}
                         maxLength={maxLength}
                         value={this.state[key]}
-                        onChange={this.onChangeInput.bind(this, key)}
+                        onChange={onChangeInput.bind(this, key)}
                     />
                 );
                 break;
             case applicationFormClassify[1]:
-                //Select选择框
+                //Select选择框组件
                 return (
                     <Select
                         size="large"
                         disabled={formDisabled}
                         value={this.state[key]}
-                        onChange={this.onChangeSelect.bind(this, key)}
+                        onChange={onChangeSelect.bind(this, key)}
                     >
                         {
                             options.map((optionItem, index) => {
@@ -483,19 +491,19 @@ class ApplicationView extends React.Component {
                 );
                 break;
             case applicationFormClassify[2]:
-                //DatePicker时间框
+                //DatePicker时间框组件
                 return (
                     <DatePicker
-                        disabledDate={disabled ? this.onDisabledDatePickerNull.bind(this) : this.onDisabledDatePicker.bind(this)}
+                        disabledDate={disabled ? onDisabledDatePickerNull.bind(this) : onDisabledDatePicker.bind(this)}
                         placeholder={value}
                         size="large"
                         disabled={formDisabled}
                         showTime={showTime ? true : false}
                         format={showTime ? timeFormat : dateFormat}
                         value={this.state[key] ? moment(this.state[key], format) : this.state[key]}
-                        onChange={this.onChangeDatePicker.bind(this, key)}
+                        onChange={onChangeDatePicker.bind(this, key)}
                         open={this.state[key + "Open"]}
-                        onOpenChange={this.onChangeDatePickerOpen.bind(this, key + "Open")}
+                        onOpenChange={onChangeDatePickerOpen.bind(this, key + "Open")}
                     />
                 );
                 break;
@@ -716,7 +724,7 @@ class ApplicationView extends React.Component {
 
 
     /**
-     * render渲染申请单表单结构
+     * render渲染弹出框申请表单结构
      * @returns {XML}
      */
     renderForm() {
@@ -751,7 +759,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     *
+     * 渲染结构
      * @param formArea
      * @returns {XML}
      */
@@ -1023,7 +1031,7 @@ class ApplicationView extends React.Component {
     };
 
     /**
-     * render最终渲染结构
+     * render渲染最终react结构
      * @returns {XML}
      */
     render() {

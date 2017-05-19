@@ -2,36 +2,25 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
+import api from "../config/api";
+import {uploadProps} from "../actions/upload_action";
 import {getInformation, saveInformation, changePasswordRecently, setVerifyRecently} from "../actions/studentInfo";
-import {Row, Col, Card, Input, Button, Modal, Alert} from "antd";
+import {Row, Col, Card, Input, Select, Button, Modal, Alert} from "antd";
+import Upload from "rc-upload";
 import storageData from "../config/storageData";
 import localStorageObject from "../config/localStorage";
-import formRow from "../config/formItem";
+import formRow from "../config/formRow";
 import integrationPasswordItem from "../config/passwordItem";
 import Error from "../prompt/error_prompt";
 import "../../stylesheets/studentInfo.css";
 
+const Option = Select.Option;
 //性别所有展现值
 const SEX = "M";
 //签证状态所有展现值
 const VISA_STATUS = "0";
-//表单所有Input框内容数据模板
-const FORM_ITEM = [
-    {
-        value: "phone",
-        maxLength: 20
-    },
-    {
-        value: "email",
-        maxLength: 45
-    },
-    {
-        value: "postalAddress",
-        maxLength: 50
-    }
-];
-//用来返回resultRow
-const rowArray = ["accountRow", "sexRow", "phoneRow", "emailRow", "postalAddressRow", "visaStatusRow"];
+//个人信息表单里面的组件分类
+const studentInformationFormClassify = ["input", "select", "content", "upload"];
 //password Input框数据模板
 const passwordItem = ["oldPassword", "newPassword", "checkedPassword"];
 //email邮箱激活
@@ -49,6 +38,8 @@ class StudentView extends React.Component {
             password: "",
             //性别
             sex: SEX,
+            //头像
+            file: "",
             //电话号码
             phone: "",
             //邮箱
@@ -118,6 +109,94 @@ class StudentView extends React.Component {
     }
 
     /**
+     * Input输入框组件
+     * @param key
+     * @param maxLength
+     * @returns {XML}
+     */
+    renderInput(key, maxLength) {
+        const {changeFormInputItem} = this;
+        return (
+            <Input
+                size="large"
+                //状态
+                value={this.state[key]}
+                //长度限制
+                maxLength={maxLength}
+                onChange={changeFormInputItem.bind(this, key)}
+            />
+        )
+    }
+
+    /**
+     * Select选择框组件
+     * @param key
+     * @param className
+     * @param options
+     * @returns {XML}
+     */
+    renderSelect(key, options, className) {
+        const {changeFormSelectItem} = this;
+        return (
+            <Select
+                size="large"
+                //样式名
+                className={className}
+                //状态
+                value={this.state[key]}
+                onChange={changeFormSelectItem.bind(this, key)}
+            >
+                {
+                    //select option选项
+                    options.map((optionItem, optionIndex) => {
+                        return (
+                            <Option
+                                key={key + "-" + optionItem["key"]}
+                                value={optionItem["key"]}
+                            >
+                                {optionItem["value"]}
+                            </Option>
+                        )
+                    })
+                }
+            </Select>
+        )
+    }
+
+    /**
+     * Upload上传头像组件
+     * @returns {XML}
+     */
+    renderUpload() {
+        const {id} = this.state;
+        return (
+            <Upload
+                {...uploadProps.bind(this)(api.UPLOAD_AVATARS + "/" + id + "/avatars")}
+            >
+                <section className="information-avatar-upload">
+                    {/*iconFont 加号*/}
+                    <i className="iconfontSaaS saas-add">
+
+                    </i>
+                </section>
+            </Upload>
+        )
+    }
+
+    /**
+     * 头像组件
+     * @returns {XML}
+     */
+    renderImage() {
+        const {file} = this.state;
+        return (
+            <section className="information-avatar-image">
+                <img src={file} alt={file}/>
+            </section>
+        )
+    }
+
+    /**
      * 修改表单里面的所有Select框内容(性别和签证状态)
      * @param key
      * @param value
@@ -141,70 +220,74 @@ class StudentView extends React.Component {
     };
 
     /**
-     * 集成表单中每一行的数据和方法
+     * 集成个人信息表单所有组件和方法
      * @constructor
      */
-    RowData() {
-        const {account, sex, visaStatus} = this.state;
-        const {changeFormInputItem, changeFormSelectItem} = this;
-        return [
-            {
-                content: account
-            },
-            {
-                content: sex,
-                func: changeFormSelectItem
-            },
-            FORM_ITEM.map((formItem, index) => {
-                return {
-                    content: this.state[formItem.value],
-                    func: changeFormInputItem,
-                    maxLength: formItem.maxLength
-                }
-            }),
-            {
-                content: visaStatus,
-                func: changeFormSelectItem
-            }
-        ]
+    renderInformationMode(classify, key, maxLength, options, className) {
+        const {file} = this.state;
+        switch (classify) {
+            case studentInformationFormClassify[0]:
+                //Input输入框组件
+                return this.renderInput.bind(this)(key, maxLength);
+                break;
+            case studentInformationFormClassify[1]:
+                //Select选择框组件
+                return this.renderSelect.bind(this)(key, options, className);
+                break;
+            case studentInformationFormClassify[2]:
+                //content可视区域
+                return this.state[key];
+                break;
+            case studentInformationFormClassify[3]:
+                //state状态file是否为空,决定渲染Upload上传头像组件或者渲染头像组件
+                return (file === "") ? this.renderUpload.bind(this)() : this.renderImage.bind(this)();
+                break;
+        }
     }
 
     /**
-     * 返回表单中的所有内容(FormRow)
+     * 个人信息表单分栏
+     *
      */
     renderFormRow() {
-        const row = this.RowData();
-        //分散表单中每一行的数据和方法
-        let resultRow = [];
-        rowArray.map((colItem, colIndex) => {
-            if (Object.prototype.toString.call(row[colIndex]) === "[object Object]") {
-                resultRow.push(row[colIndex]);
-            }
-            if (Object.prototype.toString.call(row[colIndex]) === "[object Array]") {
-                for (let i = 0; i < row[colIndex].length; i++) {
-                    resultRow.push(row[colIndex][i])
-                }
-            }
-        });
-        //集成个人信息表单内容构成
+        //集成个人信息表单所有组件和方法
+        const {renderInformationMode} = this;
+        //集成个人信息表单所有组件、状态、方法和长度限制对象
         return formRow.map((rowItem, index) => {
+            //集成个人信息表单所有组件、方法、状态、长度限制的react结构
             return (
                 <Row key={index}
-                     className="information-row">
-                    <Col span="11" className="information-col">
+                     className={
+                         rowItem["key"] === "file" ? "information-row information-row-upload" : "information-row"
+                     }
+                >
+                    <Col span="11"
+                         className="information-col"
+                    >
                         <span className="information-spin">*</span>
-                        {rowItem.name}
+                        {rowItem["value"]}
                     </Col>
                     <Col span="1">
 
                     </Col>
                     <Col span="12">
                         {
-                            rowItem.main.bind(this)(resultRow[index].content, resultRow[index].func, resultRow[index].maxLength)
+                            renderInformationMode.bind(this)(
+                                //集成的个人信息表单分类
+                                rowItem["classify"],
+                                //集成的个人信息表单状态
+                                rowItem["key"],
+                                //集成的个人信息长度限制
+                                rowItem["maxLength"],
+                                //集成的个人信息Select选项
+                                rowItem["options"],
+                                //集成的个人信息表单样式名
+                                rowItem["className"]
+                            )
                         }
                         {/*如果是邮箱那一行就添加一个激活按钮*/}
                         {
-                            (rowItem["name"] === email) &&
+                            (rowItem["value"] === email) &&
                             <Button
                                 size="large"
                                 type="primary"
@@ -442,7 +525,7 @@ class StudentView extends React.Component {
             return (
                 <Row
                     key={index}
-                    className={"information-row information-"+ passwordItem[index] +"-row"}
+                    className={"information-row information-" + passwordItem[index] + "-row"}
                 >
                     <Col span="7" className="information-col">
                         {integrationItem["name"]}
@@ -465,7 +548,7 @@ class StudentView extends React.Component {
      * @param key
      * @param evt
      */
-    changeAllPassword(key, evt){
+    changeAllPassword(key, evt) {
         this.setState({
             [key]: evt.target.value
         });
@@ -487,6 +570,10 @@ class StudentView extends React.Component {
         evt.nativeEvent.stopImmediatePropagation();
     }
 
+    /**
+     * render渲染最终react结构
+     * @returns {XML}
+     */
     render() {
         const {
             visible,

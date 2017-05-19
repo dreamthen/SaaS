@@ -7,7 +7,7 @@ const isMook = false;
 
 let api = {};
 
-if(!isMook) {
+if (!isMook) {
     api = {
         //登录
         LOGIN_ACTION: NGINX_DIR + "student/sessions/login",
@@ -19,6 +19,8 @@ if(!isMook) {
         GET_STUDENT_INFORMATION: NGINX_DIR + "student/users/students",
         //修改并保存学生个人信息
         SAVE_STUDENT_INFORMATION: NGINX_DIR + "student/users/students",
+        //上传头像
+        UPLOAD_AVATARS: NGINX_DIR + "student/users/students",
         //修改密码
         CHANGE_PASSWORD: NGINX_DIR + "student/sessions/password",
         //获取申请单列表

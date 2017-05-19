@@ -24,7 +24,7 @@ const requestError = {
                 break;
             //其他服务器错误
             default:
-                message.success(Success.EMAIL_VERIFY_SUCCESS + ",即将重新登录", 4);
+                message.success(Success.EMAIL_VERIFY_SUCCESS_MESSAGE + ",即将重新登录", 4);
                 //FIXME 这里设置一个时间处理器,4s之后跳转到登录页面
                 setTimeout(() => {
                     window.location = "./login.html";

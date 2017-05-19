@@ -26,14 +26,16 @@ export function getInformation(id) {
                 id = body.id,
                 sex = body.sex,
                 email = body.email,
+                avatar = body.avatar,
                 phone = body.phone,
                 visaStatus = body.visaStatus,
                 postalAddress = body.postalAddress;
             //判断在有id、sex(性别)不为null、phone(电话号码)不为null、email(邮箱)不为null、visaStatus(签证状态)不为null、postalAddress(邮件地址)不为null的情况下,进行setState改变状态
-            if (id && sex && (phone !== null) && (email !== null) && (visaStatus !== null) && (postalAddress !== null)) {
+            if (id && sex && (phone !== null) && (email !== null) && (visaStatus !== null) && (postalAddress !== null) && (avatar !== null)) {
                 this.setState({
                     id,
                     sex,
+                    file: avatar,
                     phone,
                     email,
                     visaStatus: visaStatus.toString(),
@@ -77,7 +79,7 @@ export function saveInformation(id, sex, email, phone, visaStatus, postalAddress
         if (code === Success.STUDENT_SUCCESS_CODE) {
             this.setPromptTrueOrFalse(false, false, true);
             this.setState({
-                successPrompt: Success.SAVE_STUDENT_INFORMATION_SUCCESS
+                successPrompt: Success.SAVE_STUDENT_INFORMATION_SUCCESS_MESSAGE
             }, () => {
                 //FIXME 这里设置一个时间控制器,在1s中之后错误、警告或者成功提示框消失
                 setTimeout(function timer() {
@@ -119,7 +121,7 @@ export function changePasswordRecently(olderPassword, newPassword) {
         if (code === Success.STUDENT_SUCCESS_CODE) {
             this.setPasswordPromptTrueOrFalse(false, false, true);
             this.setState({
-                successPasswordPrompt: Success.CHANGE_STUDENT_PASSWORD_SUCCESS
+                successPasswordPrompt: Success.CHANGE_STUDENT_PASSWORD_SUCCESS_MESSAGE
             }, () => {
                 //FIXME 设置一个时间控制器,在1s中之后错误、警告或者成功提示框消失,弹出框也消失
                 setTimeout(function timer() {
@@ -160,7 +162,7 @@ export function setVerifyRecently(id, email) {
         let msg = response.head.message,
             code = response.head.code;
         if (code === Success.STUDENT_SUCCESS_CODE) {
-            message.success(Success.EMAIL_VERIFY_SUCCESS);
+            message.success(Success.EMAIL_VERIFY_SUCCESS_MESSAGE);
             this.setPasswordPromptTrueOrFalse(false, false, false);
         } else {
             message.warning(msg);

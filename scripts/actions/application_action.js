@@ -28,7 +28,7 @@ export function getApplicationList(id, pageNum, pageSize) {
     }).done(function ajaxDone(response, status) {
         let body = response.body,
             code = response.head.code,
-            msg = response.head.msg;
+            message = response.head.message;
         if (code === Success.APPLICATION_SUCCESS_CODE) {
             this.setState({
                 applicationList: body
@@ -69,9 +69,9 @@ export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, p
             //设置成功状态和提示语
             this.setPromptTrueOrFalse(false, false, true);
             this.setState({
-                successPrompt: formId === 0 ? Success.ADD_APPLICATION_FORMS_SUCCESS : Success.CHANGE_APPLICATION_FORMS_SUCCESS
+                successPrompt: formId === 0 ? Success.ADD_APPLICATION_FORMS_SUCCESS_MESSAGE : Success.CHANGE_APPLICATION_FORMS_SUCCESS_MESSAGE
             });
-            // FIXME 这里需要设置一个时间控制器,需要使用setTimeout延迟时间,延迟1.5s将添加、查看和修改申请单弹出框关闭并发出获取申请单列表ajax请求
+            // FIXME 这里需要设置一个时间控制器,需要使用setTimeout延迟时间,延迟1.5s将添加、查看和修改申请单弹出框和提示语状态关闭并发出获取申请单列表ajax请求
             setTimeout(function timerControl() {
                 //设置提示语状态取消
                 this.setPromptTrueOrFalse(false, false, false);
@@ -153,7 +153,7 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
             //设置成功状态和提示语
             this.setPromptTrueOrFalse(false, false, true);
             this.setState({
-                successPrompt: Success.ADD_APPLY_RELATIONS_SUCCESS
+                successPrompt: Success.ADD_APPLY_RELATIONS_SUCCESS_MESSAGE
             });
             // FIXME 这里需要设置一个时间控制器,需要使用setTimeout延迟时间,延迟1.5s将添加、查看和修改申请单弹出框关闭并发出获取申请单列表ajax请求
             setTimeout(function timerControl() {
