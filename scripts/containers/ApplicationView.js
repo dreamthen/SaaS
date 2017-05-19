@@ -231,11 +231,16 @@ class ApplicationView extends React.Component {
      */
     onCheck(keyArray) {
         for (let i = 0; i < keyArray.length; i++) {
-            //在Input,DatePicker框中如果内容为空或者为null,且isRequired属性为true时,显示错误提示状态和错误提示语
+            //在Input,DatePicker框中如果内容为空或者为null,
+            //且集成添加、查看和修改申请表单所有提示语、状态、框内默认提示语和长度限制等一些属性中isRequired属性为true时,
+            // 显示错误提示状态和错误提示语
             if ((this.state[keyArray[i]["key"]] === "" || this.state[keyArray[i]["key"]] === null) && keyArray[i]["isRequired"]) {
                 this.showErrorPrompt(Error["NULL_" + keyArray[i]["key"].toUpperCase() + "_VALUE"]);
                 return false;
             }
+            //在Input,DatePicker,Select框中,
+            //如果超出集成添加、查看和修改申请表单所有提示语、状态、框内默认提示语和长度限制等一些属性中maxLength属性长度限制,
+            //显示错误提示状态和错误提示语
             if (this.state[keyArray[i]["key"]].length > keyArray[i]["maxLength"]) {
                 this.showErrorPrompt(Error["EXCESS_" + keyArray[i]["key"].toUpperCase() + "_LENGTH"]);
                 return false;
