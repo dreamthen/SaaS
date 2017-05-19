@@ -5,12 +5,14 @@ import React from "react";
 import {Row, Col, Button, Card, Pagination, Modal, Alert, Input, Select, DatePicker, Spin} from "antd";
 //API接口统一调用对象
 import api from "../config/api";
+import {uploadProps} from "../actions/upload_action";
 import {
     getApplicationList,
     addOrChangeApplicationForms,
     addApplyRelations,
     getCountriesOrReligions
 } from "../actions/application_action";
+import Upload from "rc-upload";
 //封装的可设置、可获取、可删除本地数据和抛出异常状态的localStorage对象
 import localStorageObject from "../config/localStorage";
 //获取本地存储数据的对象属性模板
