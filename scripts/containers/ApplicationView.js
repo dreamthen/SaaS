@@ -172,7 +172,11 @@ class ApplicationView extends React.Component {
             //表单是否可编辑
             formDisabled: false,
             //是否显示正在载入loading
-            loading: false
+            loading: false,
+            //是否将承载正在载入loading的container元素进行显示
+            loadingBlock: false,
+            //动画过渡是否载入loading
+            transitionLoading: "application-spin-container application-spin-enterOrLeave"
         }
     }
 
@@ -377,11 +381,12 @@ class ApplicationView extends React.Component {
      * render渲染申请单表格结构
      */
     renderTable() {
-        const {applicationList, id} = this.state;
+        const {applicationList, id, loading} = this.state;
         const {getApplicationFormsAlready} = this;
         return (
             <Table
                 id={id}
+                loading={loading}
                 columns={applicationColumn}
                 dataSource={applicationList}
                 showLoading={this.showLoading.bind(this)}
@@ -395,7 +400,14 @@ class ApplicationView extends React.Component {
      */
     showLoading() {
         this.setState({
-            loading: true
+            loadingBlock: true
+        }, () => {
+            setTimeout(function timerControl() {
+                this.setState({
+                    loading: true,
+                    transitionLoading: "application-spin-container application-spin-enterOrLeave application-spin-enterOrLeave-active"
+                })
+            }.bind(this), 100);
         });
     }
 
@@ -817,9 +829,9 @@ class ApplicationView extends React.Component {
      * @returns {XML}
      */
     renderSpin() {
-        const {loading} = this.state;
+        const {loading, loadingBlock, transitionLoading} = this.state;
         return (
-            <div className="application-spin-container" style={{display: loading ? "block" : "none"}}>
+            <div className={transitionLoading} style={{display: loadingBlock ? "block" : "none"}}>
                 <Spin
                     tip="loading......"
                     size="large"
@@ -871,7 +883,9 @@ class ApplicationView extends React.Component {
             submit: applicationFormSubmit[1],
             formDisabled: true,
             saveOrSubmit: true,
-            loading: false
+            loading: false,
+            loadingBlock: false,
+            transitionLoading: "application-spin-container application-spin-enterOrLeave"
         });
         for (let objectItemKey in formObject) {
             if (objectItemKey === "id") {
@@ -990,7 +1004,7 @@ class ApplicationView extends React.Component {
      * @returns {XML}
      */
     render() {
-        const {applicationList} = this.state;
+        const {applicationList, loading} = this.state;
         return (
             <section className="application-container">
                 <Card title="申请表"

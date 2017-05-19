@@ -18,6 +18,7 @@ const applyStatus = [{key: "N", value: "未提交"}, {key: "Y", value: "提交"}
 export class Table extends React.Component {
     static propTypes = {
         id: PropTypes.number,
+        loading: PropTypes.bool,
         columns: PropTypes.array,
         dataSource: PropTypes.array,
         showLoading: PropTypes.func,
@@ -26,7 +27,18 @@ export class Table extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            tableFormId: 0
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if ((this.props.loading !== nextProps.loading) && nextProps.loading) {
+            const {tableFormId} = this.state;
+            //获取申请表单
+            let get_application = getApplicationForms.bind(this);
+            get_application(tableFormId);
+        }
     }
 
     /**
@@ -103,15 +115,15 @@ export class Table extends React.Component {
     }
 
     /**
-     * 获取申请表单
+     * 显示正在载入loading......
      * @param id
      * @param evt
      */
     getApplication = (id, evt) => {
         this.props.showLoading();
-        //获取申请表单
-        let get_application = getApplicationForms.bind(this);
-        get_application(id);
+        this.setState({
+            tableFormId: id
+        });
         evt.nativeEvent.stopImmediatePropagation();
     };
 

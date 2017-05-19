@@ -54,6 +54,16 @@
     margin: 0;
 }
 
+.application-spin-enterOrLeave {
+     opacity: 0.01;
+     transition: all .6s ease-in-out 0s;
+ }
+
+.application-spin-enterOrLeave.application-spin-enterOrLeave-active {
+    opacity: 1;
+    transition: all .6s ease-in-out 0s;
+}
+
 .application-card .ant-card-head-title {
     font-size: 20px;
     font-weight: normal;
@@ -160,9 +170,8 @@
 }
 
 .application-common-container > .other-information-title {
-    background-color: rgb(192,165,246);
+    background-color: rgb(192, 165, 246);
 }
-
 
 .application-common-container > .must-fill-title-font,
 .application-common-container > .chinese-fluency-title-font,
