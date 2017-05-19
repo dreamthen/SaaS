@@ -1,6 +1,7 @@
 /**
  * Created by yinwk on 2017/5/10.
  */
+//申请列表列描述数据对象
 const applicationColumn = [
     {
         title: "ID",

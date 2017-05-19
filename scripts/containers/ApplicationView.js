@@ -3,6 +3,7 @@
  */
 import React from "react";
 import {Row, Col, Button, Card, Pagination, Modal, Alert, Input, Select, DatePicker, Spin} from "antd";
+//API接口统一调用对象
 import api from "../config/api";
 import {
     getApplicationList,
@@ -10,20 +11,32 @@ import {
     addApplyRelations,
     getCountriesOrReligions
 } from "../actions/application_action";
+//封装的可设置、可获取、可删除本地数据和抛出异常状态的localStorage对象
 import localStorageObject from "../config/localStorage";
+//获取本地存储数据的对象属性模板
 import storageData from "../config/storageData";
+//申请表标题
 import applicationFormTitle from "../config/applicationFormTitle";
+//申请列表列描述数据对象
 import applicationColumn from "../config/applicationConfig";
+//集成添加、查看和修改申请表单所有提示语、状态、框内默认提示语和长度限制等一些属性
 import applicationFormIntegration from "../config/applicationFormIntegration";
+//根据必填、中文能力以及其他信息进行划分三块DIV结构模具
 import mustFillClassify from "../config/mustFillClassify";
+//错误提示语统一调用对象
 import Error from "../prompt/error_prompt";
+//申请列表,React结构组件
 import {Table} from "../components/Table/index";
+//申请列表为空时,React结构组件
 import {NullComponent} from "../components/NullComponent/index";
+//moment时间处理对象
 import moment from "moment";
+//引入申请表Tab页样式表
 import "../../stylesheets/application.css";
+//引入chrome谷歌浏览器美化滚动条样式表
 import "../../stylesheets/windowScrollBar.css";
-const Option = Select.Option;
 
+const Option = Select.Option;
 //查看申请表
 const lookOverTitle = "查看申请表";
 //每页条数
@@ -214,10 +227,11 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * 校验申请表中所有字段
+     * 校验集成添加、查看和修改申请表单所有提示语、状态、框内默认提示语和长度限制等一些属性中所有isRequired为true字段是否为空,校验所有的字段的长度限制
      */
     onCheck(keyArray) {
         for (let i = 0; i < keyArray.length; i++) {
+            //在Input,DatePicker框中如果内容为空或者为null,且isRequired属性为true时,显示错误提示状态和错误提示语
             if ((this.state[keyArray[i]["key"]] === "" || this.state[keyArray[i]["key"]] === null) && keyArray[i]["isRequired"]) {
                 this.showErrorPrompt(Error["NULL_" + keyArray[i]["key"].toUpperCase() + "_VALUE"]);
                 return false;
@@ -238,18 +252,22 @@ class ApplicationView extends React.Component {
      */
     setPromptTrueOrFalse(isError, isWarn, isSuccess) {
         this.setState({
+            //错误提示状态
             isError,
+            //警告提示状态
             isWarn,
+            //成功提示状态
             isSuccess
         });
     }
 
     /**
-     * 集成表单错误提示状态
+     * 集成表单错误提示状态和提示语
      * @param prompt
      */
     showErrorPrompt(prompt) {
         this.setPromptTrueOrFalse(true, false, false);
+        //设置错误提示语
         this.setState({
             errorPrompt: prompt
         });

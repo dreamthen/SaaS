@@ -1,7 +1,7 @@
 /**
  * Created by yinwk on 2017/5/17.
  */
-//根据必填、中文能力以及其他信息进行划分三块模板
+//根据必填、中文能力以及其他信息进行划分三块DIV结构模具
 const mustFillClassify = [{
     key: "mast-fill",
     value: "formRowMustFill",
