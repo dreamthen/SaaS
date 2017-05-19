@@ -27,7 +27,6 @@ export class RadioTable extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.dataSource[0]["id"]);
         const {getApplicationForms} = this.props;
         getApplicationForms(this.props.dataSource[0]["id"]);
     }
