@@ -183,10 +183,11 @@ class ApplicationStatusView extends React.Component {
      * render渲染申请单表格结构
      */
     renderTable() {
-        const {applicationList} = this.state;
+        const {visible, applicationList} = this.state;
         const {getApplicationForms} = this;
         return (
             <RadioTable
+                modalVisible={visible}
                 columns={applicationStatusColumn}
                 dataSource={applicationList}
                 getApplicationForms={getApplicationForms.bind(this)}

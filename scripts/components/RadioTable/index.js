@@ -14,6 +14,7 @@ const TIME = ["createDate", "modifyDate"];
 
 export class RadioTable extends React.Component {
     static propTypes = {
+        modalVisible: PropTypes.bool,
         columns: PropTypes.array,
         dataSource: PropTypes.array,
         getApplicationForms: PropTypes.func
@@ -26,9 +27,37 @@ export class RadioTable extends React.Component {
         }
     }
 
+    /**
+     * 在初始化render之后只执行一次,组件装载完之后,将applicationList申请列表的第一个id赋值给formId,并将外部的formId进行重新赋值状态
+     */
     componentDidMount() {
-        const {getApplicationForms} = this.props;
-        getApplicationForms(this.props.dataSource[0]["id"]);
+        const {getApplicationForms, dataSource} = this.props;
+        this.orderFormId.bind(this)(dataSource[0]["id"], getApplicationForms);
+    }
+
+    /**
+     * 在props modalVisible也就是弹窗关闭或者打开时,将applicationList申请列表的第一个id赋值给formId,并将外部的formId进行重新赋值状态
+     * @param nextProps
+     */
+    componentWillReceiveProps(nextProps) {
+        const {getApplicationForms, dataSource} = this.props;
+        if (this.props.modalVisible !== nextProps.modalVisible) {
+            this.orderFormId.bind(this)(dataSource[0]["id"], getApplicationForms);
+        }
+    }
+
+    /**
+     * 秩序化applicationList申请列表的key => id赋值给formId,并通过func => getApplicationForms将外部的formId进行重新赋值状态
+     * @param key
+     * @param func
+     */
+    orderFormId(key, func) {
+        this.setState({
+            formId: key
+        }, () => {
+            const {formId} = this.state;
+            func(formId);
+        });
     }
 
     /**
@@ -131,13 +160,8 @@ export class RadioTable extends React.Component {
      * @param evt
      */
     onChangeRadio = (evt) => {
-        this.setState({
-            formId: evt.target.value
-        }, () => {
-            const {formId} = this.state;
-            const {getApplicationForms} = this.props;
-            getApplicationForms(formId);
-        });
+        const {getApplicationForms} = this.props;
+        this.orderFormId.bind(this)(evt.target.value, getApplicationForms);
     };
 
     /**
