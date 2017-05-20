@@ -55,9 +55,9 @@
 }
 
 .application-spin-enterOrLeave {
-     opacity: 0.01;
-     transition: all .6s ease-in-out 0s;
- }
+    opacity: 0.01;
+    transition: all .6s ease-in-out 0s;
+}
 
 .application-spin-enterOrLeave.application-spin-enterOrLeave-active {
     opacity: 1;
@@ -140,6 +140,35 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+}
+
+.application-modal .rc-upload {
+    outline: none;
+}
+
+.application-modal .application-avatar-upload,
+.application-modal .application-avatar-image {
+    position: relative;
+    margin: 15px auto 0 auto;
+    width: 80px;
+    height: 80px;
+    border: 1px dashed #d9d9d9;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.application-avatar-upload > .saas-add {
+    color: #999;
+    font-size: 24px;
+    height: 25px;
+}
+
+.application-avatar-upload > .application-avatar-description {
+    font-size: 15px;
+    font-family: Consolas, Menlo, Courier, monospace;
 }
 
 .application-common-container {

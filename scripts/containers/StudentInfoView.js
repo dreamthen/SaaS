@@ -39,7 +39,7 @@ class StudentView extends React.Component {
             //性别
             sex: SEX,
             //头像
-            file: "",
+            avatar: "",
             //电话号码
             phone: "",
             //邮箱
@@ -188,10 +188,10 @@ class StudentView extends React.Component {
      * @returns {XML}
      */
     renderImage() {
-        const {file} = this.state;
+        const {avatar} = this.state;
         return (
             <section className="information-avatar-image">
-                <img src={file} alt={file}/>
+                <img src={avatar} alt={avatar}/>
             </section>
         )
     }
@@ -224,7 +224,6 @@ class StudentView extends React.Component {
      * @constructor
      */
     renderInformationMode(classify, key, maxLength, options, className) {
-        const {file} = this.state;
         switch (classify) {
             case studentInformationFormClassify[0]:
                 //Input输入框组件
@@ -239,8 +238,8 @@ class StudentView extends React.Component {
                 return this.state[key];
                 break;
             case studentInformationFormClassify[3]:
-                //state状态file是否为空,决定渲染Upload上传头像组件或者渲染头像组件
-                return (file === "") ? this.renderUpload.bind(this)() : this.renderImage.bind(this)();
+                //state状态avatar是否为空,决定渲染Upload上传头像组件或者渲染头像组件
+                return (this.state[key] === "") ? this.renderUpload.bind(this)() : this.renderImage.bind(this)();
                 break;
         }
     }
@@ -258,7 +257,7 @@ class StudentView extends React.Component {
             return (
                 <Row key={index}
                      className={
-                         rowItem["key"] === "file" ? "information-row information-row-upload" : "information-row"
+                         rowItem["key"] === "avatar" ? "information-row information-row-upload" : "information-row"
                      }
                 >
                     <Col span="11"

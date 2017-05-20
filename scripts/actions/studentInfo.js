@@ -35,7 +35,7 @@ export function getInformation(id) {
                 this.setState({
                     id,
                     sex,
-                    file: avatar,
+                    avatar,
                     phone,
                     email,
                     visaStatus: visaStatus.toString(),

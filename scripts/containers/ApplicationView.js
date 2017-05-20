@@ -654,6 +654,32 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * 渲染结构
+     * @param formArea
+     * @returns {XML}
+     */
+    renderFormCommon(formArea) {
+        return (
+            <Row>
+                <Col span="11">
+                    {
+                        formArea["left"].map((singleItem, singleIndex) => {
+                            return singleItem;
+                        })
+                    }
+                </Col>
+                <Col span="13">
+                    {
+                        formArea["right"].map((doubleItem, doubleIndex) => {
+                            return doubleItem;
+                        })
+                    }
+                </Col>
+            </Row>
+        )
+    }
+
+    /**
      * render渲染提示语
      * @returns {XML}
      */
@@ -724,65 +750,36 @@ class ApplicationView extends React.Component {
         )
     }
 
-
     /**
-     * render渲染弹出框申请表单结构
+     * Upload上传头像组件
      * @returns {XML}
      */
-    renderForm() {
-        const {visible, title, submit, saveOrSubmit} = this.state;
-        let formRow = this.renderFormRow();
+    renderUpload() {
         return (
-            <Modal
-                visible={visible}
-                title={title}
-                className="application-modal"
-                wrapClassName="application-modal-wrapper"
-                width={960}
-                okText={submit}
-                cancelText="取消"
-                onOk={saveOrSubmit ? this.submitApplication.bind(this) : this.saveApplication.bind(this)}
-                onCancel={this.cancelApplication.bind(this)}
+            <Upload
+                {...uploadProps.bind(this)(api.UPLOAD_AVATARS)}
             >
-                {/*错误、警告和成功状态提示语部分*/}
-                {this.renderAlert()}
-                {/*头部Focus图标和蓝色placeholder背景图*/}
-                {this.renderFocusPlace()}
-                {/*表单内容顶部申请单标识名以及第一部分标题Including Person Information(must fill)*/}
-                {this.renderFormName()}
-                {/*第一部分必填域*/}
-                {this.renderMustFill(formRow["formRowMustFill"])}
-                {/*第一部分中文能力*/}
-                {this.renderChineseFluency(formRow["formRowChineseFluency"])}
-                {/*第一部分其他信息*/}
-                {this.renderOtherInformation(formRow["formRowOtherInformation"])}
-            </Modal>
+                <section className="application-avatar-upload">
+                    {/*iconFont 加号*/}
+                    <i className="iconfontSaaS saas-add">
+
+                    </i>
+                    <span className="application-avatar-description">Avatar</span>
+                </section>
+            </Upload>
         )
     }
 
     /**
-     * 渲染结构
-     * @param formArea
+     * 头像组件
      * @returns {XML}
      */
-    renderFormCommon(formArea) {
+    renderImage() {
+        const {avatar} = this.state;
         return (
-            <Row>
-                <Col span="11">
-                    {
-                        formArea["left"].map((singleItem, singleIndex) => {
-                            return singleItem;
-                        })
-                    }
-                </Col>
-                <Col span="13">
-                    {
-                        formArea["right"].map((doubleItem, doubleIndex) => {
-                            return doubleItem;
-                        })
-                    }
-                </Col>
-            </Row>
+            <section className="application-avatar-image">
+                <img src={avatar} alt={avatar}/>
+            </section>
         )
     }
 
@@ -834,6 +831,44 @@ class ApplicationView extends React.Component {
                 </div>
                 {this.renderFormCommon(otherInformation)}
             </div>
+        )
+    }
+
+
+    /**
+     * render渲染弹出框申请表单结构
+     * @returns {XML}
+     */
+    renderForm() {
+        const {visible, title, submit, saveOrSubmit, avatar} = this.state;
+        let formRow = this.renderFormRow();
+        return (
+            <Modal
+                visible={visible}
+                title={title}
+                className="application-modal"
+                wrapClassName="application-modal-wrapper"
+                width={960}
+                okText={submit}
+                cancelText="取消"
+                onOk={saveOrSubmit ? this.submitApplication.bind(this) : this.saveApplication.bind(this)}
+                onCancel={this.cancelApplication.bind(this)}
+            >
+                {/*错误、警告和成功状态提示语部分*/}
+                {this.renderAlert()}
+                {/*头部Focus图标和蓝色placeholder背景图*/}
+                {this.renderFocusPlace()}
+                {/*表单内容顶部申请单标识名以及第一部分标题Including Person Information(must fill)*/}
+                {this.renderFormName()}
+                {/*state状态avatar是否为空,决定渲染Upload上传头像组件或者渲染头像组件*/}
+                {avatar === "" ? this.renderUpload() : this.renderImage()}
+                {/*第一部分必填域*/}
+                {this.renderMustFill(formRow["formRowMustFill"])}
+                {/*第一部分中文能力*/}
+                {this.renderChineseFluency(formRow["formRowChineseFluency"])}
+                {/*第一部分其他信息*/}
+                {this.renderOtherInformation(formRow["formRowOtherInformation"])}
+            </Modal>
         )
     }
 

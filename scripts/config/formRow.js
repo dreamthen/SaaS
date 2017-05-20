@@ -18,7 +18,7 @@ const formRow = [
         value: "用户名"
     }, {
         classify: "upload",
-        key: "file",
+        key: "avatar",
         value: "Avatar"
     }, {
         classify: "select",

@@ -28,7 +28,7 @@ export function uploadProps(action, data) {
                     this.setPromptTrueOrFalse(false, false, false);
                     //把图片文件地址赋值给state状态file
                     this.setState({
-                        file: body
+                        avatar: body
                     });
                 }.bind(this), 1000);
             } else {
