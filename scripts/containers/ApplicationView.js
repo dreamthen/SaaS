@@ -887,6 +887,7 @@ class ApplicationView extends React.Component {
      */
     renderPagination() {
         const {current, applicationList} = this.state;
+        const {changeApplicationPage} = this;
         return (
             <Pagination
                 current={current}
@@ -896,7 +897,7 @@ class ApplicationView extends React.Component {
                 pageSize={PAGE_SIZE}
                 total={applicationList.length}
                 showTotal={total => "共" + total + "条"}
-                onChange={this.changeApplicationPage.bind(this)}
+                onChange={changeApplicationPage}
             />
         )
     }
@@ -1062,12 +1063,13 @@ class ApplicationView extends React.Component {
     };
 
     /**
-     * 点击分页页码,页码样式变化且进行获取申请单列表的ajax请求
+     * 点击分页页码,页码内容和样式变化且进行获取申请单列表的ajax请求
      * @param page
      * @param pageSize
      */
     changeApplicationPage = (page, pageSize) => {
         const {id} = this.state;
+        //页码内容和样式变化
         this.setState({
             current: page
         });
@@ -1099,7 +1101,7 @@ class ApplicationView extends React.Component {
                         (applicationList && applicationList.length > 0) ? this.renderTable() : this.renderNull()
                     }
                     {
-                        (applicationList && applicationList.length > 0) > 0 && this.renderPagination()
+                        (applicationList && applicationList.length > 0) && this.renderPagination()
                     }
                     {this.renderForm()}
                 </Card>

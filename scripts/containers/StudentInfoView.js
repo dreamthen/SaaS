@@ -246,7 +246,7 @@ class StudentView extends React.Component {
 
     /**
      * 个人信息表单分栏
-     *
+     * @returns [XML]
      */
     renderFormRow() {
         //集成个人信息表单所有组件和方法

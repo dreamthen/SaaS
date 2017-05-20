@@ -2,7 +2,7 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {Button, Card, Modal, Alert} from "antd";
+import {Button, Card, Modal, Alert, Pagination} from "antd";
 import Error from "../prompt/error_prompt";
 import storageData from "../config/storageData";
 import localStorageObject from "../config/localStorage";
@@ -188,7 +188,7 @@ class ApplicationStatusView extends React.Component {
     /**
      * render渲染申请单表格结构
      */
-    renderTable() {
+    renderRadioTable() {
         const {visible, applicationList} = this.state;
         const {getApplicationForms} = this;
         return (
@@ -217,6 +217,7 @@ class ApplicationStatusView extends React.Component {
      */
     chooseApplicationStatus = (evt) => {
         const {id, current} = this.state;
+        //弹出获取申请列表弹窗
         this.setState({
             visible: true
         });
@@ -286,6 +287,43 @@ class ApplicationStatusView extends React.Component {
     }
 
     /**
+     * 点击分页页码,页码内容和样式变化且进行获取申请单列表的ajax请求
+     * @param page
+     * @param pageSize
+     */
+    changeApplicationStatusPage = (page, pageSize) => {
+        const {id} = this.state;
+        //页码内容和样式变化
+        this.setState({
+            current: page
+        });
+        //发出获取申请单列表ajax请求
+        let application_action = getApplicationList.bind(this);
+        application_action(id, page, PAGE_SIZE);
+    };
+
+    /**
+     * render渲染分页结构
+     * @returns {XML}
+     */
+    renderPagination() {
+        const {current, applicationList} = this.state;
+        const {changeApplicationStatusPage} = this;
+        return (
+            <Pagination
+                current={current}
+                showQuickJumper
+                className="applicationStatus-pagination"
+                size="large"
+                pageSize={PAGE_SIZE}
+                total={applicationList.length}
+                showTotal={total => '共' + total + '页'}
+                onChange={changeApplicationStatusPage}
+            />
+        )
+    }
+
+    /**
      * 选择一张申请表提交申请,弹出选择申请表弹窗
      * @returns {XML}
      */
@@ -303,7 +341,8 @@ class ApplicationStatusView extends React.Component {
                 onCancel={this.cancelApplicationStatus}
             >
                 {this.renderAlert()}
-                {(applicationList && applicationList.length > 0) ? this.renderTable() : this.renderNull()}
+                {(applicationList && applicationList.length > 0) ? this.renderRadioTable() : this.renderNull()}
+                {(applicationList && applicationList.length > 0) && this.renderPagination()}
             </Modal>
         )
     }

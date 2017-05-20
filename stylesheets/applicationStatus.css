@@ -80,6 +80,25 @@
     margin-left: -120px;
 }
 
+.applicationStatus-table-body .ant-radio-checked .ant-radio-inner {
+    border-color: #529ECC;
+}
+
+.applicationStatus-modal .applicationStatus-pagination {
+    text-align: right;
+    margin-top: 8px;
+}
+
+.applicationStatus-pagination .ant-pagination-item-active {
+    background-color: #529ECC;
+    border-color: #529ECC;
+}
+
+.applicationStatus-modal .ant-modal-footer .ant-btn-primary {
+    background-color: #529ECC;
+    border-color: #529ECC;
+}
+
 .applicationStatus-delivery-modal {
     min-height: 260px;
 }

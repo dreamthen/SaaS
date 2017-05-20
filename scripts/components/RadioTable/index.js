@@ -89,6 +89,29 @@ export class RadioTable extends React.Component {
     }
 
     /**
+     * render单选按钮结构
+     * @returns {XML}
+     */
+    renderRadio() {
+        const {dataSource} = this.props;
+        const {formId} = this.state;
+        return (
+            <RadioGroup value={formId} onChange={this.onChangeRadio.bind(this)}>
+                {
+                    dataSource.map((sourceItem, index) => {
+                        return (
+                            <Radio
+                                key={"radio" + sourceItem["id"]}
+                                value={sourceItem["id"]}
+                            />
+                        )
+                    })
+                }
+            </RadioGroup>
+        )
+    }
+
+    /**
      * render表格内容结构
      * @returns {XML}
      */
@@ -130,29 +153,6 @@ export class RadioTable extends React.Component {
                 </Row>
             )
         })
-    }
-
-    /**
-     * render单选按钮结构
-     * @returns {XML}
-     */
-    renderRadio() {
-        const {dataSource} = this.props;
-        const {formId} = this.state;
-        return (
-            <RadioGroup value={formId} onChange={this.onChangeRadio.bind(this)}>
-                {
-                    dataSource.map((sourceItem, index) => {
-                        return (
-                            <Radio
-                                key={"radio" + sourceItem["id"]}
-                                value={sourceItem["id"]}
-                            />
-                        )
-                    })
-                }
-            </RadioGroup>
-        )
     }
 
     /**
