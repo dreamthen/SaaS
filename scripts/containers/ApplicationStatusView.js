@@ -9,7 +9,7 @@ import localStorageObject from "../config/localStorage";
 import relations from "../config/applicationStatusRelation";
 import applicationStatusColumn from "../config/applicationStatusConfig";
 import {getApplicationList} from "../actions/application_action";
-import {getApplyRelations, addApplyRelations} from "../actions/applicationStatus";
+import {getApplyRelations, addApplyRelations, getDeliveryStatus} from "../actions/applicationStatus";
 import {RadioTable} from "../components/RadioTable/index";
 import {NullComponent} from "../components/NullComponent/index";
 import "../../stylesheets/applicationStatus.css";
@@ -19,7 +19,7 @@ const PAGE_SIZE = 20;
 //已录取后显示快递状态按钮
 const endRelation = {
     key: "D",
-    value: "快递状态"
+    value: "delivery status"
 };
 
 class ApplicationStatusView extends React.Component {
@@ -30,6 +30,8 @@ class ApplicationStatusView extends React.Component {
             id: 0,
             //申请表id
             formId: 0,
+            //申请状态id
+            relationId: 0,
             //学校id
             universityId: 0,
             //用户名
@@ -44,6 +46,10 @@ class ApplicationStatusView extends React.Component {
             applicationList: [],
             //是否弹出获取申请列表弹窗
             visible: false,
+            //是否弹出获取申请快递状态弹窗
+            deliveryVisible: false,
+            //申请快递状态内容
+            deliveryStatus: "",
             //分页页数
             current: 1,
             //是否弹出错误提示框
@@ -222,11 +228,25 @@ class ApplicationStatusView extends React.Component {
     };
 
     /**
+     * 获取申请快递状态
+     * @param evt
+     */
+    getDeliveryStatusModal = (evt) => {
+        const {relationId} = this.state;
+        //发起获取申请快递状态ajax请求
+        let delivery_action = getDeliveryStatus.bind(this);
+        delivery_action(relationId);
+        //取消冒泡
+        evt.nativeEvent.stopImmediatePropagation();
+    };
+
+    /**
      * 当申请表已经提交成功添加申请关系时,render渲染结构
      * @returns {XML}
      */
     renderRelations() {
         const {relationStatus, checkReason} = this.state;
+        const {getDeliveryStatusModal} = this;
         return (
             <div className="applicationStatus-relations-container">
                 {
@@ -251,6 +271,7 @@ class ApplicationStatusView extends React.Component {
                                             size="large"
                                             type="primary"
                                             className="applicationStatus-email-button"
+                                            onClick={getDeliveryStatusModal}
                                         >
                                             {endRelation["value"]}
                                         </Button>
@@ -265,7 +286,7 @@ class ApplicationStatusView extends React.Component {
     }
 
     /**
-     * 选择一张申请表提交申请,弹出选择申请表弹框
+     * 选择一张申请表提交申请,弹出选择申请表弹窗
      * @returns {XML}
      */
     renderModal() {
@@ -283,6 +304,49 @@ class ApplicationStatusView extends React.Component {
             >
                 {this.renderAlert()}
                 {(applicationList && applicationList.length > 0) ? this.renderTable() : this.renderNull()}
+            </Modal>
+        )
+    }
+
+    /**
+     * 渲染后台返回的申请快递状态的html片段,使其可查看
+     * @param htmlContent
+     * @returns {XML}
+     */
+    renderHtmlPart(htmlContent) {
+        return (
+            <div dangerouslySetInnerHTML={{__html: htmlContent}}>
+            </div>
+        )
+    }
+
+    /**
+     * 点击快递状态按钮,弹出查看申请快递状态弹窗
+     * @returns {XML}
+     */
+    renderDeliveryModal() {
+        const {deliveryVisible, deliveryStatus} = this.state;
+        return (
+            <Modal
+                title="查看申请快递状态"
+                visible={deliveryVisible}
+                width={960}
+                wrapClassName="applicationStatus-modal-wrapper"
+                className="applicationStatus-delivery-modal"
+                onCancel={this.cancelApplicationStatusDelivery}
+                footer={null}
+            >
+                <div className="applicationStatus-common-container">
+                    <div className="delivery-status-title">
+                    </div>
+                    <div className="delivery-status-title-font">
+                        <i className="iconfontSaaS saas-delivery">
+
+                        </i>
+                        Delivery Status
+                    </div>
+                </div>
+                {this.renderHtmlPart(deliveryStatus)}
             </Modal>
         )
     }
@@ -311,19 +375,36 @@ class ApplicationStatusView extends React.Component {
             //发出添加申请关系ajax请求
             let add_apply_relation_action = addApplyRelations.bind(this);
             add_apply_relation_action(id, formId, universityId, current, PAGE_SIZE);
+            //取消冒泡
             evt.nativeEvent.stopImmediatePropagation();
         }
     };
 
     /**
      * 点击取消或者右上角叉叉按钮,关闭获取申请列表弹窗
+     * @param evt
      */
     cancelApplicationStatus = (evt) => {
         this.setState({
             visible: false
         });
-        //初始化申请单列表弹出框
+        //初始化申请状态tab页
         this.initApplicationStatus();
+        //取消冒泡
+        evt.nativeEvent.stopImmediatePropagation();
+    };
+
+    /**
+     * 点击右上角叉叉按钮,关闭获取申请快递状态弹窗
+     * @param evt
+     */
+    cancelApplicationStatusDelivery = (evt) => {
+        this.setState({
+            deliveryVisible: false
+        });
+        //初始化申请状态tab页
+        this.initApplicationStatus();
+        //取消冒泡
         evt.nativeEvent.stopImmediatePropagation();
     };
 
@@ -343,6 +424,7 @@ class ApplicationStatusView extends React.Component {
                     <div className="applicationStatus-relations-img">
                     </div>
                     {this.renderModal()}
+                    {this.renderDeliveryModal()}
                 </Card>
             </section>
         )

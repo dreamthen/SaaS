@@ -733,6 +733,9 @@ class ApplicationView extends React.Component {
                     <div className="must-fill-title">
                     </div>
                     <div className="must-fill-title-font">
+                        <i className="iconfontSaaS saas-personalInformation">
+
+                        </i>
                         Including Person Information
                     </div>
                 </div>
@@ -807,6 +810,9 @@ class ApplicationView extends React.Component {
                     <div className="chinese-fluency-title">
                     </div>
                     <div className="chinese-fluency-title-font">
+                        <i className="iconfontSaaS saas-education">
+
+                        </i>
                         Education
                     </div>
                 </div>
@@ -822,10 +828,13 @@ class ApplicationView extends React.Component {
     renderOtherInformation(otherInformation) {
         return (
             <div className="application-other-information">
-                <div className="application-common-container other-information-title">
+                <div className="application-common-container">
                     <div className="other-information-title">
                     </div>
                     <div className="other-information-title-font">
+                        <i className="iconfontSaaS saas-otherInformation">
+
+                        </i>
                         Other Information
                     </div>
                 </div>

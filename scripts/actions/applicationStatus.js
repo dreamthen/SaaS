@@ -25,20 +25,26 @@ export function getApplyRelations(id) {
             code = response.head.code,
             message = response.head.message;
         if (code === Success.APPLICATION_STATUS_SUCCESS_CODE) {
-            //通过id获取到某一个已经提交的申请关系,并setState到申请表状态的每一个state
-            for (let relationItem in body) {
-                if (relationItem === "studentId") {
-                    this.setState({
-                        id: body[relationItem]
-                    });
-                } else if (relationItem === "applicationFormId") {
-                    this.setState({
-                        formId: body[relationItem]
-                    });
-                } else {
-                    this.setState({
-                        [relationItem]: body[relationItem] === null ? "" : body[relationItem]
-                    });
+            if (body !== null) {
+                //通过id获取到某一个已经提交的申请关系,并setState到申请表状态的每一个state
+                for (let relationItem in body) {
+                    if (relationItem === "studentId") {
+                        this.setState({
+                            id: body[relationItem]
+                        });
+                    } else if (relationItem === "applicationFormId") {
+                        this.setState({
+                            formId: body[relationItem]
+                        });
+                    } else if (relationItem === "id") {
+                        this.setState({
+                            relationId: body[relationItem]
+                        });
+                    } else {
+                        this.setState({
+                            [relationItem]: body[relationItem] === null ? "" : body[relationItem]
+                        });
+                    }
                 }
             }
         } else {
@@ -82,6 +88,37 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
             });
             let apply_status = getApplyRelations.bind(this);
             apply_status(studentId);
+        } else {
+
+        }
+    }.bind(this));
+}
+
+/**
+ * 获取申请快递状态
+ * @param relationId
+ */
+export function getDeliveryStatus(relationId) {
+    $.ajax({
+        url: api.GET_DELIVERY_STATUS + "/" + relationId + "/deliverystatus",
+        type: "get",
+        dataType: "json",
+        data: {},
+        async: true,
+        error: function (request, status, ThrowError) {
+            let codeStatus = request.status;
+            requestError.error(codeStatus, ThrowError);
+        }
+    }).done(function ajaxDone(response, status) {
+        let body = response.body,
+            code = response.head.code,
+            message = response.head.message;
+        if (code === Success.APPLICATION_STATUS_SUCCESS_CODE) {
+            //弹出获取申请快递状态弹窗,并把申请快递状态的html段落赋给state状态deliveryStatus
+            this.setState({
+                deliveryVisible: true,
+                deliveryStatus: body
+            });
         } else {
 
         }

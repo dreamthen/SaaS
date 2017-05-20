@@ -21,6 +21,8 @@ if (!isMook) {
         SAVE_STUDENT_INFORMATION: NGINX_DIR + "student/users/students",
         //上传头像
         UPLOAD_AVATARS: NGINX_DIR + "student/users/students",
+        //激活邮箱
+        SET_VERIFY: NGINX_DIR + "student/users/students",
         //修改密码
         CHANGE_PASSWORD: NGINX_DIR + "student/sessions/password",
         //获取申请单列表
@@ -35,8 +37,8 @@ if (!isMook) {
         ADD_APPLY_RELATIONS: NGINX_DIR + "student/applyRelations",
         //获取申请关系
         GET_APPLY_RELATIONS: NGINX_DIR + "student/users/students",
-        //激活邮箱
-        SET_VERIFY: NGINX_DIR + "student/users/students",
+        //获取快递的申请状态
+        GET_DELIVERY_STATUS: NGINX_DIR + "student/applyRelations",
         //获取国家列表
         GET_COUNTRIES: NGINX_DIR + "student/meta/countries",
         //获取宗教列表
