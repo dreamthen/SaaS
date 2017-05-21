@@ -40,6 +40,8 @@ class StudentView extends React.Component {
             sex: SEX,
             //头像
             avatar: "",
+            //头像地址
+            avatarSrc: "",
             //电话号码
             phone: "",
             //邮箱
@@ -90,6 +92,9 @@ class StudentView extends React.Component {
 
     componentDidMount() {
         const {id} = this.state;
+        this.setState({
+            avatarSrc: api.GET_UPLOAD_AVATARS + "/" + id + "/avatars"
+        });
         //发出获取学生信息ajax请求
         let student_info = getInformation.bind(this);
         student_info(id);
@@ -164,22 +169,51 @@ class StudentView extends React.Component {
     }
 
     /**
+     * Upload上传头像内部组件
+     * @returns {XML}
+     */
+    renderInnerUpload() {
+        return (
+            <section className="information-avatar-upload">
+                {/*iconFont 加号*/}
+                <i className="iconfontSaaS saas-add">
+
+                </i>
+            </section>
+        )
+    }
+
+    /**
      * Upload上传头像组件
      * @returns {XML}
      */
-    renderUpload() {
+    renderUpload(innerUpload) {
         const {id} = this.state;
         return (
             <Upload
-                {...uploadProps.bind(this)(api.UPLOAD_AVATARS + "/" + id + "/avatars")}
+                {...uploadProps.bind(this)(id, api.UPLOAD_AVATARS + "/" + id + "/avatars")}
             >
-                <section className="information-avatar-upload">
-                    {/*iconFont 加号*/}
-                    <i className="iconfontSaaS saas-add">
+                {innerUpload}
+            </Upload>
+        )
+    }
+
+    /**
+     * 头像内部组件
+     * @returns {XML}
+     */
+    renderInnerImage() {
+        return (
+            <div className="information-avatar-filter">
+                <div className="information-avatar-character">
+                    <i
+                        className="iconfontSaaS saas-updateImage"
+                        title="change avatar"
+                    >
 
                     </i>
-                </section>
-            </Upload>
+                </div>
+            </div>
         )
     }
 
@@ -187,11 +221,12 @@ class StudentView extends React.Component {
      * 头像组件
      * @returns {XML}
      */
-    renderImage() {
-        const {avatar} = this.state;
+    renderImage(innerImage) {
+        const {avatar, avatarSrc} = this.state;
         return (
             <section className="information-avatar-image">
-                <img src={avatar} alt={avatar}/>
+                {innerImage}
+                <img src={avatarSrc} alt={avatar} title={avatar}/>
             </section>
         )
     }
@@ -224,14 +259,21 @@ class StudentView extends React.Component {
      * @constructor
      */
     renderInformationMode(classify, key, maxLength, options, className) {
+        const {renderInput, renderSelect, renderUpload, renderImage, renderInnerUpload, renderInnerImage} = this;
+        //Upload上传头像内部组件
+        const innerUpload = renderInnerUpload.bind(this);
+        //头像内部组件
+        const innerImage = renderInnerImage.bind(this);
+        //当第一次上传完毕后,想要重新上传时头像内部Upload上传头像组件
+        const uploadImage = renderUpload.bind(this, innerImage());
         switch (classify) {
             case studentInformationFormClassify[0]:
                 //Input输入框组件
-                return this.renderInput.bind(this)(key, maxLength);
+                return renderInput.bind(this)(key, maxLength);
                 break;
             case studentInformationFormClassify[1]:
                 //Select选择框组件
-                return this.renderSelect.bind(this)(key, options, className);
+                return renderSelect.bind(this)(key, options, className);
                 break;
             case studentInformationFormClassify[2]:
                 //content可视区域
@@ -239,7 +281,7 @@ class StudentView extends React.Component {
                 break;
             case studentInformationFormClassify[3]:
                 //state状态avatar是否为空,决定渲染Upload上传头像组件或者渲染头像组件
-                return (this.state[key] === "") ? this.renderUpload.bind(this)() : this.renderImage.bind(this)();
+                return (this.state[key] === "") ? renderUpload.bind(this)(innerUpload()) : renderImage.bind(this)(uploadImage());
                 break;
         }
     }

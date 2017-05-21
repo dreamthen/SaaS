@@ -21,6 +21,8 @@ if (!isMook) {
         SAVE_STUDENT_INFORMATION: NGINX_DIR + "student/users/students",
         //上传头像
         UPLOAD_AVATARS: NGINX_DIR + "student/users/students",
+        //获取头像
+        GET_UPLOAD_AVATARS: NGINX_DIR + "student/users/students",
         //激活邮箱
         SET_VERIFY: NGINX_DIR + "student/users/students",
         //修改密码

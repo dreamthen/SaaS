@@ -4,7 +4,7 @@
 import Success from "../prompt/success_prompt";
 import requestError from "../config/requestError";
 
-export function uploadProps(action, data) {
+export function uploadProps(id, action, data) {
     return {
         //input file的name,也就是上传图片文件所用的参数名
         name: "file",
@@ -26,9 +26,17 @@ export function uploadProps(action, data) {
                 setTimeout(function timerControl() {
                     //设置提示语状态取消
                     this.setPromptTrueOrFalse(false, false, false);
-                    //把图片文件地址赋值给state状态file
+                    //由于上传头像组件和获取头像组件是通过state avatar状态是否为空来判断渲染的,
+                    //所以每一次上传成功后,需要先把state avatar状态置空,
+                    //然后再将图片文件地址赋值给state状态file,
+                    //这样可以做到上传图片成功后无缝获取图片
                     this.setState({
-                        avatar: body
+                        avatar: ""
+                    }, () => {
+                        //把图片文件地址赋值给state状态file
+                        this.setState({
+                            avatar: body
+                        })
                     });
                 }.bind(this), 1000);
             } else {
