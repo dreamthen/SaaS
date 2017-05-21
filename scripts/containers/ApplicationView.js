@@ -92,8 +92,10 @@ class ApplicationView extends React.Component {
             countryId: "2",
             //国籍列表
             countryIdList: [],
-            //头像url
+            //头像
             avatar: "",
+            //头像地址
+            avatarSrc: "",
             //性别
             gender: "M",
             //出生日期
@@ -202,6 +204,10 @@ class ApplicationView extends React.Component {
 
     componentDidMount() {
         const {id, current} = this.state;
+        //设置state avatarSrc状态--获取添加或者修改申请单上传的头像的url地址
+        this.setState({
+            avatarSrc: api.GET_APPLICATION_UPLOAD_AVATARS
+        });
         //发出获取申请单列表ajax请求
         let application_action = getApplicationList.bind(this);
         application_action(id, current, PAGE_SIZE);
@@ -760,7 +766,7 @@ class ApplicationView extends React.Component {
     renderUpload() {
         return (
             <Upload
-                {...uploadProps.bind(this)(api.UPLOAD_AVATARS)}
+                {...uploadProps.bind(this)(api.UPLOAD_APPLICATION_AVATARS)}
             >
                 <section className="application-avatar-upload">
                     {/*iconFont 加号*/}
@@ -778,10 +784,10 @@ class ApplicationView extends React.Component {
      * @returns {XML}
      */
     renderImage() {
-        const {avatar} = this.state;
+        const {avatarSrc, avatar} = this.state;
         return (
             <section className="application-avatar-image">
-                <img src={avatar} alt={avatar}/>
+                <img src={avatarSrc + "/" + avatar} alt={avatar}/>
             </section>
         )
     }

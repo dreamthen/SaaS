@@ -4,7 +4,7 @@
 import Success from "../prompt/success_prompt";
 import requestError from "../config/requestError";
 
-export function uploadProps(id, action, data) {
+export function uploadProps(action, data) {
     return {
         //input file的name,也就是上传图片文件所用的参数名
         name: "file",
@@ -36,11 +36,11 @@ export function uploadProps(id, action, data) {
                         //把图片文件地址赋值给state状态file
                         this.setState({
                             avatar: body
-                        })
+                        });
                     });
                 }.bind(this), 1000);
             } else {
-                this.setPasswordPromptTrueOrFalse(false, true, false);
+                this.setPromptTrueOrFalse(false, true, false);
                 this.setState({
                     warnPrompt: message
                 });

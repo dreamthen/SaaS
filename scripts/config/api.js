@@ -19,9 +19,9 @@ if (!isMook) {
         GET_STUDENT_INFORMATION: NGINX_DIR + "student/users/students",
         //修改并保存学生个人信息
         SAVE_STUDENT_INFORMATION: NGINX_DIR + "student/users/students",
-        //上传头像
+        //个人信息上传头像
         UPLOAD_AVATARS: NGINX_DIR + "student/users/students",
-        //获取头像
+        //个人信息获取头像
         GET_UPLOAD_AVATARS: NGINX_DIR + "student/users/students",
         //激活邮箱
         SET_VERIFY: NGINX_DIR + "student/users/students",
@@ -35,6 +35,10 @@ if (!isMook) {
         GET_APPLICATION_FORMS: NGINX_DIR + "student/applicationForms",
         //修改申请表单
         CHANGE_APPLICATION_FORMS: NGINX_DIR + "student/applicationForms",
+        //添加或者修改申请表上传头像
+        UPLOAD_APPLICATION_AVATARS: NGINX_DIR + "student/applicationForms/avatars",
+        //添加或者修改申请表获取头像
+        GET_APPLICATION_UPLOAD_AVATARS: NGINX_DIR + "student/applicationForms/avatars",
         //添加申请关系
         ADD_APPLY_RELATIONS: NGINX_DIR + "student/applyRelations",
         //获取申请关系

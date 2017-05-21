@@ -92,6 +92,7 @@ class StudentView extends React.Component {
 
     componentDidMount() {
         const {id} = this.state;
+        //设置state avatarSrc状态--获取个人信息上传的头像的url地址
         this.setState({
             avatarSrc: api.GET_UPLOAD_AVATARS + "/" + id + "/avatars"
         });
@@ -191,7 +192,7 @@ class StudentView extends React.Component {
         const {id} = this.state;
         return (
             <Upload
-                {...uploadProps.bind(this)(id, api.UPLOAD_AVATARS + "/" + id + "/avatars")}
+                {...uploadProps.bind(this)(api.UPLOAD_AVATARS + "/" + id + "/avatars")}
             >
                 {innerUpload}
             </Upload>
@@ -226,7 +227,7 @@ class StudentView extends React.Component {
         return (
             <section className="information-avatar-image">
                 {innerImage}
-                <img src={avatarSrc} alt={avatar} title={avatar}/>
+                <img src={avatarSrc + "/" + avatar} alt={avatar} title={avatar}/>
             </section>
         )
     }
