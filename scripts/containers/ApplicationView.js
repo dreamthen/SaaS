@@ -517,6 +517,8 @@ class ApplicationView extends React.Component {
                     />
                 );
                 break;
+            default:
+                break;
         }
     }
 
@@ -620,7 +622,7 @@ class ApplicationView extends React.Component {
         };
         //实现添加、查看或者修改申请表单所有组件、状态、方法和长度限制对象
         integration.forEach((integrationItem, integrationIndex) => {
-            if (integrationIndex !== 0) {
+            if (integrationItem["inList"]) {
                 //集成添加、查看和修改申请表单所有组件、方法、禁用状态、提示语、状态、框内默认提示语和长度限制的react结构
                 let row = <Row
                     key={integrationItem["key"] + "_" + integrationItem["value"]}
@@ -811,6 +813,17 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * 查看申请表头像内部组件
+     * @returns {XML}
+     */
+    renderInnerNoUpdateImage() {
+        return (
+            <div>
+            </div>
+        )
+    }
+
+    /**
      * 头像组件
      * @returns {XML}
      */
@@ -887,7 +900,7 @@ class ApplicationView extends React.Component {
      * @returns {XML}
      */
     renderForm() {
-        const {visible, title, submit, saveOrSubmit, avatar} = this.state;
+        const {visible, title, submit, saveOrSubmit, avatar, formDisabled} = this.state;
         const {
             //提交查看或者修改的申请表,添加申请关系
             submitApplication,
@@ -909,6 +922,8 @@ class ApplicationView extends React.Component {
             renderImage,
             //添加或者修改申请表头像内部组件
             renderInnerImage,
+            //查看申请表头像内部组件
+            renderInnerNoUpdateImage,
             //第一部分必填域
             renderMustFill,
             //第二部分中文能力
@@ -922,6 +937,8 @@ class ApplicationView extends React.Component {
         const innerUpload = renderInnerUpload.bind(this);
         //添加或者修改申请表头像内部组件
         const innerImage = renderInnerImage.bind(this);
+        //查看申请表头像内部组件
+        const innerNoUpdateImage = renderInnerNoUpdateImage.bind(this);
         //当第一次上传完毕后,想要重新上传时,头像内部Upload上传添加或者修改申请表头像组件
         const uploadImage = renderUpload.bind(this, innerImage());
         return (
@@ -942,8 +959,8 @@ class ApplicationView extends React.Component {
                 {renderFocusPlace.bind(this)()}
                 {/*表单内容顶部申请单标识名以及第一部分标题Including Person Information(must fill)*/}
                 {renderFormName.bind(this)()}
-                {/*state状态avatar是否为空,决定渲染Upload上传头像组件或者渲染头像组件*/}
-                {avatar === "" ? renderUpload.bind(this)(innerUpload()) : renderImage.bind(this)(uploadImage())}
+                {/*state状态avatar是否为空,决定渲染Upload上传添加或者修改申请表头像组件或者渲染头像组件,再根据state状态formDisabled是否为true,渲染查看申请表头像或者可修改申请表头像*/}
+                {avatar === "" ? renderUpload.bind(this)(innerUpload()) : formDisabled ? renderImage.bind(this)(innerNoUpdateImage()) : renderImage.bind(this)(uploadImage())}
                 {/*第一部分必填域*/}
                 {renderMustFill.bind(this)(formRow["formRowMustFill"])}
                 {/*第二部分中文能力*/}
@@ -1036,7 +1053,8 @@ class ApplicationView extends React.Component {
             saveOrSubmit: true,
             loading: false,
             loadingBlock: false,
-            transitionLoading: "application-spin-container application-spin-enterOrLeave"
+            transitionLoading: "application-spin-container application-spin-enterOrLeave",
+            avatarSrc: api.GET_APPLICATION_UPLOAD_AVATARS
         });
         for (let objectItemKey in formObject) {
             if (objectItemKey === "id") {
