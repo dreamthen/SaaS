@@ -166,6 +166,39 @@
     border: 1px solid #d9d9d9;
 }
 
+.application-avatar-image .application-avatar-filter {
+    position: absolute;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    top: 8px;
+    left: 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
+    transition: all .6s ease-in-out 0s;
+    color: #fff;
+}
+
+.application-avatar-image .application-avatar-filter:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.application-avatar-filter > .application-avatar-character {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.application-avatar-character > .saas-updateImage {
+    font-size: 22px;
+}
+
 .application-avatar-image > img {
     display: block;
     width: 100%;

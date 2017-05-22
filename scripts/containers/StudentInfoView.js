@@ -170,7 +170,7 @@ class StudentView extends React.Component {
     }
 
     /**
-     * Upload上传头像内部组件
+     * Upload上传个人信息头像内部组件
      * @returns {XML}
      */
     renderInnerUpload() {
@@ -185,7 +185,7 @@ class StudentView extends React.Component {
     }
 
     /**
-     * Upload上传头像组件
+     * Upload上传个人信息头像组件
      * @returns {XML}
      */
     renderUpload(innerUpload) {
@@ -200,7 +200,7 @@ class StudentView extends React.Component {
     }
 
     /**
-     * 头像内部组件
+     * 个人信息头像内部组件
      * @returns {XML}
      */
     renderInnerImage() {
@@ -219,7 +219,7 @@ class StudentView extends React.Component {
     }
 
     /**
-     * 头像组件
+     * 个人信息头像组件
      * @returns {XML}
      */
     renderImage(innerImage) {
@@ -261,11 +261,11 @@ class StudentView extends React.Component {
      */
     renderInformationMode(classify, key, maxLength, options, className) {
         const {renderInput, renderSelect, renderUpload, renderImage, renderInnerUpload, renderInnerImage} = this;
-        //Upload上传头像内部组件
+        //Upload上传个人信息头像内部组件
         const innerUpload = renderInnerUpload.bind(this);
-        //头像内部组件
+        //个人信息头像内部组件
         const innerImage = renderInnerImage.bind(this);
-        //当第一次上传完毕后,想要重新上传时头像内部Upload上传头像组件
+        //当第一次上传完毕后,想要重新上传时,头像内部Upload上传添加或者修改申请表头像组件
         const uploadImage = renderUpload.bind(this, innerImage());
         switch (classify) {
             case studentInformationFormClassify[0]:

@@ -760,22 +760,51 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * Upload上传头像组件
+     * Upload上传添加或者修改申请表头像内部组件
      * @returns {XML}
      */
-    renderUpload() {
+    renderInnerUpload() {
+        return (
+            <section className="application-avatar-upload">
+                {/*iconFont 加号*/}
+                <i className="iconfontSaaS saas-add">
+
+                </i>
+                <span className="application-avatar-description">Avatar</span>
+            </section>
+        )
+    }
+
+    /**
+     * Upload上传添加或者修改申请表头像组件
+     * @returns {XML}
+     */
+    renderUpload(innerUpload) {
         return (
             <Upload
                 {...uploadProps.bind(this)(api.UPLOAD_APPLICATION_AVATARS)}
             >
-                <section className="application-avatar-upload">
-                    {/*iconFont 加号*/}
-                    <i className="iconfontSaaS saas-add">
+                {innerUpload}
+            </Upload>
+        )
+    }
+
+    /**
+     * 添加或者修改申请表头像内部组件
+     * @returns {XML}
+     */
+    renderInnerImage() {
+        return (
+            <div className="application-avatar-filter">
+                <div className="application-avatar-character">
+                    <i
+                        className="iconfontSaaS saas-updateImage"
+                        title="change avatar"
+                    >
 
                     </i>
-                    <span className="application-avatar-description">Avatar</span>
-                </section>
-            </Upload>
+                </div>
+            </div>
         )
     }
 
@@ -783,10 +812,11 @@ class ApplicationView extends React.Component {
      * 头像组件
      * @returns {XML}
      */
-    renderImage() {
+    renderImage(innerImage) {
         const {avatarSrc, avatar} = this.state;
         return (
             <section className="application-avatar-image">
+                {innerImage}
                 <img src={avatarSrc + "/" + avatar} alt={avatar}/>
             </section>
         )
@@ -856,7 +886,42 @@ class ApplicationView extends React.Component {
      */
     renderForm() {
         const {visible, title, submit, saveOrSubmit, avatar} = this.state;
-        let formRow = this.renderFormRow();
+        const {
+            //提交查看或者修改的申请表,添加申请关系
+            submitApplication,
+            //保存添加或者修改申请表的数据
+            saveApplication,
+            //按取消按钮或者右上角叉叉关闭添加、查看或者修改弹窗
+            cancelApplication,
+            //错误、警告和成功状态提示语部分
+            renderAlert,
+            //头部Focus图标和蓝色placeholder背景图
+            renderFocusPlace,
+            //表单内容顶部申请单标识名以及第一部分标题Including Person Information(must fill)
+            renderFormName,
+            //Upload上传添加或者修改申请表头像组件
+            renderUpload,
+            //Upload上传添加或者修改申请表头像内部组件
+            renderInnerUpload,
+            //添加或者修改申请表头像组件
+            renderImage,
+            //添加或者修改申请表头像内部组件
+            renderInnerImage,
+            //第一部分必填域
+            renderMustFill,
+            //第二部分中文能力
+            renderChineseFluency,
+            //第三部分其他信息
+            renderOtherInformation,
+            renderFormRow
+        } = this;
+        let formRow = renderFormRow.bind(this)();
+        //Upload上传添加或者修改申请表头像内部组件
+        const innerUpload = renderInnerUpload.bind(this);
+        //添加或者修改申请表头像内部组件
+        const innerImage = renderInnerImage.bind(this);
+        //当第一次上传完毕后,想要重新上传时,头像内部Upload上传添加或者修改申请表头像组件
+        const uploadImage = renderUpload.bind(this, innerImage());
         return (
             <Modal
                 visible={visible}
@@ -866,23 +931,23 @@ class ApplicationView extends React.Component {
                 width={960}
                 okText={submit}
                 cancelText="取消"
-                onOk={saveOrSubmit ? this.submitApplication.bind(this) : this.saveApplication.bind(this)}
-                onCancel={this.cancelApplication.bind(this)}
+                onOk={saveOrSubmit ? submitApplication.bind(this) : saveApplication.bind(this)}
+                onCancel={cancelApplication.bind(this)}
             >
                 {/*错误、警告和成功状态提示语部分*/}
-                {this.renderAlert()}
+                {renderAlert.bind(this)()}
                 {/*头部Focus图标和蓝色placeholder背景图*/}
-                {this.renderFocusPlace()}
+                {renderFocusPlace.bind(this)()}
                 {/*表单内容顶部申请单标识名以及第一部分标题Including Person Information(must fill)*/}
-                {this.renderFormName()}
+                {renderFormName.bind(this)()}
                 {/*state状态avatar是否为空,决定渲染Upload上传头像组件或者渲染头像组件*/}
-                {avatar === "" ? this.renderUpload() : this.renderImage()}
+                {avatar === "" ? renderUpload.bind(this)(innerUpload()) : renderImage.bind(this)(uploadImage())}
                 {/*第一部分必填域*/}
-                {this.renderMustFill(formRow["formRowMustFill"])}
-                {/*第一部分中文能力*/}
-                {this.renderChineseFluency(formRow["formRowChineseFluency"])}
-                {/*第一部分其他信息*/}
-                {this.renderOtherInformation(formRow["formRowOtherInformation"])}
+                {renderMustFill.bind(this)(formRow["formRowMustFill"])}
+                {/*第二部分中文能力*/}
+                {renderChineseFluency.bind(this)(formRow["formRowChineseFluency"])}
+                {/*第三部分其他信息*/}
+                {renderOtherInformation.bind(this)(formRow["formRowOtherInformation"])}
             </Modal>
         )
     }
