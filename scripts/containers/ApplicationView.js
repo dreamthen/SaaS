@@ -305,8 +305,10 @@ class ApplicationView extends React.Component {
             countryId: "2",
             //国籍列表
             countryIdList: [],
-            //头像url
+            //头像
             avatar: "",
+            //头像地址
+            avatarSrc: "",
             //性别
             gender: "M",
             //出生日期
