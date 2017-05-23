@@ -26,7 +26,9 @@ const fetchRequest = {
             //传入参数,以JSON.stringify包裹,以json字符串的形式传参
             body: JSON.stringify(data),
             //同步或者异步:默认是异步,一般是异步
-            async: true
+            async: true,
+            //sending cookies
+            credentials: "same-origin"
         }).then(
             //检查返回的对象response status
             this.checkStatus
