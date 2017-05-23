@@ -197,14 +197,20 @@ class ApplicationView extends React.Component {
         }
     }
 
+    /**
+     * 组件开始装载
+     */
     componentWillMount() {
         //组件开始装载,获取用户数据
         this.fetchData();
     }
 
+    /**
+     * 组件结束装载
+     */
     componentDidMount() {
         const {id, current} = this.state;
-        //设置state avatarSrc状态--获取添加或者修改申请单上传的头像的url地址
+        //设置state avatarSrc状态--获取添加、查看或者修改申请单上传的头像的url地址
         this.setState({
             avatarSrc: api.GET_APPLICATION_UPLOAD_AVATARS
         });
@@ -217,7 +223,7 @@ class ApplicationView extends React.Component {
      * 获取用户信息
      */
     fetchData() {
-        //从localStorage中获取到登录之后传入的用户数据信息
+        //从localStorage中获取到登录之后传入的用户数据信息(登录用户id,登录用户名account,登录密码password)
         let storage_action = localStorageObject.getLocalStorage.bind(this);
         storage_action(storageData);
     }
@@ -228,9 +234,11 @@ class ApplicationView extends React.Component {
     fetchCountryOrReligionData() {
         //获取国籍列表
         let get_countries = getCountriesOrReligions.bind(this);
+        //state状态countryId,还有请求获取国籍列表的url作参数传过去
         get_countries(countryOrReligion[0], api.GET_COUNTRIES);
         //获取宗教列表
         let get_religions = getCountriesOrReligions.bind(this);
+        //state状态religionId,还有请求获取宗教列表的url作参数传过去
         get_religions(countryOrReligion[1], api.GET_RELIGIONS);
     }
 
@@ -279,6 +287,7 @@ class ApplicationView extends React.Component {
      * @param prompt
      */
     showErrorPrompt(prompt) {
+        //设置错误提示状态
         this.setPromptTrueOrFalse(true, false, false);
         //设置错误提示语
         this.setState({
@@ -401,10 +410,11 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * 表格为空时,render内容结构
+     * 列表为空时,render内容结构
      * @returns {XML}
      */
     renderNull() {
+        //空列表组件NullComponent
         return (
             <NullComponent />
         )
@@ -415,14 +425,19 @@ class ApplicationView extends React.Component {
      */
     renderTable() {
         const {applicationList, id, loading} = this.state;
-        const {getApplicationFormsAlready} = this;
+        const {
+            //点击申请表列表,通过id获取到某一个form表单的表单数据,并setState到表单的每一个state状态
+            getApplicationFormsAlready,
+            //显示正在载入loading......(包括loading动画、loading标识和loading遮罩层)
+            showLoading
+        } = this;
         return (
             <Table
                 id={id}
                 loading={loading}
                 columns={applicationColumn}
                 dataSource={applicationList}
-                showLoading={this.showLoading.bind(this)}
+                showLoading={showLoading.bind(this)}
                 getApplicationFormsAlready={getApplicationFormsAlready.bind(this)}
             />
         )
@@ -432,12 +447,16 @@ class ApplicationView extends React.Component {
      * 显示正在载入loading......
      */
     showLoading() {
+        //先将承载正在载入loading的container元素进行显示
         this.setState({
             loadingBlock: true
         }, () => {
+            //FIXME 在这里设置一个时间处理器,在100毫秒之后,将loading动画、loading标识和loading过渡动画遮罩层进行显示
             setTimeout(function timerControl() {
                 this.setState({
+                    //将loading动画和loading标识进行显示
                     loading: true,
+                    //添加loading过渡动画遮罩层className样式表
                     transitionLoading: "application-spin-container application-spin-enterOrLeave application-spin-enterOrLeave-active"
                 })
             }.bind(this), 100);
@@ -1027,7 +1046,7 @@ class ApplicationView extends React.Component {
     };
 
     /**
-     * 点击申请表列表,通过id获取到某一个form表单的表单数据,并setState到表单的每一个state状态
+     * 点击申请表列表某一行数据,通过id获取到某一个form表单的表单数据,并setState到表单的每一个state状态
      * @param formObject
      */
     getApplicationFormsAlready(formObject) {

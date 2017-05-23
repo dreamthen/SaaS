@@ -8,6 +8,8 @@ import moment from "moment";
 import {Row, Col} from "antd";
 import "./table.css";
 
+//时间格式规范
+const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 //创建时间和修改时间dataIndex
 const TIME = ["createDate", "modifyDate"];
 //申请单状态dataIndex
@@ -17,37 +19,46 @@ const applyStatus = [{key: "N", value: "未提交"}, {key: "Y", value: "提交"}
 
 export class Table extends React.Component {
     static propTypes = {
+        //登录用户id
         id: PropTypes.number,
+        //是否显示正在载入loading
         loading: PropTypes.bool,
+        //列表头部模板或者说是列表横向行模板
         columns: PropTypes.array,
+        //列表主体内容,要借助columns横向行模板显示行数据,列表数据的长度显示列数据
         dataSource: PropTypes.array,
+        //显示正在载入loading......(包括loading动画、loading标识和遮罩层)
         showLoading: PropTypes.func,
+        //点击申请表列表,通过id获取到某一个form表单的表单数据,并setState到表单的每一个state状态
         getApplicationFormsAlready: PropTypes.func
     };
 
     constructor(props) {
         super(props);
         this.state = {
+            //申请表列表某一行数据的id,用于获取申请表单使用
             tableFormId: 0
         }
     }
 
     componentWillReceiveProps(nextProps) {
+        //当显示正在载入状态loading时,发起获取申请表单ajax请求
         if ((this.props.loading !== nextProps.loading) && nextProps.loading) {
             const {tableFormId} = this.state;
-            //获取申请表单
+            //发起获取申请表单ajax请求
             let get_application = getApplicationForms.bind(this);
             get_application(tableFormId);
         }
     }
 
     /**
-     * render表格头部结构
+     * render react列表头部结构
      * @returns {XML}
      */
     renderHeaderRow() {
         const {columns} = this.props;
         const {cols} = styles;
+        //react列表头部结构或者说是react列表横向行结构
         return (
             <Row className="table-header-row">
                 {
@@ -70,20 +81,23 @@ export class Table extends React.Component {
     }
 
     /**
-     * render表格内容结构
+     * render react列表内容结构
      * @returns {XML}
      */
     renderBodyRow() {
         const {columns, dataSource} = this.props;
+        const {getApplication} = this;
         const {cols} = styles;
+        //react列表主体结构,列表数据的长度显示react列结构
         return dataSource.map((sourceItem, index) => {
             return (
                 <Row
                     key={sourceItem["id"]}
                     className="table-body-row"
-                    onClick={this.getApplication.bind(this, sourceItem["id"])}
+                    onClick={getApplication.bind(this, sourceItem["id"])}
                 >
                     {
+                        //借助columns横向行模板显示react行结构
                         columns.map((columnItem, columnIndex) => {
                             let timeFlag = false;
                             return (
@@ -93,6 +107,10 @@ export class Table extends React.Component {
                                     style={cols[columnIndex]}
                                 >
                                     {
+                                        //后台返回的创建时间和修改时间类型是number类型,微秒形式,所以需要moment进行转化
+                                        //在react行结构的循环当中,定义一个timeFlag,如果遇到创建时间和修改时间字段,
+                                        //就设置为true
+                                        //然后根据timeFlag是否为true来渲染显示的数据
                                         TIME.map((timeItem, timeIndex) => {
                                             if (timeItem === columnItem["dataIndex"]) {
                                                 timeFlag = true;
@@ -100,9 +118,15 @@ export class Table extends React.Component {
                                         })
                                     }
                                     {
-                                        (timeFlag && sourceItem[columnItem["dataIndex"]]) && moment(sourceItem[columnItem["dataIndex"]]).format("YYYY-MM-DD HH:mm:ss")
+                                        //timeFlag为true,说明此字段为创建时间字段或者修改时间字段,
+                                        //利用moment(创建时间或者修改时间微秒类型).format(要转换的字符串形式)
+                                        (timeFlag && sourceItem[columnItem["dataIndex"]]) && moment(sourceItem[columnItem["dataIndex"]]).format(timeFormat)
                                     }
                                     {
+                                        //timeFlag为false,
+                                        //在遇到申请单状态时,如果返回的是N,
+                                        //则显示"未提交",否则返回的是Y,则显示"提交".
+                                        //在没有遇到申请单状态时,则正常显示数据
                                         (!timeFlag && sourceItem[columnItem["dataIndex"]]) && (columnItem["dataIndex"] === APPLY_STATUS ? sourceItem[columnItem["dataIndex"]] === applyStatus[0]["key"] ? applyStatus[0]["value"] : applyStatus[1]["value"] : sourceItem[columnItem["dataIndex"]])
                                     }
                                 </Col>
@@ -115,15 +139,18 @@ export class Table extends React.Component {
     }
 
     /**
-     * 显示正在载入loading......
+     * 点击申请表列表某一行数据,先显示正在载入loading......
      * @param id
      * @param evt
      */
     getApplication = (id, evt) => {
+        //显示正在载入loading...
         this.props.showLoading();
+        //将点击申请表列表中的某一行的formId利用react状态,setState赋给tableFormId
         this.setState({
             tableFormId: id
         });
+        //取消冒泡
         evt.nativeEvent.stopImmediatePropagation();
     };
 
@@ -135,10 +162,13 @@ export class Table extends React.Component {
         return (
             <div className="application-table">
                 <div className="application-table-header">
+                    {/*react列表头部结构*/}
                     {this.renderHeaderRow()}
                 </div>
                 <div className="application-table-body">
+                    {/*react滚动条结构*/}
                     <Scrollbars>
+                        {/*react列表内容结构*/}
                         {this.renderBodyRow()}
                     </Scrollbars>
                 </div>
@@ -147,6 +177,10 @@ export class Table extends React.Component {
     }
 }
 
+/**
+ * react申请表列表行结构样式
+ * @type {{cols: [*]}}
+ */
 let styles = {
     cols: [
         {

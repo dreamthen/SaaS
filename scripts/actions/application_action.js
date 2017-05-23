@@ -191,15 +191,21 @@ export function getCountriesOrReligions(key, url) {
             requestError.error(codeStatus, ThrowError);
         }
     }).done(function ajaxDone(response, status) {
+        //返回的主体内容
         let body = response.body,
+            //返回的头部code码
             code = response.head.code,
+            //返回的头部message消息
             message = response.head.message;
+        //如果返回的头部code码等于申请表tab页面成功码
         if (code === Success.APPLICATION_SUCCESS_CODE) {
             let result = [];
+            //定义一个数组,将返回的主体对象数组中的每个数组对象元素进行解析,以{key:id,value:enName}的形式重构,用于Select Option组件
             body.forEach((bodyItem, bodyIndex) => {
                 let resultObj = {key: bodyItem["id"].toString(), value: bodyItem["enName"]};
                 result.push(resultObj);
             });
+            //result数组用来赋予国籍列表和宗教列表state状态countryIdList,religionIdList
             this.setState({
                 [key + "List"]: result
             });
