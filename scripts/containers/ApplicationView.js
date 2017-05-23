@@ -492,7 +492,9 @@ class ApplicationView extends React.Component {
                 //Input输入框组件
                 return (
                     <Input
+                        //Input输入框大小--大型号
                         size="large"
+                        //Input输入框类型--文本类型
                         type="text"
                         //Input框内默认提示语
                         placeholder={placeholder}

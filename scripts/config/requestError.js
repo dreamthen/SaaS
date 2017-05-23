@@ -5,7 +5,7 @@ import {message} from "antd";
 import Error from "../prompt/error_prompt";
 import Success from "../prompt/success_prompt";
 const requestError = {
-    error: function (status, ThrowError) {
+    error: function (status) {
         switch (status) {
             //处理401会话过期错误
             case 401:
