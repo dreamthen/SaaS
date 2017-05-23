@@ -470,11 +470,17 @@ class ApplicationView extends React.Component {
     renderFormMode(classify, key, value, placeholder, maxLength, format, options, disabled, showTime) {
         const {formDisabled} = this.state;
         const {
+            //Input框内容发生改变时,所调方法
             onChangeInput,
+            //Select框内容发生改变时,所调方法
             onChangeSelect,
+            //DatePicker框内容发生改变时,所调方法
             onChangeDatePicker,
+            //DatePicker框控制是否弹出,所调方法
             onChangeDatePickerOpen,
+            //设置不可点击的DatePicker时间
             onDisabledDatePicker,
+            //设置所有的时间都可点击,以前、现在和未来都可点击
             onDisabledDatePickerNull
         } = this;
         //国家或者国籍都保存在state中
@@ -488,10 +494,15 @@ class ApplicationView extends React.Component {
                     <Input
                         size="large"
                         type="text"
+                        //Input框内默认提示语
                         placeholder={placeholder}
+                        //Input框禁用状态
                         disabled={formDisabled}
+                        //Input框内容长度限制,最多可输入多少字符
                         maxLength={maxLength}
+                        //Input框内容状态
                         value={this.state[key]}
+                        //Input框内容发生改变时,调用onChange事件
                         onChange={onChangeInput.bind(this, key)}
                     />
                 );
@@ -605,7 +616,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * 设置所有的时间都可点击,以前、现在和未来
+     * 设置所有的时间都可点击,以前、现在和未来都可点击
      * @param current
      */
     onDisabledDatePickerNull(current) {
