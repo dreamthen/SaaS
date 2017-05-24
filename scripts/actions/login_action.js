@@ -1,7 +1,7 @@
 /**
  * Created by yinwk on 2017/5/6.
  */
-import fetchRequest from "./fetchRequestData";
+import fetchRequest from "../config/fetchRequestData";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
 import localStorageObject from "../config/localStorage";
@@ -20,7 +20,6 @@ export function loginAction(account, password) {
             account,
             password
         },
-        "application/json",
         function done(response, status) {
             let message = response.head.message,
                 code = response.head.code,
@@ -89,7 +88,6 @@ export function registerAction(account, password) {
             account,
             password
         },
-        "application/json",
         function done(response, status) {
             let message = response.head.message,
                 code = response.head.code;
@@ -134,7 +132,6 @@ export function logOutAction() {
         api.LOGOUT_ACTION,
         "get",
         {},
-        "application/json",
         function done(response, status) {
             //删除localStorage中的学生数据信息
             localStorageObject.removeLocalStorage(storageData);

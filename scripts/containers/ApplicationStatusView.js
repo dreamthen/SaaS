@@ -408,12 +408,12 @@ class ApplicationStatusView extends React.Component {
      * @param evt
      */
     submitApplication = (evt) => {
-        const {id, formId, universityId, current} = this.state;
+        const {id, formId, universityId} = this.state;
         let checked = this.onCheck();
         if (checked) {
             //发出添加申请关系ajax请求
             let add_apply_relation_action = addApplyRelations.bind(this);
-            add_apply_relation_action(id, formId, universityId, current, PAGE_SIZE);
+            add_apply_relation_action(id, formId, universityId);
             //取消冒泡
             evt.nativeEvent.stopImmediatePropagation();
         }

@@ -2,7 +2,10 @@
  * Created by yinwk on 2017/5/23.
  */
 import "whatwg-fetch";
-import requestError from "../config/requestError";
+import requestError from "./requestError";
+
+//GET请求和(POST、PUT还有DELETE请求)传递参数有区别,所以对GET请求特殊处理
+const methodGet = "get";
 
 const fetchRequest = {
     /**
@@ -10,26 +13,27 @@ const fetchRequest = {
      * @param url
      * @param type
      * @param data
-     * @param contentType
      * @param done
      */
-    fetchRequestData(url, type, data, contentType, done) {
-        fetch(url, {
-            //请求方式
-            method: type,
-            //返回数据类型:json类型
-            dataType: "json",
-            //文件类型:一般是"application/json"
-            headers: {
-                "Content-Type": contentType
-            },
-            //传入参数,以JSON.stringify包裹,以json字符串的形式传参
-            body: JSON.stringify(data),
-            //同步或者异步:默认是异步,一般是异步
-            async: true,
-            //sending cookies
-            credentials: "same-origin"
-        }).then(
+    fetchRequestData(url, type, data, done) {
+        fetch(url, (function methodParams() {
+            return {
+                //请求方式
+                method: type,
+                //返回数据类型:json类型
+                dataType: "json",
+                //文件类型:一般是"application/json"
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                //传入参数,如果是GET请求,直接传参;如果是POST、PUT和DELETE请求,以JSON.stringify包裹,以json字符串的形式传参
+                body: (type === methodGet || type === methodGet.toUpperCase()) ? data : JSON.stringify(data),
+                //同步或者异步:默认是异步,一般是异步
+                async: true,
+                //sending cookies
+                credentials: "same-origin"
+            }
+        })()).then(
             //检查返回的对象response status
             this.checkStatus
         ).then(
@@ -64,7 +68,6 @@ const fetchRequest = {
      * @param response
      */
     responseJSON(response) {
-        console.log(response);
         return response.json()
     }
 };

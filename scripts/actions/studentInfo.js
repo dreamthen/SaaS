@@ -1,49 +1,45 @@
 /**
  * Created by yinwk on 2017/5/6.
  */
-import $ from "jquery";
+import fetchRequest from "../config/fetchRequestData";
+import {URLSearchParamsConfig} from "../config/URLSearchParamsConfig";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
 import {message} from "antd";
-import requestError from "../config/requestError";
 /**
  * 获取学生信息
  * @param id
  */
 export function getInformation(id) {
-    $.ajax({
-        type: "get",
-        dataType: "json",
-        url: api.GET_STUDENT_INFORMATION + "/" + id,
-        async: true,
-        error: function (request, status, ThrowError) {
-            let codeStatus = request.status;
-            requestError.error(codeStatus, ThrowError);
-        }
-    }).done(function (response, status) {
-        if (response.head.code === Success.STUDENT_SUCCESS_CODE) {
-            let body = response.body,
-                id = body.id,
-                sex = body.sex,
-                email = body.email,
-                avatar = body.avatar,
-                phone = body.phone,
-                visaStatus = body.visaStatus,
-                postalAddress = body.postalAddress;
-            //判断在有id、sex(性别)不为null、phone(电话号码)不为null、email(邮箱)不为null、visaStatus(签证状态)不为null、postalAddress(邮件地址)不为null的情况下,进行setState改变状态
-            if (id && sex && (phone !== null) && (email !== null) && (visaStatus !== null) && (postalAddress !== null) && (avatar !== null)) {
-                this.setState({
-                    id,
-                    sex,
-                    avatar,
-                    phone,
-                    email,
-                    visaStatus: visaStatus.toString(),
-                    postalAddress
-                });
+    fetchRequest.fetchRequestData(
+        api.GET_STUDENT_INFORMATION + "/" + id,
+        "get",
+        {},
+        function done(response, status) {
+            if (response.head.code === Success.STUDENT_SUCCESS_CODE) {
+                let body = response.body,
+                    id = body.id,
+                    sex = body.sex,
+                    email = body.email,
+                    avatar = body.avatar,
+                    phone = body.phone,
+                    visaStatus = body.visaStatus,
+                    postalAddress = body.postalAddress;
+                //判断在有id、sex(性别)不为null、phone(电话号码)不为null、email(邮箱)不为null、visaStatus(签证状态)不为null、postalAddress(邮件地址)不为null的情况下,进行setState改变状态
+                if (id && sex && (phone !== null) && (email !== null) && (visaStatus !== null) && (postalAddress !== null) && (avatar !== null)) {
+                    this.setState({
+                        id,
+                        sex,
+                        avatar,
+                        phone,
+                        email,
+                        visaStatus: visaStatus.toString(),
+                        postalAddress
+                    });
+                }
             }
-        }
-    }.bind(this));
+        }.bind(this)
+    );
 }
 
 /**
@@ -56,88 +52,76 @@ export function getInformation(id) {
  * @param postalAddress
  */
 export function saveInformation(id, sex, email, phone, visaStatus, postalAddress) {
-    $.ajax({
-        type: "put",
-        dataType: "json",
-        contentType: "application/json",
-        url: api.SAVE_STUDENT_INFORMATION + "/" + id,
-        data: JSON.stringify({
+    fetchRequest.fetchRequestData(
+        api.SAVE_STUDENT_INFORMATION + "/" + id,
+        "put",
+        {
             sex,
             email,
             phone,
             visaStatus,
             postalAddress
-        }),
-        async: true,
-        error: function (request, status, ThrowError) {
-            let codeStatus = request.status;
-            requestError.error(codeStatus, ThrowError);
-        }
-    }).done(function (response, status) {
-        let message = response.head.message,
-            code = response.head.code;
-        if (code === Success.STUDENT_SUCCESS_CODE) {
-            this.setPromptTrueOrFalse(false, false, true);
-            this.setState({
-                successPrompt: Success.SAVE_STUDENT_INFORMATION_SUCCESS_MESSAGE
-            }, () => {
-                //FIXME 这里设置一个时间控制器,在1s中之后错误、警告或者成功提示框消失
-                setTimeout(function timer() {
-                    this.setPromptTrueOrFalse(false, false, false);
-                }.bind(this), 1000);
-            });
-        } else {
-            this.setPromptTrueOrFalse(false, true, false);
-            this.setState({
-                warnPrompt: message
-            });
-        }
-    }.bind(this));
+        },
+        function done(response, status) {
+            let message = response.head.message,
+                code = response.head.code;
+            if (code === Success.STUDENT_SUCCESS_CODE) {
+                this.setPromptTrueOrFalse(false, false, true);
+                this.setState({
+                    successPrompt: Success.SAVE_STUDENT_INFORMATION_SUCCESS_MESSAGE
+                }, () => {
+                    //FIXME 这里设置一个时间控制器,在1s中之后错误、警告或者成功提示框消失
+                    setTimeout(function timer() {
+                        this.setPromptTrueOrFalse(false, false, false);
+                    }.bind(this), 1000);
+                });
+            } else {
+                this.setPromptTrueOrFalse(false, true, false);
+                this.setState({
+                    warnPrompt: message
+                });
+            }
+        }.bind(this)
+    );
 }
 
 /**
  * 修改密码
- * @param olderPassword
+ * @param oldPassword
  * @param newPassword
  */
-export function changePasswordRecently(olderPassword, newPassword) {
-    $.ajax({
-        type: "put",
-        dataType: "json",
-        contentType: "application/json",
-        url: api.CHANGE_PASSWORD,
-        data: JSON.stringify({
-            oldPassword: olderPassword,
-            newPassword: newPassword
-        }),
-        async: true,
-        error: function (request, status, ThrowError) {
-            let codeStatus = request.status;
-            requestError.error(codeStatus, ThrowError);
-        }
-    }).done(function (response, status) {
-        let message = response.head.message,
-            code = response.head.code;
-        if (code === Success.STUDENT_SUCCESS_CODE) {
-            this.setPasswordPromptTrueOrFalse(false, false, true);
-            this.setState({
-                successPasswordPrompt: Success.CHANGE_STUDENT_PASSWORD_SUCCESS_MESSAGE
-            }, () => {
-                //FIXME 设置一个时间控制器,在1s中之后错误、警告或者成功提示框消失,弹出框也消失
-                setTimeout(function timer() {
-                    this.setPasswordPromptTrueOrFalse(false, false, false);
-                    this.setState({
-                        visible: false
-                    });
-                }.bind(this), 1000);
-            });
-        } else {
-            this.setPasswordPromptTrueOrFalse(false, true, false);
-            this.setState({
-                warnPasswordPrompt: message
-            });
-        }
-    }.bind(this));
+export function changePasswordRecently(oldPassword, newPassword) {
+    fetchRequest.fetchRequestData(
+        api.CHANGE_PASSWORD,
+        "put",
+        {
+            oldPassword,
+            newPassword
+        },
+        function done(response, status) {
+            let message = response.head.message,
+                code = response.head.code;
+            if (code === Success.STUDENT_SUCCESS_CODE) {
+                this.setPasswordPromptTrueOrFalse(false, false, true);
+                this.setState({
+                    successPasswordPrompt: Success.CHANGE_STUDENT_PASSWORD_SUCCESS_MESSAGE
+                }, () => {
+                    //FIXME 设置一个时间控制器,在1s中之后错误、警告或者成功提示框消失,弹出框也消失
+                    setTimeout(function timer() {
+                        this.setPasswordPromptTrueOrFalse(false, false, false);
+                        this.setState({
+                            visible: false
+                        });
+                    }.bind(this), 1000);
+                });
+            } else {
+                this.setPasswordPromptTrueOrFalse(false, true, false);
+                this.setState({
+                    warnPasswordPrompt: message
+                });
+            }
+        }.bind(this)
+    );
 }
 
 /**
@@ -146,28 +130,21 @@ export function changePasswordRecently(olderPassword, newPassword) {
  * @param email
  */
 export function setVerifyRecently(id, email) {
-    $.ajax({
-        type: "get",
-        dataType: "json",
-        url: api.SET_VERIFY + "/" + id + "/emails",
-        data: {
-            email
-        },
-        async: true,
-        error: function (request, status, ThrowError) {
-            let codeStatus = request.status;
-            requestError.error(codeStatus, ThrowError);
-        }
-    }).done(function (response, status) {
-        let msg = response.head.message,
-            code = response.head.code;
-        if (code === Success.STUDENT_SUCCESS_CODE) {
-            message.success(Success.EMAIL_VERIFY_SUCCESS_MESSAGE);
-            this.setPasswordPromptTrueOrFalse(false, false, false);
-        } else {
-            message.warning(msg);
-        }
-    }.bind(this));
+    fetchRequest.fetchRequestData(
+        URLSearchParamsConfig(api.SET_VERIFY + "/" + id + "/emails", {email}),
+        "get",
+        {},
+        function done(response, status) {
+            let msg = response.head.message,
+                code = response.head.code;
+            if (code === Success.STUDENT_SUCCESS_CODE) {
+                message.success(Success.EMAIL_VERIFY_SUCCESS_MESSAGE);
+                this.setPasswordPromptTrueOrFalse(false, false, false);
+            } else {
+                message.warning(msg);
+            }
+        }.bind(this)
+    );
 }
 
 
