@@ -16,6 +16,7 @@ const fetchRequest = {
      * @param done
      */
     fetchRequestData(url, type, data, done) {
+        //fetch请求,以及请求的url地址
         fetch(url, (function methodParams() {
             return {
                 //请求方式

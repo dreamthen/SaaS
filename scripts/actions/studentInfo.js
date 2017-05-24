@@ -11,6 +11,7 @@ import {message} from "antd";
  * @param id
  */
 export function getInformation(id) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.GET_STUDENT_INFORMATION + "/" + id,
         "get",
@@ -52,6 +53,7 @@ export function getInformation(id) {
  * @param postalAddress
  */
 export function saveInformation(id, sex, email, phone, visaStatus, postalAddress) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.SAVE_STUDENT_INFORMATION + "/" + id,
         "put",
@@ -91,6 +93,7 @@ export function saveInformation(id, sex, email, phone, visaStatus, postalAddress
  * @param newPassword
  */
 export function changePasswordRecently(oldPassword, newPassword) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.CHANGE_PASSWORD,
         "put",
@@ -130,6 +133,7 @@ export function changePasswordRecently(oldPassword, newPassword) {
  * @param email
  */
 export function setVerifyRecently(id, email) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         URLSearchParamsConfig(api.SET_VERIFY + "/" + id + "/emails", {email}),
         "get",

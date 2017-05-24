@@ -10,6 +10,7 @@ import Success from "../prompt/success_prompt";
  * @param id
  */
 export function getApplyRelations(id) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.GET_APPLY_RELATIONS + "/" + id + "/applyRelations",
         "get",
@@ -55,6 +56,7 @@ export function getApplyRelations(id) {
  * @param universityId
  */
 export function addApplyRelations(studentId, formId, universityId) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.ADD_APPLY_RELATIONS,
         "post",
@@ -86,6 +88,7 @@ export function addApplyRelations(studentId, formId, universityId) {
  * @param relationId
  */
 export function getDeliveryStatus(relationId) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.GET_DELIVERY_STATUS + "/" + relationId + "/deliverystatus",
         "get",

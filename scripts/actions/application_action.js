@@ -12,6 +12,7 @@ import Success from "../prompt/success_prompt";
  * @param pageSize
  */
 export function getApplicationList(id, pageNum, pageSize) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         URLSearchParamsConfig(api.GET_APPLICATION_LIST + "/" + id, {pageNum, pageSize}),
         "get",
@@ -40,6 +41,7 @@ export function getApplicationList(id, pageNum, pageSize) {
  * @param pageSize
  */
 export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, pageSize) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         formId === 0 ? api.ADD_APPLICATION_FORMS : api.CHANGE_APPLICATION_FORMS + "/" + formId,
         formId === 0 ? "post" : "put",
@@ -84,6 +86,7 @@ export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, p
  * @param id
  */
 export function getApplicationForms(id) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.GET_APPLICATION_FORMS + "/" + id,
         "get",
@@ -110,6 +113,7 @@ export function getApplicationForms(id) {
  * @param pageSize
  */
 export function addApplyRelations(studentId, formId, universityId, pageNum, pageSize) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.ADD_APPLY_RELATIONS,
         "post",
@@ -157,6 +161,7 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
  * @param url
  */
 export function getCountriesOrReligions(key, url) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         url,
         "get",

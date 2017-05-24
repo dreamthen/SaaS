@@ -13,6 +13,7 @@ import storageData from "../config/storageData";
  * @param password
  */
 export function loginAction(account, password) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.LOGIN_ACTION,
         "post",
@@ -81,6 +82,7 @@ function pushIntoLocalStorage(key, value) {
  * @param password
  */
 export function registerAction(account, password) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.REGISTER_ACTION,
         "post",
@@ -128,6 +130,7 @@ export function registerAction(account, password) {
  * 退出功能get ajax请求
  */
 export function logOutAction() {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         api.LOGOUT_ACTION,
         "get",
