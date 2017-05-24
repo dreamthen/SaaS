@@ -991,8 +991,8 @@ class ApplicationView extends React.Component {
                 {renderFocusPlace.bind(this)()}
                 {/*表单内容顶部申请单标识名以及第一部分标题Including Person Information(must fill)*/}
                 {renderFormName.bind(this)()}
-                {/*state状态avatar是否为空,决定渲染Upload上传添加或者修改申请表头像组件或者渲染头像组件,再根据state状态formDisabled是否为true,渲染查看申请表头像或者可修改申请表头像*/}
-                {avatar === "" ? renderUpload.bind(this)(innerUpload()) : formDisabled ? renderImage.bind(this)(innerNoUpdateImage()) : renderImage.bind(this)(uploadImage())}
+                {/*state状态avatar是否为空或者null,决定渲染Upload上传添加或者修改申请表头像组件或者渲染头像组件,再根据state状态formDisabled是否为true,渲染查看申请表头像或者可修改申请表头像*/}
+                {(avatar === "" || avatar === null) ? renderUpload.bind(this)(innerUpload()) : formDisabled ? renderImage.bind(this)(innerNoUpdateImage()) : renderImage.bind(this)(uploadImage())}
                 {/*第一部分必填域*/}
                 {renderMustFill.bind(this)(formRow["formRowMustFill"])}
                 {/*第二部分中文能力*/}
