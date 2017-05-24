@@ -43,6 +43,9 @@ class LoginView extends React.Component {
         }
     }
 
+    /**
+     * 组件开始装载
+     */
     componentWillMount() {
         //组件开始装载时,初始化提示语和输入框
         this.initState();
@@ -95,10 +98,12 @@ class LoginView extends React.Component {
      */
     onCheckAccount() {
         const {account} = this.state;
+        //当用户名为空时,显示"请输入用户名"错误提示语
         if (account === "") {
             this.showErrorPrompt(Error.NULL_ACCOUNT_VALUE);
             return false;
         }
+        //当用户名的长度大于规定长度时,显示"超出用户名长度限额"错误提示语
         if (account.length > 15) {
             this.showErrorPrompt(Error.EXCESS_ACCOUNT_LENGTH);
             return false;
@@ -152,11 +157,14 @@ class LoginView extends React.Component {
         if (checked) {
             this.setPromptTrueOrFalse(false, false, false);
             this.setState({
+                //填写用户名区域className,转变为动画已经加载到opacity:1的state状态
                 accountClassName: "input-account-container SaaS-leave SaaS-leave-active",
+                //填写密码区域className,转变为动画即将执行加载离开的state状态
                 passwordClassName: "input-password-container SaaS-enter SaaS-enter-active"
             }, () => {
                 // FIXME 这里需要等待transition过渡动画渲染完之后，再去执行display:none和block的操作
                 setTimeout(() => {
+                    //点击"下一步",转变为"下一步"之后的state状态(填写用户名区域消失,显示填写密码区域)
                     this.setState({
                         whetherNext: true
                     });

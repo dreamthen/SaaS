@@ -43,8 +43,11 @@ export function loginAction(account, password) {
                 this.setState({
                     successPrompt: Success.LOGIN_SUCCESS_MESSAGE
                 });
+                //向localStorage数组中push key属性和值(userInfo)以及value属性和值(body)
                 localStorageArray.push(pushIntoLocalStorage("userInfo", body));
+                //向localStorage数组中push key属性和值(account)以及value属性和值({account})
                 localStorageArray.push(pushIntoLocalStorage("account", {account}));
+                //向localStorage数组中push key属性和值(password)以及value属性和值({password})
                 localStorageArray.push(pushIntoLocalStorage("password", {password}));
                 if (id || email || sex || phone) {
                     //向localStorage中设置登录成功后的学生数据信息
@@ -98,8 +101,11 @@ export function registerAction(account, password) {
                 this.setPromptTrueOrFalse(false, false, true);
                 this.setState({
                     successPrompt: Success.REGISTER_SUCCESS_MESSAGE,
+                    //将登录状态恢复到"下一步"之前的state状态(显示填写用户名区域,如果之前显示的是密码区域,将密码区域消失)
                     whetherNext: false,
+                    //填写用户名区域className,恢复到动画已经加载到opacity:1的state状态
                     accountClassName: "input-account-container SaaS-leave",
+                    //填写密码区域className,恢复到动画即将执行加载离开的state状态
                     passwordClassName: "input-password-container SaaS-enter"
                 });
                 //FIXME 这里需要设置一个时间控制器,需要使用setTimeout生成动画,在注册成功1.5s之后,右划到登录页面
@@ -112,6 +118,7 @@ export function registerAction(account, password) {
                         //设置注册页面模块距离左边长度为100%
                         registerActionLeft: "100%"
                     }, () => {
+                        //清除时间控制器
                         clearTimeout(timer);
                     });
                 }.bind(this), 1500);
