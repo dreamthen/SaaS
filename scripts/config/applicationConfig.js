@@ -8,7 +8,7 @@ const applicationColumn = [
         dataIndex: "id"
     },
     {
-        title: "表单名",
+        title: "申请表单名",
         dataIndex: "formName"
     },
     {

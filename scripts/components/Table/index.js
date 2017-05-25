@@ -27,25 +27,25 @@ export class Table extends React.Component {
         columns: PropTypes.array,
         //列表主体内容,要借助columns横向行模板显示行数据,列表数据的长度显示列数据
         dataSource: PropTypes.array,
-        //显示正在载入loading......(包括loading动画、loading标识和遮罩层)
+        //在申请表tab页面下,显示正在载入loading......(包括loading动画、loading标识和遮罩层)
         showLoading: PropTypes.func,
-        //点击申请表列表,通过id获取到某一个form表单的表单数据,并setState到表单的每一个state状态
+        //在申请表tab页面下,点击申请表列表,通过id获取到某一个form表单的表单数据,并setState到表单的每一个state状态
         getApplicationFormsAlready: PropTypes.func
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            //申请表列表某一行数据的id,用于获取申请表单使用
+            //在申请表tab页面下,申请表列表某一行数据的id,用于获取申请表单使用
             tableFormId: 0
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        //当显示正在载入状态loading时,发起获取申请表单ajax请求
+        //在申请表tab页面下,当显示正在载入状态loading时,发起获取申请表单ajax请求
         if ((this.props.loading !== nextProps.loading) && nextProps.loading) {
             const {tableFormId} = this.state;
-            //发起获取申请表单ajax请求
+            //在申请表tab页面下,发起获取申请表单ajax请求
             let get_application = getApplicationForms.bind(this);
             get_application(tableFormId);
         }
@@ -144,9 +144,9 @@ export class Table extends React.Component {
      * @param evt
      */
     getApplication = (id, evt) => {
-        //显示正在载入loading...
-        this.props.showLoading();
-        //将点击申请表列表中的某一行的formId利用react状态,setState赋给tableFormId
+        //在申请表tab页下,如果有props showLoading方法,执行showLoading方法,显示正在载入loading...
+        this.props.showLoading && this.props.showLoading();
+        //在申请表tab页下,将点击申请表列表中的某一行的formId利用react状态,setState赋给tableFormId
         this.setState({
             tableFormId: id
         });

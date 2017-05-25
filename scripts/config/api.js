@@ -48,8 +48,12 @@ if (!isMook) {
         //获取国家列表
         GET_COUNTRIES: NGINX_DIR + "student/meta/countries",
         //获取宗教列表
-        GET_RELIGIONS: NGINX_DIR + "student/meta/religions"
+        GET_RELIGIONS: NGINX_DIR + "student/meta/religions",
+        //获取消息状态列表
+        GET_MESSAGE_STATUS_LIST: NGINX_DIR + "student/users/students"
     }
+} else {
+
 }
 
 module.exports = api;

@@ -431,7 +431,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * render渲染申请单表格结构
+     * render渲染申请单列表结构
      */
     renderTable() {
         const {applicationList, id, loading} = this.state;
