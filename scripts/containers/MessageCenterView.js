@@ -13,6 +13,8 @@ import "../../stylesheets/messageCenter.css";
 
 //每页条数
 const PAGE_SIZE = 20;
+//消息阅读状态dataIndex
+const READ_STATUS = "readStatus";
 
 class MessageCenterView extends React.Component {
     constructor(props) {
@@ -77,6 +79,7 @@ class MessageCenterView extends React.Component {
         const {messageCenterList} = this.state;
         return (
             <Table
+                anyStatus={READ_STATUS}
                 columns={messageCenterConfig}
                 dataSource={messageCenterList}
             />
@@ -95,7 +98,7 @@ class MessageCenterView extends React.Component {
                 <Card
                     title="Message Status"
                     className="messageCenter-card">
-                    {messageCenterList && messageCenterList.length > 0 ? renderTable() : renderNull()}
+                    {messageCenterList && messageCenterList.length > 0 ? renderTable.bind(this)() : renderNull.bind(this)()}
                 </Card>
             </section>
         )

@@ -12,15 +12,23 @@ import "./table.css";
 const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 //创建时间和修改时间dataIndex
 const TIME = ["createDate", "modifyDate"];
-//申请单状态dataIndex
+//在申请单tab页面下,申请单状态dataIndex
 const APPLY_STATUS = "applyStatus";
-//申请单状态value
-const applyStatus = [{key: "N", value: "未提交"}, {key: "Y", value: "提交"}];
+
+const anyStatusConfig = {
+    //在申请单tab页面下,申请单状态value
+    applyStatus: [{key: "N", value: "未提交"}, {key: "Y", value: "提交"}],
+    //在消息状态tab页面下,消息阅读状态value
+    readStatus: [{key: "N", value: "未读"}, {key: "Y", value: "已读"}]
+};
 
 export class Table extends React.Component {
     static propTypes = {
         //登录用户id
         id: PropTypes.number,
+        //在申请单tab页面下,申请单状态dataIndex
+        //或者在消息状态tab页面下,消息阅读状态dataIndex
+        anyStatus: PropTypes.string,
         //是否显示正在载入loading
         loading: PropTypes.bool,
         //列表头部模板或者说是列表横向行模板
@@ -85,7 +93,7 @@ export class Table extends React.Component {
      * @returns {XML}
      */
     renderBodyRow() {
-        const {columns, dataSource} = this.props;
+        const {columns, dataSource, anyStatus} = this.props;
         const {getApplication} = this;
         const {cols} = styles;
         //react列表主体结构,列表数据的长度显示react列结构
@@ -124,10 +132,10 @@ export class Table extends React.Component {
                                     }
                                     {
                                         //timeFlag为false,
-                                        //在遇到申请单状态时,如果返回的是N,
+                                        //在申请单tab页下面,遇到申请单状态时,如果返回的是N,
                                         //则显示"未提交",否则返回的是Y,则显示"提交".
                                         //在没有遇到申请单状态时,则正常显示数据
-                                        (!timeFlag && sourceItem[columnItem["dataIndex"]]) && (columnItem["dataIndex"] === APPLY_STATUS ? sourceItem[columnItem["dataIndex"]] === applyStatus[0]["key"] ? applyStatus[0]["value"] : applyStatus[1]["value"] : sourceItem[columnItem["dataIndex"]])
+                                        (!timeFlag && sourceItem[columnItem["dataIndex"]]) && (columnItem["dataIndex"] === anyStatus ? sourceItem[columnItem["dataIndex"]] === anyStatusConfig[anyStatus][0]["key"] ? anyStatusConfig[anyStatus][0]["value"] : anyStatusConfig[anyStatus][1]["value"] : sourceItem[columnItem["dataIndex"]])
                                     }
                                 </Col>
                             )

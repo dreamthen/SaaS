@@ -41,6 +41,8 @@ import "../../stylesheets/windowScrollBar.css";
 const Option = Select.Option;
 //查看申请表
 const lookOverTitle = "查看申请表";
+//申请单状态dataIndex
+const APPLY_STATUS = "applyStatus";
 //每页条数
 const PAGE_SIZE = 20;
 //日期格式规范
@@ -444,6 +446,7 @@ class ApplicationView extends React.Component {
         return (
             <Table
                 id={id}
+                anyStatus={APPLY_STATUS}
                 loading={loading}
                 columns={applicationColumn}
                 dataSource={applicationList}

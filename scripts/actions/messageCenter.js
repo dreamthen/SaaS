@@ -18,7 +18,16 @@ export function getMessageStatusList(id, pageNum, pageSize) {
         "get",
         {},
         function done(response, status) {
+            let body = response.body,
+                code = response.head.code,
+                message = response.head.message;
+            if (code === Success.MESSAGE_STATUS_SUCCESS_CODE) {
+                this.setState({
+                    messageCenterList: body
+                });
+            } else {
 
+            }
         }.bind(this)
     );
 }

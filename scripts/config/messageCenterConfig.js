@@ -12,7 +12,7 @@ const messageCenterConfig = [
     },
     {
         title: "Reading State",
-        dataIndex: "readStats"
+        dataIndex: "readStatus"
     }
 ];
 
