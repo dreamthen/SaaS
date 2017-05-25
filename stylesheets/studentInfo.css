@@ -9,9 +9,15 @@
     height: 100%;
 }
 
+.information-card .ant-card-head {
+    position: relative;
+    z-index: 1500;
+}
+
 .information-card .ant-card-head-title {
     font-size: 20px;
     font-weight: normal;
+    font-family: Consolas, Menlo, Courier, monospace;
 }
 
 .information-card .information-row,

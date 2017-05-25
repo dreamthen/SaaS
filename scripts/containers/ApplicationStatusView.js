@@ -456,7 +456,7 @@ class ApplicationStatusView extends React.Component {
         return (
             <section className="applicationStatus-container">
                 <Card
-                    title="申请状态"
+                    title="Application Status"
                     className="applicationStatus-card"
                 >
                     {relationStatus !== "" ? this.renderRelations() : this.renderRelationsNull()}

@@ -18,7 +18,9 @@ class MessageCenterView extends React.Component{
     render() {
         return (
             <section className="messageCenter-container">
-                <Card>
+                <Card
+                    title="Message Status"
+                    className="messageCenter-card">
 
                 </Card>
             </section>

@@ -1218,7 +1218,7 @@ class ApplicationView extends React.Component {
         const {applicationList, loading} = this.state;
         return (
             <section className="application-container">
-                <Card title="申请表"
+                <Card title="Application"
                       extra={
                           <Button
                               size="large"

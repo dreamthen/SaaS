@@ -634,7 +634,7 @@ class StudentView extends React.Component {
         } = this.state;
         return (
             <section className="information-container">
-                <Card title="个人信息" className="information-card">
+                <Card title="Personal Information" className="information-card">
                     <div className="information-student-container">
                         {this.renderFormRow()}
                         {isError && <Alert type="error" className="information-alert" message={errorPrompt} showIcon/>}
