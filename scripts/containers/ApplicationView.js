@@ -220,6 +220,18 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * 组件在移除前执行
+     */
+    componentWillUnmount() {
+        //组件移除后,初始化添加、查看或者修改的申请表单
+        this.initApplication();
+        //组件移除后,清空添加、查看或者修改的头像地址
+        this.setState({
+            avatarSrc: ""
+        });
+    }
+
+    /**
      * 获取用户信息
      */
     fetchData() {
@@ -316,8 +328,6 @@ class ApplicationView extends React.Component {
             countryIdList: [],
             //头像
             avatar: "",
-            //头像地址
-            avatarSrc: "",
             //性别
             gender: "M",
             //出生日期
@@ -1085,8 +1095,7 @@ class ApplicationView extends React.Component {
             saveOrSubmit: true,
             loading: false,
             loadingBlock: false,
-            transitionLoading: "application-spin-container application-spin-enterOrLeave",
-            avatarSrc: api.GET_APPLICATION_UPLOAD_AVATARS
+            transitionLoading: "application-spin-container application-spin-enterOrLeave"
         });
         for (let objectItemKey in formObject) {
             if (objectItemKey === "id") {
