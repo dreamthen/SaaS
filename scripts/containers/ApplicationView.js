@@ -877,6 +877,7 @@ class ApplicationView extends React.Component {
         return (
             <section className="application-avatar-image">
                 {innerImage}
+                {/*以背景图background-size:cover的形式来展现头像*/}
                 <div
                     className="application-avatar-show-image"
                     style={

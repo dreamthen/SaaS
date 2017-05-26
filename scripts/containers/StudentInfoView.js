@@ -227,6 +227,7 @@ class StudentView extends React.Component {
         return (
             <section className="information-avatar-image">
                 {innerImage}
+                {/*以背景图background-size:cover的形式来展现头像*/}
                 <div
                     className="information-avatar-show-image"
                     style={
