@@ -137,7 +137,7 @@ class MessageCenterView extends React.Component {
                     title="Message Status"
                     className="messageCenter-card">
                     {messageCenterList && messageCenterList.length > 0 ? renderTable.bind(this)() : renderNull.bind(this)()}
-                    {renderPagination.bind(this)()}
+                    {messageCenterList && messageCenterList.length > 0 && renderPagination.bind(this)()}
                 </Card>
             </section>
         )
