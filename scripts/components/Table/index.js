@@ -6,21 +6,14 @@ import {Scrollbars} from "react-custom-scrollbars";
 import {getApplicationForms} from "../../actions/application_action";
 import moment from "moment";
 import {Row, Col} from "antd";
+//在申请单tab页面下,申请单状态或者在消息状态tab页面下,消息阅读状态配置
+import anyStatusConfig from "../../config/anyStatusConfig";
 import "./table.css";
 
 //时间格式规范
 const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 //创建时间和修改时间dataIndex
 const TIME = ["createDate", "modifyDate"];
-//在申请单tab页面下,申请单状态dataIndex
-const APPLY_STATUS = "applyStatus";
-
-const anyStatusConfig = {
-    //在申请单tab页面下,申请单状态value
-    applyStatus: [{key: "N", value: "未提交"}, {key: "Y", value: "提交"}],
-    //在消息状态tab页面下,消息阅读状态value
-    readStatus: [{key: "N", value: "未读"}, {key: "Y", value: "已读"}]
-};
 
 export class Table extends React.Component {
     static propTypes = {
@@ -135,6 +128,9 @@ export class Table extends React.Component {
                                         //在申请单tab页下面,遇到申请单状态时,如果返回的是N,
                                         //则显示"未提交",否则返回的是Y,则显示"提交".
                                         //在没有遇到申请单状态时,则正常显示数据
+                                        //在消息状态tab页下面,遇到消息阅读状态时,如果返回的是N,
+                                        //则显示"未读",否则返回的是Y,则显示"已读".
+                                        //在没有遇到消息阅读状态时,则正常显示数据
                                         (!timeFlag && sourceItem[columnItem["dataIndex"]]) && (columnItem["dataIndex"] === anyStatus ? sourceItem[columnItem["dataIndex"]] === anyStatusConfig[anyStatus][0]["key"] ? anyStatusConfig[anyStatus][0]["value"] : anyStatusConfig[anyStatus][1]["value"] : sourceItem[columnItem["dataIndex"]])
                                     }
                                 </Col>

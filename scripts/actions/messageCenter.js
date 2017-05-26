@@ -13,6 +13,7 @@ import {URLSearchParamsConfig} from "../config/URLSearchParamsConfig";
  * @param pageSize
  */
 export function getMessageStatusList(id, pageNum, pageSize) {
+    //whatwg-fetch请求,参数分别是url请求地址,请求方式,请求参数和请求成功回调函数
     fetchRequest.fetchRequestData(
         URLSearchParamsConfig(api.GET_MESSAGE_STATUS_LIST + "/" + id + "/notifications", {pageNum, pageSize}),
         "get",
