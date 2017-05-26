@@ -18,3 +18,13 @@
 .messageCenter-card  > .ant-card-body {
     height: calc(100% - 48px);
 }
+
+.ant-card-body > .messageStatus-pagination {
+    text-align: right;
+    margin-top: 8px;
+}
+
+.messageStatus-pagination .ant-pagination-item-active {
+    background-color: #529ECC;
+    border-color: #529ECC;
+}

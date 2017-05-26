@@ -2,7 +2,7 @@
  * Created by yinwk on 2017/5/6.
  */
 import React from "react";
-import {Card} from "antd";
+import {Card, Pagination} from "antd";
 import {getMessageStatusList} from "../actions/messageCenter";
 import messageCenterConfig from "../config/messageCenterConfig";
 import {NullComponent} from "../components/NullComponent/index";
@@ -47,8 +47,8 @@ class MessageCenterView extends React.Component {
     componentDidMount() {
         const {id, current} = this.state;
         //发起获取消息状态列表ajax请求
-        let message_center = getMessageStatusList.bind(this);
-        message_center(id, current, PAGE_SIZE);
+        let message_status = getMessageStatusList.bind(this);
+        message_status(id, current, PAGE_SIZE);
     }
 
     /**
@@ -76,9 +76,10 @@ class MessageCenterView extends React.Component {
      * @returns {XML}
      */
     renderTable() {
-        const {messageCenterList} = this.state;
+        const {id, messageCenterList} = this.state;
         return (
             <Table
+                id={id}
                 anyStatus={READ_STATUS}
                 columns={messageCenterConfig}
                 dataSource={messageCenterList}
@@ -87,11 +88,48 @@ class MessageCenterView extends React.Component {
     }
 
     /**
+     * render渲染消息状态列表分页结构
+     * @returns {XML}
+     */
+    renderPagination() {
+        const {current, messageCenterList} = this.state;
+        const {changeMessageCenterPage} = this;
+        return (
+            <Pagination
+                showQuickJumper
+                className="messageStatus-pagination"
+                size="large"
+                current={current}
+                total={messageCenterList.length}
+                showTotal={total => '共' + total + '条'}
+                pageSize={PAGE_SIZE}
+                onChange={changeMessageCenterPage.bind(this)}
+            />
+        )
+    }
+
+    /**
+     * 点击分页页码,页码内容和样式变化且进行获取消息状态列表的ajax请求
+     * @param page
+     * @param pageSize
+     */
+    changeMessageCenterPage(page, pageSize) {
+        const {id} = this.state;
+        //页码内容和样式变化
+        this.setState({
+            current: page
+        });
+        //发起获取消息状态列表ajax请求
+        let message_status = getMessageStatusList.bind(this);
+        message_status(id, page, PAGE_SIZE);
+    }
+
+    /**
      * render渲染最终react结构
      * @returns {XML}
      */
     render() {
-        const {renderNull, renderTable} = this;
+        const {renderNull, renderTable, renderPagination} = this;
         const {messageCenterList, current} = this.state;
         return (
             <section className="messageCenter-container">
@@ -99,6 +137,7 @@ class MessageCenterView extends React.Component {
                     title="Message Status"
                     className="messageCenter-card">
                     {messageCenterList && messageCenterList.length > 0 ? renderTable.bind(this)() : renderNull.bind(this)()}
+                    {renderPagination.bind(this)()}
                 </Card>
             </section>
         )
