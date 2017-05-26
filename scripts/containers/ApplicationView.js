@@ -877,7 +877,18 @@ class ApplicationView extends React.Component {
         return (
             <section className="application-avatar-image">
                 {innerImage}
-                <img src={avatarSrc + "/" + avatar} alt={avatar}/>
+                <div
+                    className="application-avatar-show-image"
+                    style={
+                        {
+                            background: "url(" + avatarSrc + "/" + avatar + ") no-repeat center center / " +
+                            "cover border-box content-box"
+                        }
+                    }
+                    title={avatar}
+                >
+
+                </div>
             </section>
         )
     }

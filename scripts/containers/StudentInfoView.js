@@ -227,7 +227,18 @@ class StudentView extends React.Component {
         return (
             <section className="information-avatar-image">
                 {innerImage}
-                <img src={avatarSrc + "/" + avatar} alt={avatar} title={avatar}/>
+                <div
+                    className="information-avatar-show-image"
+                    style={
+                        {
+                            background: "url(" + avatarSrc + "/" + avatar + ") no-repeat center center / " +
+                            "cover border-box content-box"
+                        }
+                    }
+                    title={avatar}
+                >
+
+                </div>
             </section>
         )
     }
