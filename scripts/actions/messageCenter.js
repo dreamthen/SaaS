@@ -5,6 +5,7 @@ import fetchRequest from "../config/fetchRequestData";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
 import {URLSearchParamsConfig} from "../config/URLSearchParamsConfig";
+import {message} from "antd";
 
 /**
  * 获取消息状态列表
@@ -21,13 +22,13 @@ export function getMessageStatusList(id, pageNum, pageSize) {
         function done(response, status) {
             let body = response.body,
                 code = response.head.code,
-                message = response.head.message;
+                msg = response.head.message;
             if (code === Success.MESSAGE_STATUS_SUCCESS_CODE) {
                 this.setState({
                     messageCenterList: body
                 });
             } else {
-
+                message.warning(msg, 5);
             }
         }.bind(this)
     );

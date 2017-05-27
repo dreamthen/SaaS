@@ -1084,12 +1084,28 @@ class ApplicationView extends React.Component {
     };
 
     /**
+     * 隐藏正在载入loading......
+     */
+    loadingDisappear() {
+        //隐藏正在载入loading......(包括loading动画、loading标识和loading遮罩层)
+        this.setState({
+            //隐藏loading动画和标识
+            loading: false,
+            //消除loading遮罩层
+            loadingBlock: false,
+            //动态过渡隐藏loading
+            transitionLoading: "application-spin-container application-spin-enterOrLeave"
+        });
+    }
+
+    /**
      * 点击申请表列表某一行数据,通过id获取到某一个form表单的表单数据,并setState到表单的每一个state状态
      * @param formObject
      */
     getApplicationFormsAlready(formObject) {
+        const {fetchCountryOrReligionData, loadingDisappear} = this;
         //获取国籍和宗教列表
-        this.fetchCountryOrReligionData.bind(this)();
+        fetchCountryOrReligionData.bind(this)();
         this.setState({
             visible: true,
             title: applicationFormTitle[1] === lookOverTitle &&
@@ -1107,11 +1123,10 @@ class ApplicationView extends React.Component {
             </div>,
             submit: applicationFormSubmit[1],
             formDisabled: true,
-            saveOrSubmit: true,
-            loading: false,
-            loadingBlock: false,
-            transitionLoading: "application-spin-container application-spin-enterOrLeave"
+            saveOrSubmit: true
         });
+        //隐藏正在载入loading......(包括loading动画、loading标识和loading遮罩层)
+        loadingDisappear.bind(this)();
         for (let objectItemKey in formObject) {
             if (objectItemKey === "id") {
                 this.setState({

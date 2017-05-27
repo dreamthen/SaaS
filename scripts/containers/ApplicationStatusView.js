@@ -190,13 +190,13 @@ class ApplicationStatusView extends React.Component {
      */
     renderRadioTable() {
         const {visible, applicationList} = this.state;
-        const {getApplicationForms} = this;
+        const {getApplicationStatusForms} = this;
         return (
             <RadioTable
                 modalVisible={visible}
                 columns={applicationStatusColumn}
                 dataSource={applicationList}
-                getApplicationForms={getApplicationForms.bind(this)}
+                getApplicationForms={getApplicationStatusForms.bind(this)}
             />
         )
     }
@@ -205,7 +205,7 @@ class ApplicationStatusView extends React.Component {
      * 获取表格组件内的FormId,并进行设置状态setState
      * @param formId
      */
-    getApplicationForms(formId) {
+    getApplicationStatusForms(formId) {
         this.setState({
             formId
         });

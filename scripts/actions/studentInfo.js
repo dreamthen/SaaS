@@ -17,9 +17,11 @@ export function getInformation(id) {
         "get",
         {},
         function done(response, status) {
-            if (response.head.code === Success.STUDENT_SUCCESS_CODE) {
-                let body = response.body,
-                    id = body.id,
+            let body = response.body,
+                code = response.head.code,
+                msg = response.head.message;
+            if (code === Success.STUDENT_SUCCESS_CODE) {
+                let id = body.id,
                     sex = body.sex,
                     email = body.email,
                     avatar = body.avatar,
@@ -38,6 +40,8 @@ export function getInformation(id) {
                         postalAddress
                     });
                 }
+            } else {
+                message.warning(msg, 5);
             }
         }.bind(this)
     );

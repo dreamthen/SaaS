@@ -5,6 +5,7 @@ import fetchRequest from "../config/fetchRequestData";
 import {URLSearchParamsConfig} from "../config/URLSearchParamsConfig";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
+import {message} from "antd";
 /**
  * 获取申请列表
  * @param id
@@ -20,13 +21,13 @@ export function getApplicationList(id, pageNum, pageSize) {
         function done(response, status) {
             let body = response.body,
                 code = response.head.code,
-                message = response.head.message;
+                msg = response.head.message;
             if (code === Success.APPLICATION_SUCCESS_CODE) {
                 this.setState({
                     applicationList: body
                 });
             } else {
-
+                message.warning(msg, 5);
             }
         }.bind(this)
     );
@@ -94,11 +95,13 @@ export function getApplicationForms(id) {
         function done(response, status) {
             let body = response.body,
                 code = response.head.code,
-                message = response.head.message;
+                msg = response.head.message;
             if (code === Success.APPLICATION_SUCCESS_CODE) {
                 this.props.getApplicationFormsAlready(body);
             } else {
-
+                //隐藏正在载入loading......(包括loading动画、loading标识和loading遮罩层)
+                this.loadingDisappear.bind(this)();
+                message.warning(msg, 5);
             }
         }.bind(this)
     );
@@ -172,7 +175,7 @@ export function getCountriesOrReligions(key, url) {
                 //返回的头部code码
                 code = response.head.code,
                 //返回的头部message消息
-                message = response.head.message;
+                msg = response.head.message;
             //如果返回的头部code码等于申请表tab页面成功码
             if (code === Success.APPLICATION_SUCCESS_CODE) {
                 let result = [];
@@ -186,7 +189,13 @@ export function getCountriesOrReligions(key, url) {
                     [key + "List"]: result
                 });
             } else {
-
+                //将添加、查看和修改申请单弹出框关闭
+                this.setState({
+                    visible: false
+                });
+                //隐藏正在载入loading......(包括loading动画、loading标识和loading遮罩层)
+                this.loadingDisappear.bind(this)();
+                message.warning(msg, 5);
             }
         }.bind(this)
     );

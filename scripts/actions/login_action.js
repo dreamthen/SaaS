@@ -6,6 +6,7 @@ import api from "../config/api";
 import Success from "../prompt/success_prompt";
 import localStorageObject from "../config/localStorage";
 import storageData from "../config/storageData";
+import {message} from 'antd';
 
 /**
  * 登录功能post ajax请求
@@ -143,9 +144,15 @@ export function logOutAction() {
         "get",
         {},
         function done(response, status) {
-            //删除localStorage中的学生数据信息
-            localStorageObject.removeLocalStorage(storageData);
-            window.location = "./login.html";
+            let code = response.head.code,
+                msg = response.head.message;
+            if (code === Success.LOGOUT_SUCCESS_CODE) {
+                //删除localStorage中的学生数据信息
+                localStorageObject.removeLocalStorage(storageData);
+                window.location = "./login.html";
+            } else {
+                message.warning(msg);
+            }
         }.bind(this)
     );
 }

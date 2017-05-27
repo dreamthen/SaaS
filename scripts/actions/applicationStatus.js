@@ -4,6 +4,7 @@
 import fetchRequest from "../config/fetchRequestData";
 import api from "../config/api";
 import Success from "../prompt/success_prompt";
+import {message} from "antd";
 
 /**
  * 获取申请关系
@@ -18,7 +19,7 @@ export function getApplyRelations(id) {
         function done(response, status) {
             let body = response.body,
                 code = response.head.code,
-                message = response.head.message;
+                msg = response.head.message;
             if (code === Success.APPLICATION_STATUS_SUCCESS_CODE) {
                 if (body !== null) {
                     //通过id获取到某一个已经提交的申请关系,并setState到申请表状态的每一个state
@@ -43,7 +44,7 @@ export function getApplyRelations(id) {
                     }
                 }
             } else {
-
+                message.warning(msg, 5);
             }
         }.bind(this)
     );
@@ -68,16 +69,23 @@ export function addApplyRelations(studentId, formId, universityId) {
         function done(response, status) {
             let body = response.body,
                 code = response.head.code,
-                message = response.head.message;
+                msg = response.head.message;
             if (code === Success.APPLICATION_STATUS_SUCCESS_CODE) {
+                //初始化申请状态tab页
+                this.initApplicationStatus();
                 //关闭获取申请列表弹窗
                 this.setState({
                     visible: false
                 });
+                //发起获取申请关系的ajax请求
                 let apply_status = getApplyRelations.bind(this);
                 apply_status(studentId);
             } else {
-
+                //设置警告状态和警告提示语
+                this.setPromptTrueOrFalse(false, true, false);
+                this.setState({
+                    warnPrompt: msg
+                });
             }
         }.bind(this)
     );
@@ -96,7 +104,7 @@ export function getDeliveryStatus(relationId) {
         function done(response, status) {
             let body = response.body,
                 code = response.head.code,
-                message = response.head.message;
+                msg = response.head.message;
             if (code === Success.APPLICATION_STATUS_SUCCESS_CODE) {
                 //弹出获取申请快递状态弹窗,并把申请快递状态的html段落赋给state状态deliveryStatus
                 this.setState({
@@ -104,7 +112,7 @@ export function getDeliveryStatus(relationId) {
                     deliveryStatus: body
                 });
             } else {
-
+                message.warning(msg, 5);
             }
         }.bind(this)
     );
