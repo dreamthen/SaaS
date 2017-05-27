@@ -19,7 +19,7 @@ export class NullComponent extends React.Component {
                     <i className="iconfontSaaS saas-cry">
 
                     </i>
-                    <p className="table-null-data">暂无数据</p>
+                    <p className="table-null-data">No Data</p>
                 </div>
             </div>
         )
