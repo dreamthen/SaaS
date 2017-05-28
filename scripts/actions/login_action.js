@@ -151,7 +151,7 @@ export function logOutAction() {
                 localStorageObject.removeLocalStorage(storageData);
                 window.location = "./login.html";
             } else {
-                message.warning(msg);
+                message.warning(msg, 5);
             }
         }.bind(this)
     );
