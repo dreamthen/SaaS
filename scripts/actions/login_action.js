@@ -23,7 +23,7 @@ export function loginAction(account, password) {
             password
         },
         function done(response, status) {
-            let message = response.head.message,
+            let msg = response.head.message,
                 code = response.head.code,
                 localStorageArray = [];
             if (code === Success.LOGIN_SUCCESS_CODE) {
@@ -60,7 +60,7 @@ export function loginAction(account, password) {
                 //设置警告状态和警告提示语
                 this.setPromptTrueOrFalse(false, true, false);
                 this.setState({
-                    warnPrompt: message
+                    warnPrompt: msg
                 });
             }
         }.bind(this)
@@ -95,7 +95,7 @@ export function registerAction(account, password) {
             password
         },
         function done(response, status) {
-            let message = response.head.message,
+            let msg = response.head.message,
                 code = response.head.code;
             if (code === Success.REGISTER_SUCCESS_CODE) {
                 //设置成功状态和成功提示语
@@ -127,7 +127,7 @@ export function registerAction(account, password) {
                 //设置警告状态和警告提示语
                 this.setPromptTrueOrFalse(false, true, false);
                 this.setState({
-                    warnPrompt: message
+                    warnPrompt: msg
                 });
             }
         }.bind(this)

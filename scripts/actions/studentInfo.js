@@ -69,7 +69,7 @@ export function saveInformation(id, sex, email, phone, visaStatus, postalAddress
             postalAddress
         },
         function done(response, status) {
-            let message = response.head.message,
+            let msg = response.head.message,
                 code = response.head.code;
             if (code === Success.STUDENT_SUCCESS_CODE) {
                 this.setPromptTrueOrFalse(false, false, true);
@@ -84,7 +84,7 @@ export function saveInformation(id, sex, email, phone, visaStatus, postalAddress
             } else {
                 this.setPromptTrueOrFalse(false, true, false);
                 this.setState({
-                    warnPrompt: message
+                    warnPrompt: msg
                 });
             }
         }.bind(this)
@@ -106,7 +106,7 @@ export function changePasswordRecently(oldPassword, newPassword) {
             newPassword
         },
         function done(response, status) {
-            let message = response.head.message,
+            let msg = response.head.message,
                 code = response.head.code;
             if (code === Success.STUDENT_SUCCESS_CODE) {
                 this.setPasswordPromptTrueOrFalse(false, false, true);
@@ -124,7 +124,7 @@ export function changePasswordRecently(oldPassword, newPassword) {
             } else {
                 this.setPasswordPromptTrueOrFalse(false, true, false);
                 this.setState({
-                    warnPasswordPrompt: message
+                    warnPasswordPrompt: msg
                 });
             }
         }.bind(this)
@@ -149,7 +149,7 @@ export function setVerifyRecently(id, email) {
                 message.success(Success.EMAIL_VERIFY_SUCCESS_MESSAGE);
                 this.setPasswordPromptTrueOrFalse(false, false, false);
             } else {
-                message.warning(msg);
+                message.warning(msg, 5);
             }
         }.bind(this)
     );

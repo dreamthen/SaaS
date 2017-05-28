@@ -50,7 +50,7 @@ export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, p
         function done(response, status) {
             let body = response.body,
                 code = response.head.code,
-                message = response.head.message;
+                msg = response.head.message;
             if (code === Success.APPLICATION_SUCCESS_CODE) {
                 //初始化添加、查看或者修改的申请表单
                 this.initApplication();
@@ -75,7 +75,7 @@ export function addOrChangeApplicationForms(forms, studentId, formId, pageNum, p
                 //设置警告状态和提示语
                 this.setPromptTrueOrFalse(false, true, false);
                 this.setState({
-                    warnPrompt: message
+                    warnPrompt: msg
                 });
             }
         }.bind(this)
@@ -100,7 +100,7 @@ export function getApplicationForms(id) {
                 this.props.getApplicationFormsAlready(body);
             } else {
                 //隐藏正在载入loading......(包括loading动画、loading标识和loading遮罩层)
-                this.loadingDisappear.bind(this)();
+                this.loadingDisappear();
                 message.warning(msg, 5);
             }
         }.bind(this)
@@ -128,7 +128,7 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
         function done(response, status) {
             let body = response.body,
                 code = response.head.code,
-                message = response.head.message;
+                msg = response.head.message;
             if (code === Success.APPLICATION_SUCCESS_CODE) {
                 //初始化添加、查看或者修改的申请表单
                 this.initApplication();
@@ -151,7 +151,7 @@ export function addApplyRelations(studentId, formId, universityId, pageNum, page
                 //设置警告状态和提示语
                 this.setPromptTrueOrFalse(false, true, false);
                 this.setState({
-                    warnPrompt: message
+                    warnPrompt: msg
                 });
             }
         }.bind(this)
@@ -194,7 +194,7 @@ export function getCountriesOrReligions(key, url) {
                     visible: false
                 });
                 //隐藏正在载入loading......(包括loading动画、loading标识和loading遮罩层)
-                this.loadingDisappear.bind(this)();
+                this.loadingDisappear();
                 message.warning(msg, 5);
             }
         }.bind(this)
