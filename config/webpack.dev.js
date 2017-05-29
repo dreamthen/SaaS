@@ -78,7 +78,7 @@ var webpackDev = {
         root: ROOT_DIR
     },
 
-    externalsL: {
+    externals: {
         jquery: "jQuery"
     },
 
