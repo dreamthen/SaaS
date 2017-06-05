@@ -3,7 +3,7 @@
  */
 import React from "react";
 import api from "../config/api";
-import {uploadProps} from "../actions/upload_action";
+import {uploadImageProps} from "../actions/upload_action";
 import {getInformation, saveInformation, changePasswordRecently, setVerifyRecently} from "../actions/studentInfo";
 import {Row, Col, Card, Input, Select, Button, Modal, Alert} from "antd";
 import Upload from "rc-upload";
@@ -192,7 +192,7 @@ class StudentView extends React.Component {
         const {id} = this.state;
         return (
             <Upload
-                {...uploadProps.bind(this)(api.UPLOAD_AVATARS + "/" + id + "/avatars")}
+                {...uploadImageProps.bind(this)(api.UPLOAD_AVATARS + "/" + id + "/avatars")}
             >
                 {innerUpload}
             </Upload>

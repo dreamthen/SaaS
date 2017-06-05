@@ -163,6 +163,21 @@
     z-index: 2500;
 }
 
+.application-modal .application-appendix-upload {
+    position: relative;
+    width: 155px;
+    height: 32px;
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #999;
+}
+
 .application-modal .application-avatar-image {
     padding: 8px;
     border: 1px solid #d9d9d9;
@@ -216,9 +231,22 @@
     height: 25px;
 }
 
+.application-appendix-upload > .saas-uploadFile {
+    position: relative;
+    font-size: 14px;
+    margin-right: 4px;
+    top: 1px;
+}
+
+.application-appendix-upload > .application-appendix-description {
+    font-size: 13px;
+    font-family: Consolas, Menlo, Courier, monospace;
+}
+
 .application-avatar-upload > .application-avatar-description {
     font-size: 15px;
     font-family: Consolas, Menlo, Courier, monospace;
+    color: #999;
 }
 
 .application-common-container {

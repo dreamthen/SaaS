@@ -54,7 +54,7 @@ const applicationFormIntegration = [{
     isRequired: true,
     inList: false
 }, {
-    classify: "avatar",
+    classify: "avatarUpload",
     key: "avatar",
     isRequired: true,
     inList: false
@@ -412,6 +412,12 @@ const applicationFormIntegration = [{
     options: CATEGORY,
     mustFill: "chinese-fluency",
     position: "right",
+    inList: true
+}, {
+    classify: "fileUpload",
+    key: "appendix",
+    value: "上传附件",
+    mustFill: "other-information",
     inList: true
 }];
 

@@ -5,7 +5,7 @@ import React from "react";
 import {Row, Col, Button, Card, Pagination, Modal, Alert, Input, Select, DatePicker, Spin} from "antd";
 //API接口统一调用对象
 import api from "../config/api";
-import {uploadProps} from "../actions/upload_action";
+import {uploadImageProps, uploadFileProps} from "../actions/upload_action";
 import {
     getApplicationList,
     addOrChangeApplicationForms,
@@ -52,7 +52,7 @@ const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 //申请表保存或者提交
 const applicationFormSubmit = ["保存", "提交"];
 //申请表单里面的组件分类
-const applicationFormClassify = ["input", "select", "datePicker"];
+const applicationFormClassify = ["input", "select", "datePicker", "fileUpload"];
 //国籍或者宗教
 const countryOrReligion = ["countryId", "religionId"];
 
@@ -195,7 +195,9 @@ class ApplicationView extends React.Component {
             //是否将承载正在载入loading的container元素进行显示
             loadingBlock: false,
             //动画过渡是否载入loading
-            transitionLoading: "application-spin-container application-spin-enterOrLeave"
+            transitionLoading: "application-spin-container application-spin-enterOrLeave",
+            //附件
+            appendix: ""
         }
     }
 
@@ -415,7 +417,9 @@ class ApplicationView extends React.Component {
             //护照有效期控制弹层是否展开
             validUntilOpen: false,
             //表单是否可编辑
-            formDisabled: false
+            formDisabled: false,
+            //附件
+            appendix: ""
         });
         //初始化提示语状态
         this.setPromptTrueOrFalse(false, false, false);
@@ -477,6 +481,35 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * Upload上传添加申请表附件组件
+     * @returns {XML}
+     */
+    renderFileUpload(innerUpload) {
+        return (
+            <Upload {...uploadFileProps.bind(this)(api.UPLOAD_ADD_APPLICATION_FILES)}>
+                {innerUpload}
+            </Upload>
+        )
+    }
+
+    /**
+     * Upload上传添加申请表附件内部组件
+     * @returns {XML}
+     */
+    renderInnerFileUpload() {
+        return (
+            <div className="application-appendix-upload">
+                <i className="iconfontSaaS saas-uploadFile">
+
+                </i>
+                <span className="application-appendix-description">
+                     Appendix
+                </span>
+            </div>
+        )
+    }
+
+    /**
      * 集成添加、查看和修改申请表单所有组件
      * @returns {*}
      */
@@ -494,11 +527,17 @@ class ApplicationView extends React.Component {
             //设置不可点击的DatePicker时间
             onDisabledDatePicker,
             //设置所有的时间都可点击,以前、现在和未来都可点击
-            onDisabledDatePickerNull
+            onDisabledDatePickerNull,
+            //Upload上传添加申请表附件组件
+            renderFileUpload,
+            //Upload上传添加申请表附件内部组件
+            renderInnerFileUpload
         } = this;
         //国家或者国籍都保存在state中
         //判断options是否为空数组
         options = this.judgeOptions(key, options);
+        //Upload上传添加申请表附件内部组件
+        const innerFileUpload = renderInnerFileUpload.bind(this);
         //对表单内的组件进行分类处理,Input,Select,DatePicker
         switch (classify) {
             case applicationFormClassify[0]:
@@ -521,7 +560,6 @@ class ApplicationView extends React.Component {
                         onChange={onChangeInput.bind(this, key)}
                     />
                 );
-                break;
             case applicationFormClassify[1]:
                 //Select选择框组件
                 return (
@@ -544,7 +582,6 @@ class ApplicationView extends React.Component {
                         }
                     </Select>
                 );
-                break;
             case applicationFormClassify[2]:
                 //DatePicker时间框组件
                 return (
@@ -561,7 +598,9 @@ class ApplicationView extends React.Component {
                         onOpenChange={onChangeDatePickerOpen.bind(this, key + "Open")}
                     />
                 );
-                break;
+            case applicationFormClassify[3]:
+            {/*state状态file是否为空或者null,决定渲染Upload上传添加申请表附件组件或者渲染头像组件,再根据state状态formDisabled是否为true,渲染查看申请表附件或者可修改申请表附件*/}
+                return (this.state[key] === "" || this.state[key] === null) ? renderFileUpload.bind(this)(innerFileUpload()) : "";
             default:
                 break;
         }
@@ -812,7 +851,7 @@ class ApplicationView extends React.Component {
      * Upload上传添加或者修改申请表头像内部组件
      * @returns {XML}
      */
-    renderInnerUpload() {
+    renderInnerImageUpload() {
         return (
             <section className="application-avatar-upload">
                 {/*iconFont 加号*/}
@@ -828,10 +867,10 @@ class ApplicationView extends React.Component {
      * Upload上传添加或者修改申请表头像组件
      * @returns {XML}
      */
-    renderUpload(innerUpload) {
+    renderImageUpload(innerUpload) {
         return (
             <Upload
-                {...uploadProps.bind(this)(api.UPLOAD_APPLICATION_AVATARS)}
+                {...uploadImageProps.bind(this)(api.UPLOAD_APPLICATION_AVATARS)}
             >
                 {innerUpload}
             </Upload>
@@ -972,9 +1011,9 @@ class ApplicationView extends React.Component {
             //表单内容顶部申请单标识名以及第一部分标题Including Person Information(must fill)
             renderFormName,
             //Upload上传添加或者修改申请表头像组件
-            renderUpload,
+            renderImageUpload,
             //Upload上传添加或者修改申请表头像内部组件
-            renderInnerUpload,
+            renderInnerImageUpload,
             //添加或者修改申请表头像组件
             renderImage,
             //添加或者修改申请表头像内部组件
@@ -991,13 +1030,13 @@ class ApplicationView extends React.Component {
         } = this;
         let formRow = renderFormRow.bind(this)();
         //Upload上传添加或者修改申请表头像内部组件
-        const innerUpload = renderInnerUpload.bind(this);
+        const innerImageUpload = renderInnerImageUpload.bind(this);
         //添加或者修改申请表头像内部组件
         const innerImage = renderInnerImage.bind(this);
         //查看申请表头像内部组件
         const innerNoUpdateImage = renderInnerNoUpdateImage.bind(this);
         //当第一次上传完毕后,想要重新上传时,头像内部Upload上传添加或者修改申请表头像组件
-        const uploadImage = renderUpload.bind(this, innerImage());
+        const uploadImage = renderImageUpload.bind(this, innerImage());
         return (
             <Modal
                 visible={visible}
@@ -1017,7 +1056,7 @@ class ApplicationView extends React.Component {
                 {/*表单内容顶部申请单标识名以及第一部分标题Including Person Information(must fill)*/}
                 {renderFormName.bind(this)()}
                 {/*state状态avatar是否为空或者null,决定渲染Upload上传添加或者修改申请表头像组件或者渲染头像组件,再根据state状态formDisabled是否为true,渲染查看申请表头像或者可修改申请表头像*/}
-                {(avatar === "" || avatar === null) ? renderUpload.bind(this)(innerUpload()) : formDisabled ? renderImage.bind(this)(innerNoUpdateImage()) : renderImage.bind(this)(uploadImage())}
+                {(avatar === "" || avatar === null) ? renderImageUpload.bind(this)(innerImageUpload()) : formDisabled ? renderImage.bind(this)(innerNoUpdateImage()) : renderImage.bind(this)(uploadImage())}
                 {/*第一部分必填域*/}
                 {renderMustFill.bind(this)(formRow["formRowMustFill"])}
                 {/*第二部分中文能力*/}

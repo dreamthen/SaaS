@@ -37,6 +37,10 @@ if (!isMook) {
         CHANGE_APPLICATION_FORMS: NGINX_DIR + "student/applicationForms",
         //添加或者修改申请表上传头像
         UPLOAD_APPLICATION_AVATARS: NGINX_DIR + "student/applicationForms/avatars",
+        //添加申请表上传附件
+        UPLOAD_ADD_APPLICATION_FILES: NGINX_DIR + "student/applicationForms/appendices",
+        //修改申请表上传附件
+        UPLOAD_UPDATE_APPLICATION_FILES: NGINX_DIR + "student/applicationForms",
         //添加或者修改申请表获取头像
         GET_APPLICATION_UPLOAD_AVATARS: NGINX_DIR + "student/applicationForms/avatars",
         //添加申请关系
