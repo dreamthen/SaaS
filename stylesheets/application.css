@@ -110,6 +110,12 @@
     margin-top: 10px;
 }
 
+.application-modal .application-row-toolTip {
+    height: auto;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
 .application-modal .ant-modal-body {
     position: relative;
     max-height: 460px;
@@ -163,7 +169,7 @@
     z-index: 2500;
 }
 
-.application-modal .application-appendix-upload {
+.application-row .application-appendix-upload {
     position: relative;
     width: 155px;
     height: 32px;
@@ -176,6 +182,33 @@
     align-items: center;
     cursor: pointer;
     color: #999;
+    z-index: 2500;
+}
+
+.application-row-toolTip .application-appendix-tipTitle {
+    position: relative;
+    width: 155px;
+    padding: 6px 10px;
+    color: #fff;
+    border-radius: 4px;
+    background-color: #87d068;
+}
+
+.application-appendix-tipTitle > .application-appendix-shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to top left, rgba(255, 255, 255, 0), rgba(0, 0, 0, .6));
+    z-index: 3000;
+}
+
+.application-appendix-tipTitle > .application-appendix-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 3500;
 }
 
 .application-modal .application-avatar-image {

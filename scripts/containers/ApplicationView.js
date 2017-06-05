@@ -52,7 +52,7 @@ const timeFormat = 'YYYY-MM-DD HH:mm:ss';
 //申请表保存或者提交
 const applicationFormSubmit = ["保存", "提交"];
 //申请表单里面的组件分类
-const applicationFormClassify = ["input", "select", "datePicker", "fileUpload"];
+const applicationFormClassify = ["input", "select", "datePicker", "fileUpload", "toolTip"];
 //国籍或者宗教
 const countryOrReligion = ["countryId", "religionId"];
 
@@ -481,7 +481,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * Upload上传添加申请表附件组件
+     * render渲染Upload上传添加申请表附件组件
      * @returns {XML}
      */
     renderFileUpload(innerUpload) {
@@ -493,7 +493,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * Upload上传添加申请表附件内部组件
+     * render渲染Upload上传添加申请表附件内部组件
      * @returns {XML}
      */
     renderInnerFileUpload() {
@@ -510,10 +510,30 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * render渲染附件组件提示语
+     * @param tipTitle
+     * @returns {XML}
+     */
+    renderToolTip(tipTitle) {
+        return (
+            <div className="application-appendix-tipTitle">
+                <div className="application-appendix-arrow">
+                </div>
+                <div className="application-appendix-shadow">
+
+                </div>
+                <div className="application-appendix-content">
+                    {tipTitle}
+                </div>
+            </div>
+        )
+    }
+
+    /**
      * 集成添加、查看和修改申请表单所有组件
      * @returns {*}
      */
-    renderFormMode(classify, key, value, placeholder, maxLength, format, options, disabled, showTime) {
+    renderFormMode(classify, key, value, placeholder, maxLength, format, options, disabled, showTime, tipTitle) {
         const {formDisabled} = this.state;
         const {
             //Input框内容发生改变时,所调方法
@@ -531,7 +551,9 @@ class ApplicationView extends React.Component {
             //Upload上传添加申请表附件组件
             renderFileUpload,
             //Upload上传添加申请表附件内部组件
-            renderInnerFileUpload
+            renderInnerFileUpload,
+            //附件组件提示语
+            renderToolTip
         } = this;
         //国家或者国籍都保存在state中
         //判断options是否为空数组
@@ -598,9 +620,11 @@ class ApplicationView extends React.Component {
                         onOpenChange={onChangeDatePickerOpen.bind(this, key + "Open")}
                     />
                 );
-            case applicationFormClassify[3]:
-            {/*state状态file是否为空或者null,决定渲染Upload上传添加申请表附件组件或者渲染头像组件,再根据state状态formDisabled是否为true,渲染查看申请表附件或者可修改申请表附件*/}
+            case applicationFormClassify[3]: {/*state状态file是否为空或者null,决定渲染Upload上传添加申请表附件组件或者渲染头像组件,再根据state状态formDisabled是否为true,渲染查看申请表附件或者可修改申请表附件*/
+            }
                 return (this.state[key] === "" || this.state[key] === null) ? renderFileUpload.bind(this)(innerFileUpload()) : "";
+            case applicationFormClassify[4]:
+                return renderToolTip.bind(this)(tipTitle);
             default:
                 break;
         }
@@ -710,7 +734,7 @@ class ApplicationView extends React.Component {
                 //集成添加、查看和修改申请表单所有组件、方法、禁用状态、提示语、状态、框内默认提示语和长度限制的react结构
                 let row = <Row
                     key={integrationItem["key"] + "_" + integrationItem["value"]}
-                    className="application-row"
+                    className={integrationItem["toolTip"] ? "application-row application-row-toolTip" : "application-row"}
                 >
                     <Col span="11" className="application-col">
                         {integrationItem["value"]}
@@ -728,7 +752,8 @@ class ApplicationView extends React.Component {
                             integrationItem["format"],
                             integrationItem["options"],
                             integrationItem["disabled"],
-                            integrationItem["showTime"]
+                            integrationItem["showTime"],
+                            integrationItem["tipTitle"]
                         )}
                     </Col>
                 </Row>;
