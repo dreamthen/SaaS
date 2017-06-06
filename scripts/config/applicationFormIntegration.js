@@ -417,13 +417,16 @@ const applicationFormIntegration = [{
     classify: "fileUpload",
     key: "appendix",
     value: "上传附件",
+    expandClassName: true,
+    className: "application-row application-row-appendix",
     mustFill: "other-information",
     position: "left",
     inList: true
 }, {
     classify: "toolTip",
     key: "appendix",
-    toolTip: true,
+    expandClassName: true,
+    className: "application-row application-row-toolTip",
     tipTitle: "请将最高学历证书、成绩单、两份推荐信、个人简历、护照复印件(若有)压缩成zip格式上传(<20M)",
     mustFill: "other-information",
     position: "left",

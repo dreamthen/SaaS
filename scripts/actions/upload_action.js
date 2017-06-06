@@ -31,18 +31,18 @@ export function uploadImageProps(action, data) {
                 this.setState({
                     successPrompt: Success.UPLOAD_IMAGE_SUCCESS_MESSAGE
                 });
-                // FIXME 这里需要设置一个时间控制器,需要使用setTimeout延迟时间,延迟1s将提示语状态关闭,并把图片文件地址赋值给state状态file
+                // FIXME 这里需要设置一个时间控制器,需要使用setTimeout延迟时间,延迟1s将提示语状态关闭,并把图片文件名赋值给state状态avatar
                 setTimeout(function timerControl() {
                     //设置提示语状态取消
                     this.setPromptTrueOrFalse(false, false, false);
                     //由于上传头像组件和获取头像组件是通过state avatar状态是否为空来判断渲染的,
                     //所以每一次上传成功后,需要先把state avatar状态置空,
-                    //然后再将图片文件地址赋值给state状态file,
+                    //然后再将图片文件地址赋值给state状态avatar,
                     //这样可以做到上传图片成功后无缝获取图片
                     this.setState({
                         avatar: ""
                     }, () => {
-                        //把图片文件地址赋值给state状态file
+                        //把图片文件地址赋值给state状态avatar
                         this.setState({
                             avatar: body
                         });
@@ -79,7 +79,28 @@ export function uploadFileProps(action, data) {
                 code = response.head.code,
                 message = response.head.message;
             if (code = Success.UPLOAD_SUCCESS_CODE) {
-                console.log("上传成功");
+                //设置成功状态和提示语
+                this.setPromptTrueOrFalse(false, false, true);
+                this.setState({
+                    successPrompt: Success.UPLOAD_FILE_SUCCESS_MESSAGE
+                });
+                // FIXME 这里需要设置一个时间控制器,需要使用setTimeout延迟时间,延迟1s将提示语状态关闭,并把附件文件名赋值给state状态appendix
+                setTimeout(function timerControl() {
+                    //设置提示语状态取消
+                    this.setPromptTrueOrFalse(false, false, false);
+                    //由于上传头像组件和获取头像组件是通过state appendix状态是否为空来判断渲染的,
+                    //所以每一次上传成功后,需要先把state appendix状态置空,
+                    //然后再将图片文件地址赋值给state状态appendix,
+                    //这样可以做到上传图片成功后无缝获取图片
+                    this.setState({
+                        appendix: ""
+                    }, () => {
+                        //把图片文件地址赋值给state状态file
+                        this.setState({
+                            appendix: body
+                        });
+                    });
+                }.bind(this), 1000);
             }
         }.bind(this),
         onError: function (error, response, file) {

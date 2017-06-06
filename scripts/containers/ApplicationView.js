@@ -510,6 +510,18 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * render渲染添加申请表附件内部组件
+     * @returns {XML}
+     */
+    renderInnerFile() {
+        return (
+            <div>
+
+            </div>
+        )
+    }
+
+    /**
      * render渲染附件组件提示语
      * @param tipTitle
      * @returns {XML}
@@ -552,6 +564,8 @@ class ApplicationView extends React.Component {
             renderFileUpload,
             //Upload上传添加申请表附件内部组件
             renderInnerFileUpload,
+            //添加申请表附件内部组件
+            renderInnerFile,
             //附件组件提示语
             renderToolTip
         } = this;
@@ -622,7 +636,7 @@ class ApplicationView extends React.Component {
                 );
             case applicationFormClassify[3]: {/*state状态file是否为空或者null,决定渲染Upload上传添加申请表附件组件或者渲染头像组件,再根据state状态formDisabled是否为true,渲染查看申请表附件或者可修改申请表附件*/
             }
-                return (this.state[key] === "" || this.state[key] === null) ? renderFileUpload.bind(this)(innerFileUpload()) : "";
+                return (this.state[key] === "" || this.state[key] === null) ? renderFileUpload.bind(this)(innerFileUpload()) : renderInnerFile.bind(this)();
             case applicationFormClassify[4]:
                 return renderToolTip.bind(this)(tipTitle);
             default:
@@ -734,7 +748,7 @@ class ApplicationView extends React.Component {
                 //集成添加、查看和修改申请表单所有组件、方法、禁用状态、提示语、状态、框内默认提示语和长度限制的react结构
                 let row = <Row
                     key={integrationItem["key"] + "_" + integrationItem["value"]}
-                    className={integrationItem["toolTip"] ? "application-row application-row-toolTip" : "application-row"}
+                    className={integrationItem["expandClassName"] ? integrationItem["className"] : "application-row"}
                 >
                     <Col span="11" className="application-col">
                         {integrationItem["value"]}

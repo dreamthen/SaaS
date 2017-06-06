@@ -18,6 +18,7 @@ const Success = {
     CHANGE_APPLICATION_FORMS_SUCCESS_MESSAGE: "修改申请表成功",
     ADD_APPLY_RELATIONS_SUCCESS_MESSAGE: "提交成功,已添加申请关系",
     EMAIL_VERIFY_SUCCESS_MESSAGE: "注意查收激活邮件",
-    UPLOAD_IMAGE_SUCCESS_MESSAGE: "上传头像成功"
+    UPLOAD_IMAGE_SUCCESS_MESSAGE: "上传头像成功",
+    UPLOAD_FILE_SUCCESS_MESSAGE: "上传附件成功"
 };
 module.exports = Success;
