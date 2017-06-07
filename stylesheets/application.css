@@ -185,6 +185,22 @@
     z-index: 2500;
 }
 
+.application-row .application-appendix-file {
+    font-size: 12px;
+}
+
+.application-appendix-file .application-appendix-reUpload {
+    display: inline-block;
+    /*background: url(/images/application_placeholder.png) no-repeat center center / cover border-box content-box;*/
+    background-color: #98A7E6;
+    color: #fff;
+    height: 32px;
+    padding: 0 15px;
+    margin-left: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 .application-row-toolTip .application-appendix-tipTitle {
     position: relative;
     width: 155px;
@@ -195,7 +211,7 @@
 }
 
 .application-row-appendix > .application-col {
-    font-size: 17px;
+    font-weight: bolder;
 }
 
 .application-appendix-tipTitle > .application-appendix-arrow {

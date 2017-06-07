@@ -510,14 +510,42 @@ class ApplicationView extends React.Component {
     }
 
     /**
+     * render渲染添加申请表附件组件
+     * @returns {XML}
+     */
+    renderFile(innerFile) {
+        const {appendix} = this.state;
+        return (
+            <div className="application-appendix-file">
+                <span>
+                    {appendix}
+                </span>
+                {innerFile}
+            </div>
+        )
+    }
+
+    /**
+     * render渲染查看申请表附件内部组件
+     * @returns {XML}
+     */
+    renderInnerNoUpdateFile() {
+        return (
+            <div>
+
+            </div>
+        )
+    }
+
+    /**
      * render渲染添加申请表附件内部组件
      * @returns {XML}
      */
     renderInnerFile() {
         return (
-            <div>
-
-            </div>
+            <span className="application-appendix-reUpload">
+                重新上传
+            </span>
         )
     }
 
@@ -564,16 +592,28 @@ class ApplicationView extends React.Component {
             renderFileUpload,
             //Upload上传添加申请表附件内部组件
             renderInnerFileUpload,
+            //添加申请表附件组件
+            renderFile,
             //添加申请表附件内部组件
             renderInnerFile,
+            //查看申请表附件内部组件
+            renderInnerNoUpdateFile,
             //附件组件提示语
             renderToolTip
         } = this;
         //国家或者国籍都保存在state中
         //判断options是否为空数组
         options = this.judgeOptions(key, options);
+        //Upload上传添加申请表附件组件
+        const fileUpload = renderFileUpload.bind(this);
+        //添加申请表附件组件
+        const file = renderFile.bind(this);
         //Upload上传添加申请表附件内部组件
         const innerFileUpload = renderInnerFileUpload.bind(this);
+        //添加申请表附件内部组件
+        const innerFile = renderInnerFile.bind(this);
+        //查看申请表附件内部组件
+        const innerNoUpdateFile = renderInnerNoUpdateFile.bind(this);
         //对表单内的组件进行分类处理,Input,Select,DatePicker
         switch (classify) {
             case applicationFormClassify[0]:
@@ -634,11 +674,12 @@ class ApplicationView extends React.Component {
                         onOpenChange={onChangeDatePickerOpen.bind(this, key + "Open")}
                     />
                 );
-            case applicationFormClassify[3]: {/*state状态file是否为空或者null,决定渲染Upload上传添加申请表附件组件或者渲染头像组件,再根据state状态formDisabled是否为true,渲染查看申请表附件或者可修改申请表附件*/
-            }
-                return (this.state[key] === "" || this.state[key] === null) ? renderFileUpload.bind(this)(innerFileUpload()) : renderInnerFile.bind(this)();
+            case applicationFormClassify[3]:
+                /*state状态file是否为空或者null,决定渲染Upload上传添加申请表附件组件或者渲染附件组件,再根据state状态formDisabled是否为true,渲染查看申请表附件组件或者可修改申请表附件组件*/
+                return (this.state[key] === "" || this.state[key] === null) ? fileUpload(innerFileUpload()) : formDisabled ? file(innerNoUpdateFile()) : file(fileUpload(innerFile()));
             case applicationFormClassify[4]:
-                return renderToolTip.bind(this)(tipTitle);
+                //根据state状态formDisabled是否为true,来确定是否渲染附件组件提示语
+                return !formDisabled && renderToolTip.bind(this)(tipTitle);
             default:
                 break;
         }
@@ -887,7 +928,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * Upload上传添加或者修改申请表头像内部组件
+     * render渲染Upload上传添加或者修改申请表头像内部组件
      * @returns {XML}
      */
     renderInnerImageUpload() {
@@ -903,7 +944,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * Upload上传添加或者修改申请表头像组件
+     * render渲染Upload上传添加或者修改申请表头像组件
      * @returns {XML}
      */
     renderImageUpload(innerUpload) {
@@ -917,7 +958,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * 添加或者修改申请表头像内部组件
+     * render渲染添加或者修改申请表头像内部组件
      * @returns {XML}
      */
     renderInnerImage() {
@@ -936,7 +977,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * 查看申请表头像内部组件
+     * render渲染查看申请表头像内部组件
      * @returns {XML}
      */
     renderInnerNoUpdateImage() {
@@ -947,7 +988,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * 头像组件
+     * render渲染头像组件
      * @returns {XML}
      */
     renderImage(innerImage) {
@@ -973,7 +1014,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * render必填域渲染结构
+     * render渲染必填域渲染结构
      * @param mustFill
      * @returns {XML}
      */
@@ -986,7 +1027,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * render中文能力渲染结构
+     * render渲染中文能力渲染结构
      * @param chineseFluency
      */
     renderChineseFluency(chineseFluency) {
@@ -1008,7 +1049,7 @@ class ApplicationView extends React.Component {
     }
 
     /**
-     * render其他信息渲染结构
+     * render渲染其他信息渲染结构
      * @param otherInformation
      */
     renderOtherInformation(otherInformation) {
